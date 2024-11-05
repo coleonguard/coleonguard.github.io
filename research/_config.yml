@@ -1,26 +1,2 @@
-# Dependencies
-markdown:         redcarpet
-highlighter:      pygments
-
-# Permalinks
-permalink:        pretty
-relative_permalinks: true
-
-# Setup
-title:            Cole Brayton Johnson
-tagline:          'Portfolio and Research'
-description:      'A showcase of research projects and work by Cole Brayton Johnson, using the Hyde Jekyll theme.'
-url:              http://www.colebjohnson.com
-baseurl:          /research  # This points to the subdirectory where Hyde will be located
-
-author:
-  name:           'Cole Brayton Johnson'
-  url:            https://www.colebjohnson.com
-
-paginate:         5
-
-# Custom vars
-version:          2.1.0
-
-github:
-  repo:           https://github.com/poole/hyde
+baseurl: "/research"  # URL path to the subdirectory
+theme: minima  # Jekyll theme
