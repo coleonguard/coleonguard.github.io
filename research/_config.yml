@@ -1,2 +1,3 @@
 baseurl: "/research"  # URL path to the subdirectory
 theme: minima  # Jekyll theme
+header_pages: []  # This disables the header from linking your title
