@@ -11,7 +11,7 @@ title:            Cole Brayton Johnson
 tagline:          'Portfolio and Research'
 description:      'A showcase of research projects and work by Cole Brayton Johnson, using the Hyde Jekyll theme.'
 url:              http://www.colebjohnson.com
-baseurl:          /research/  # This points to the subdirectory where Hyde will be located
+baseurl:          /research  # This points to the subdirectory where Hyde will be located
 
 author:
   name:           'Cole Brayton Johnson'
