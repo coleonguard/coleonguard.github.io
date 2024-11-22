@@ -2644,14 +2644,14 @@ html.has-reduced-motion .c-project-information .c-project-information__detail a:
     left: 0;
     height: 1px;
     width: 0;
-    background: linear-gradient(90deg, #bbbbbb, #5f1616); /* Gradient for the underline */
+    background: linear-gradient(90deg, #bbbbbb, rgb(125, 50, 50)); /* Gradient for the underline */
     transition: width 0.5s ease; /* Smooth sliding transition */
 }
 
 /* Hover state */
 .c-particle-text-rotator__link:hover {
     color: transparent; /* Make text transparent on hover */
-    background: linear-gradient(90deg, #bbbbbb, #5f1616); /* Gradient background for text */
+    background: linear-gradient(90deg, #bbbbbb, rgb(125, 50, 50)); /* Gradient background for text */
     -webkit-background-clip: text; /* Clip the gradient to text */
     background-clip: text;
 }
@@ -2780,7 +2780,7 @@ html.has-reduced-motion .c-project-information .c-project-information__detail a:
     --tw-scale-x: .75;
     --tw-scale-y: .75;
     --tw-content: "";
-    background: conic-gradient(from 1.5708rad at 50% 50%,#545454 0,#380000 100%);
+    background: conic-gradient(from 1.5708rad at 50% 50%,#212121 0,rgb(125, 50, 50) 100%);
     border-radius: 6.25rem;
     content: var(--tw-content);
     height: 60px;
