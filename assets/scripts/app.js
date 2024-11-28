@@ -23287,7 +23287,7 @@
                             throw new TypeError("Cannot call a class as a function")
                     }(this, e),
                     this.currSample = null,
-                    this.screenWidth = window.innerWidth < 1730 ? window.innerWidth : 1730,
+                    this.screenWidth = window.innerWidth,
                     this.initThree(),
                     this.initParticles(),
                     this.initControls()
@@ -23342,7 +23342,7 @@
                 }, {
                     key: "resize",
                     value: function() {
-                        this.renderer && (this.screenWidth = window.innerWidth < 1730 ? window.innerWidth : 1730,
+                        this.renderer && (this.screenWidth = window.innerWidth,
                         this.camera.aspect = this.screenWidth / window.innerHeight,
                         this.camera.updateProjectionMatrix(),
                         this.fovHeight = 2 * Math.tan(this.camera.fov * Math.PI / 180 / 2) * this.camera.position.z,

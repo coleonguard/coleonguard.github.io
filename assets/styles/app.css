@@ -1296,62 +1296,6 @@ html.has-reduced-motion .c-case-study .c-case-study__title:after {
     opacity: 1
 }
 
-.c-gutter {
-    height: 0;
-    left: 1730px;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    width: 0;
-    z-index: 1005
-}
-
-@media (min-width: 1730px) {
-    .c-gutter {
-        --tw-gradient-from:#333 var(--tw-gradient-from-position);
-        --tw-gradient-to: rgba(51,51,51,0) var(--tw-gradient-to-position);
-        --tw-gradient-stops: var(--tw-gradient-from),var(--tw-gradient-to);
-        --tw-gradient-to: #222 var(--tw-gradient-to-position);
-        background-image: -webkit-gradient(linear,right top,left bottom,from(var(--tw-gradient-stops)));
-        background-image: linear-gradient(to bottom left,var(--tw-gradient-stops));
-        height: 100vh;
-        max-width: calc(100vw - 1730px);
-        opacity: 1;
-        overflow: hidden;
-        width: 100vw
-    }
-
-    .c-gutter:before {
-        --tw-gradient-from: #222 var(--tw-gradient-from-position);
-        --tw-gradient-to: rgba(34,34,34,0) var(--tw-gradient-to-position);
-        --tw-gradient-stops: var(--tw-gradient-from),var(--tw-gradient-to);
-        --tw-gradient-to: #333 var(--tw-gradient-to-position);
-        --tw-content: "";
-        background-image: -webkit-gradient(linear,right top,left bottom,from(var(--tw-gradient-stops)));
-        background-image: linear-gradient(to bottom left,var(--tw-gradient-stops));
-        content: var(--tw-content);
-        height: 100%;
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        -webkit-transition-duration: .15s;
-        transition-duration: .15s;
-        -webkit-transition-property: opacity;
-        transition-property: opacity;
-        -webkit-transition-timing-function: cubic-bezier(.4,0,.2,1);
-        transition-timing-function: cubic-bezier(.4,0,.2,1);
-        width: 100%
-    }
-}
-
-@media (min-width: 1730px) {
-    .is-initializing .c-gutter:before,.is-loading .c-gutter:before {
-        -webkit-animation:loopingFade 2s infinite;
-        animation: loopingFade 2s infinite
-    }
-}
-
 @-webkit-keyframes loopingFade {
     0% {
         opacity: 0
@@ -2460,10 +2404,10 @@ html.has-reduced-motion .c-project-information .c-project-information__detail a:
     height: 100vh;
     height: calc(var(--vh, 1vh)*100);
     left: 0;
-    max-width: 1730px;
+    max-width: 100%; /* or 100vw if you want it to always fill the screen */
     opacity: 1;
     overflow: hidden;
-    position: fixed;
+    position: fixed; /* Changed from fixed to relative */
     top: 0;
     -webkit-transition-duration: .75s;
     transition-duration: .75s;
@@ -2473,7 +2417,7 @@ html.has-reduced-motion .c-project-information .c-project-information__detail a:
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     -webkit-transition-timing-function: cubic-bezier(.645,.045,.355,1);
     transition-timing-function: cubic-bezier(.645,.045,.355,1);
-    width: 100vw;
+    width: 100vw; /* or 100% to fill the parent container */
     width: calc(var(--vw, 1vw)*100);
     z-index: 2
 }
@@ -2489,7 +2433,10 @@ html.has-reduced-motion .c-project-information .c-project-information__detail a:
 }
 
 .c-particles canvas {
-    opacity: .3
+    opacity: .3;
+    display: block;
+    width: 100vw; /* Ensure it spans the entire viewport width */
+    height: 100vh; /* Ensure it spans the entire viewport height */
 }
 
 .is-initializing .c-particles {
@@ -4092,7 +4039,7 @@ html.has-reduced-motion .c-video .c-video__image-play svg {
     display: -ms-flexbox;
     display: flex;
     height: 100vh;
-    max-width: 1730px;
+    max-width: 100vw;
     padding: 2rem 1.25rem;
     position: absolute;
     position: relative;
@@ -4789,7 +4736,7 @@ html.has-reduced-motion .l-case-study__launch-icon svg {
 .o-container {
     height: 100vh;
     height: calc(var(--vh, 1vh)*100);
-    max-width: 1730px;
+    max-width: 100vw;
     overflow: hidden;
     position: fixed;
     -webkit-transition-duration: .75s;
@@ -4865,7 +4812,7 @@ html.has-reduced-motion.has-navigation-open .o-container,html.has-reduced-motion
     display: block;
     height: 100vh;
     height: calc(var(--vh, 1vh)*100);
-    max-width: 1730px;
+    max-width: 100vw;
     overflow-x: hidden;
     overflow-y: auto;
     padding-left: 79px;
