@@ -10,6 +10,7 @@ import { ChapterSelectors } from "@/components/hud/ChapterSelectors";
 import { Constellation } from "@/components/scene/Constellation";
 import type { IntroStage } from "@/components/scene/engine";
 import { BootLog } from "./BootLog";
+import { HoverHint } from "./HoverHint";
 import { Intro } from "./Intro";
 import { Substrates } from "./Substrate";
 
@@ -53,6 +54,30 @@ function useIntroStage() {
   return [stage, advance] as const;
 }
 
+const HINT_SEEN = "hover-hint-seen";
+
+function useExplored(highlighted: ChapterId | null) {
+  const [explored, setExplored] = useState(true);
+
+  useEffect(() => {
+    try {
+      setExplored(sessionStorage.getItem(HINT_SEEN) === "1");
+    } catch {
+      setExplored(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!highlighted || explored) return;
+    setExplored(true);
+    try {
+      sessionStorage.setItem(HINT_SEEN, "1");
+    } catch {}
+  }, [highlighted, explored]);
+
+  return explored;
+}
+
 export function HomeExperience() {
   const reducedMotion = useReducedMotion();
   const [introStage, advanceIntro] = useIntroStage();
@@ -67,6 +92,8 @@ export function HomeExperience() {
   const highlighted = labelHighlight ?? pointerCluster;
   const active = compact ? preview : highlighted;
   const activeChapter = active ? CHAPTERS[active] : null;
+  const explored = useExplored(highlighted);
+  const introSettled = introStage === "done" || introStage === "off";
 
   return (
     <section className="hero" aria-label="Introduction" data-intro={introStage}>
@@ -125,7 +152,8 @@ export function HomeExperience() {
 
       <Intro decode={introStage === "forming" || introStage === "done"} />
 
-      {layout && !layout.compact && <Substrates active={introStage === "done" || introStage === "off" ? highlighted : null} />}
+      {layout && !layout.compact && <Substrates active={introSettled ? highlighted : null} />}
+      {layout && !layout.compact && <HoverHint visible={introSettled && !explored && !highlighted} />}
       {layout && !layout.compact && (introStage === "name" || introStage === "forming") && <BootLog />}
 
       <div className="hud">
