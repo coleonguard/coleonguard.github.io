@@ -77,7 +77,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     substrate: {
       through: ["simple physics."],
       text: [
-        "Pump slurry beneath the ground and the land rises. Robots that read the subsurface turn that one idea into higher ground for flood-prone places, without disturbing what sits on top.",
+        "Ground is just material that answers to pressure. Terranova’s robots inject wood slurry beneath flood-prone land and lift it, homes and all, an acre by a foot in a day. When the sea rises, so does the ground.",
       ],
     },
     organization: "Terranova",
