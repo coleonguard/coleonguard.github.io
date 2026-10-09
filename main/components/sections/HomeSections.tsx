@@ -10,7 +10,7 @@ export function SelectedWork() {
     <section className="section" aria-labelledby="selected-work">
       <div className="section__head">
         <h2 id="selected-work" className="section__title">
-          Selected work
+          Work
         </h2>
       </div>
       <div className="work-grid">
