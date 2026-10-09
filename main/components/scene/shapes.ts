@@ -1,4 +1,5 @@
 import type { ChapterId } from "@/content/chapters";
+import { sampleEcho } from "./echo";
 import { sampleRig } from "./walker";
 
 /**
@@ -10,6 +11,7 @@ export const KIND_STATIC = 0;
 export const KIND_GLOBE = 1;
 export const KIND_ORBITER = 2;
 export const KIND_RIG = 3;
+export const KIND_ECHO = 4;
 
 export type ShapeData = {
   count: number;
@@ -225,60 +227,17 @@ function terranova(): Primitive[] {
   ];
 }
 
-function echo(): Primitive[] {
-  const people: { x: number; h: number }[] = [
-    { x: -0.82, h: 1.0 },
-    { x: -0.5, h: 1.15 },
-    { x: -0.18, h: 0.75 },
-    { x: 0.1, h: 1.2 },
-    { x: 0.42, h: 1.05 },
-    { x: 0.74, h: 0.85 },
-  ];
-  const ground = 0.85;
-  const figures = people.flatMap(({ x, h }) => {
-    const top = ground - h;
-    const headR = 0.055 + h * 0.02;
-    const neck = top + headR * 2.2;
-    const waist = ground - h * 0.45;
-    return [
-      { kind: "ring", c: [x, top + headR], r: headR, width: 0.02, density: 1.6 } as Primitive,
-      seg([x, neck], [x, waist], 0.1 * h, { density: 1.6 }),
-      seg([x - 0.05, neck + 0.03], [x - 0.09, waist - 0.02], 0.025, { density: 0.8, bright: 0.7 }),
-      seg([x + 0.05, neck + 0.03], [x + 0.09, waist - 0.02], 0.025, { density: 0.8, bright: 0.7 }),
-      seg([x - 0.02, waist], [x - 0.05, ground], 0.035, { density: 1.1 }),
-      seg([x + 0.02, waist], [x + 0.05, ground], 0.035, { density: 1.1 }),
-    ];
+function buildEcho(shape: ShapeData, rng: Rng): void {
+  sampleEcho(shape.count, rng, () => gaussian(rng)).forEach((sample, i) => {
+    shape.kind[i] = KIND_ECHO;
+    shape.xy[i * 2] = sample.x;
+    shape.xy[i * 2 + 1] = sample.y;
+    shape.params[i * 4] = sample.sub;
+    shape.params[i * 4 + 1] = sample.a;
+    shape.params[i * 4 + 2] = sample.b;
+    shape.params[i * 4 + 3] = sample.c;
+    shape.bright[i] = sample.bright;
   });
-  const nodes: Vec[] = [
-    [-0.7, -0.62],
-    [-0.35, -0.86],
-    [-0.05, -0.58],
-    [0.28, -0.88],
-    [0.6, -0.6],
-    [0.86, -0.82],
-  ];
-  const nodePrims = nodes.flatMap((c) => [
-    { kind: "disc", c, r: 0.03, density: 5, bright: 1.4 } as Primitive,
-    { kind: "ring", c, r: 0.065, width: 0.006, density: 0.8, bright: 0.5 } as Primitive,
-  ]);
-  const edges: [number, number][] = [
-    [0, 1],
-    [1, 2],
-    [2, 3],
-    [3, 4],
-    [4, 5],
-    [0, 2],
-    [2, 4],
-    [1, 3],
-  ];
-  const edgePrims = edges.map(([a, b]) =>
-    seg(nodes[a], nodes[b], 0.006, { density: 0.7, bright: 0.55 }),
-  );
-  const tethers = people.map(({ x, h }, i) => {
-    const node = nodes[Math.min(nodes.length - 1, i)];
-    return seg(node, [x, ground - h - 0.02], 0.004, { density: 0.35, bright: 0.35, dots: 14 });
-  });
-  return [...figures, ...nodePrims, ...edgePrims, ...tethers];
 }
 
 const ORBITS = [
@@ -350,10 +309,6 @@ export function orbiterPoint(orbit: number, phase: number, jitter: number, t: nu
   };
 }
 
-const BUILDERS: Record<Exclude<ChapterId, "space" | "robotics">, () => Primitive[]> = {
-  terranova,
-  echo,
-};
 
 const SEEDS: Record<ChapterId, number> = { robotics: 11, terranova: 23, echo: 37, space: 51 };
 
@@ -364,8 +319,10 @@ export function buildShape(id: ChapterId, count: number, salt = 0): ShapeData {
     buildSpace(shape, rng);
   } else if (id === "robotics") {
     buildRobotics(shape, rng);
+  } else if (id === "echo") {
+    buildEcho(shape, rng);
   } else {
-    fillFromPrimitives(shape, 0, count, BUILDERS[id](), rng);
+    fillFromPrimitives(shape, 0, count, terranova(), rng);
   }
   return shape;
 }

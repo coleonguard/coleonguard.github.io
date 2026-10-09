@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { CHAPTER_IDS, type ChapterId } from "@/content/chapters";
 import { computeLayout, type ClusterSlot, type SceneLayout } from "@/lib/layout";
 import {
+  KIND_ECHO,
   KIND_GLOBE,
   KIND_STATIC,
   KIND_ORBITER,
@@ -12,6 +13,7 @@ import {
   type ShapeData,
 } from "./shapes";
 import { FRAGMENT_SHADER, VERTEX_SHADER } from "./shaders";
+import { echoPoint } from "./echo";
 import { rigPoint } from "./walker";
 
 export type EngineState = {
@@ -325,6 +327,19 @@ export class SceneEngine {
       nx = p.x;
       ny = p.y;
       bright *= p.z > 0 ? 0.5 + p.z * 0.7 : 0.12;
+    } else if (kind === KIND_ECHO) {
+      const p = echoPoint(
+        shape.params[j * 4],
+        shape.params[j * 4 + 1],
+        shape.params[j * 4 + 2],
+        shape.params[j * 4 + 3],
+        nx,
+        ny,
+        t,
+      );
+      nx = p.x;
+      ny = p.y;
+      bright *= p.glow;
     } else if (kind === KIND_RIG) {
       const p = rigPoint(shape.params[j * 4], shape.params[j * 4 + 1], shape.params[j * 4 + 2], t);
       nx = p.x;
@@ -367,7 +382,7 @@ export class SceneEngine {
     const pointerOn = this.pointer.active && !snap;
     const damping = Math.pow(DAMPING, frames);
     const trackDamping = Math.pow(TRACK_DAMPING, frames);
-    const alphaEase = snap ? 1 : 1 - Math.pow(0.92, frames);
+    const alphaEase = snap ? 1 : 1 - Math.pow(0.85, frames);
 
     for (let i = 0; i < this.count; i++) {
       let tx: number;
