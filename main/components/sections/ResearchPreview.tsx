@@ -20,7 +20,7 @@ export function ResearchPreview() {
     <section className="section" aria-labelledby="research-preview">
       <div className="section__head">
         <h2 id="research-preview" className="section__title">
-          Learning-based control for prostheses and legged robots.
+          Selected research
         </h2>
       </div>
       <ol className="pub-list" id="publication-list">
