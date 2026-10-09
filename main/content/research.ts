@@ -32,7 +32,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "Transactions on Medical Robotics & Bionics",
     year: 2025,
     group: "published",
-    links: [{ label: "Paper", href: `${PORTFOLIO_RESEARCH}/stabilityplasticity.pdf` }],
+    links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/11121360" }],
   },
   {
     id: "C3",
@@ -58,7 +58,7 @@ export const PUBLICATIONS: Publication[] = [
     year: 2025,
     group: "published",
     note: "Accepted",
-    links: [{ label: "Paper", href: `${PORTFOLIO_RESEARCH}/transfer.pdf` }],
+    links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/11246290" }],
   },
   {
     id: "J3",
@@ -69,7 +69,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "Transactions on Medical Robotics & Bionics",
     year: 2024,
     group: "published",
-    links: [{ label: "Paper", href: `${PORTFOLIO_RESEARCH}/adaptation.pdf` }],
+    links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/10924209" }],
   },
   {
     id: "C5",
