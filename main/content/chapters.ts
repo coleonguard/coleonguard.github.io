@@ -45,8 +45,8 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     },
     organization: "Georgia Tech EPIC Lab · Caltech AMBER Lab",
     role: "Graduate Research Assistant · Research Fellow",
-    dates: "2021 – 2025",
-    years: "2021 – 2025",
+    dates: "2021 – 2024",
+    years: "2021 – 2024",
     blurb:
       "Learning-based control for lower- and upper-limb prostheses that adapt to their users, and Dynamic Tube MPC for robust, obstacle-avoiding planning. Best Paper Finalist at ICRA 2025.",
     summary:
