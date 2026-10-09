@@ -39,9 +39,9 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     summary:
       "Learning-based control for robots that move with and around people. At Georgia Tech I worked on prosthetic legs and hands that adapt to their users; at Caltech, on learned controllers and safety-aware planning for legged robots.",
     highlights: [
-      "Founded an EPIC Lab subgroup on imitation learning from human grasping for upper-limb control. Task-agnostic prosthetic hand control is in review at Science Robotics.",
-      "Continual and transfer learning for lower-limb prosthetic intent recognition and speed estimation, published in Transactions on Medical Robotics & Bionics and at ISMR (Best Paper Award, ISMR ’23).",
       "Dynamic Tube MPC: learning error dynamics with massively parallel simulation for robust, obstacle-avoiding planning. Best Paper Finalist at ICRA 2025.",
+      "Continual and transfer learning for lower-limb prosthetic intent recognition and speed estimation, published in Transactions on Medical Robotics & Bionics and at ISMR (Best Paper Award, ISMR ’23).",
+      "Founded an EPIC Lab subgroup on imitation learning from human grasping for upper-limb control. Task-agnostic prosthetic hand control is in review at Science Robotics.",
     ],
     links: [
       { label: "Research", href: "/research" },

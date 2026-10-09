@@ -539,7 +539,6 @@ p {
 }
 
 .section__title {
-  margin-top: 12px;
   font-family: var(--font-display), Georgia, serif;
   font-weight: 400;
   font-size: clamp(32px, 3.2vw, 46px);
@@ -552,8 +551,8 @@ p {
 
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px 40px;
 }
 
 .work-card {
@@ -699,7 +698,6 @@ p {
 }
 
 .page__title {
-  margin-top: 12px;
   font-family: var(--font-display), Georgia, serif;
   font-weight: 400;
   font-size: clamp(44px, 5vw, 72px);

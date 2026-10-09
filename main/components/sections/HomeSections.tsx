@@ -4,13 +4,12 @@ import { PROFILE } from "@/content/profile";
 import { PUBLICATIONS } from "@/content/research";
 import { Illustration } from "./Illustration";
 
-const SELECTED: ChapterId[] = ["terranova", "echo", "robotics"];
+const SELECTED: ChapterId[] = ["terranova", "echo", "robotics", "space"];
 
 export function SelectedWork() {
   return (
     <section className="section" aria-labelledby="selected-work">
       <div className="section__head">
-        <p className="eyebrow">Selected work</p>
         <h2 id="selected-work" className="section__title">
           Systems I’ve built, researched, and helped bring into the world.
         </h2>
@@ -28,7 +27,7 @@ export function SelectedWork() {
               <p className="work-card__role">
                 {chapter.role} · {chapter.dates}
               </p>
-              <p className="work-card__summary">{chapter.highlights[0]}</p>
+              <p className="work-card__summary">{chapter.highlights[0] ?? chapter.summary}</p>
               <Link href={`/?chapter=${id}`} className="text-link">
                 Open chapter <span aria-hidden="true">→</span>
               </Link>
@@ -44,11 +43,10 @@ export function SelectedWork() {
 }
 
 export function ResearchPreview() {
-  const featured = PUBLICATIONS.filter((p) => p.featured);
+  const featured = PUBLICATIONS.filter((p) => p.featured && p.id !== "J1");
   return (
     <section className="section" aria-labelledby="research-preview">
       <div className="section__head">
-        <p className="eyebrow">Research</p>
         <h2 id="research-preview" className="section__title">
           Learning-based control for prostheses and legged robots.
         </h2>

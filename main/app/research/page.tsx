@@ -10,7 +10,6 @@ export default function ResearchPage() {
     <>
       <main id="main" className="page">
         <header className="page__head">
-          <p className="eyebrow">Research</p>
           <h1 className="page__title">Publications</h1>
           <p className="page__lead">
             Learning-based control for prosthetic legs and hands, safety-aware planning for legged robots, and,

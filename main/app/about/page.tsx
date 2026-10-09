@@ -9,7 +9,6 @@ export default function AboutPage() {
     <>
       <main id="main" className="page">
         <header className="page__head">
-          <p className="eyebrow">About</p>
           <h1 className="page__title">Cole Johnson</h1>
           <p className="page__lead">
             I work where learning meets the physical world. I spent four years in robotics research at Georgia
