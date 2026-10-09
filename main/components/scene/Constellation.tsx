@@ -54,7 +54,7 @@ export function Constellation({ preview, highlighted, reducedMotion, onPointerCl
 
   return (
     <div ref={containerRef} className="scene" data-status={status}>
-      {status !== "ready" && (
+      {status === "unavailable" && (
         <div
           className="scene__fallback"
           role="img"

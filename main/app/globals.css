@@ -159,13 +159,8 @@ p {
   position: absolute;
   inset: 0 0 0 36%;
   background: url("/banner.png") center / cover no-repeat;
-  opacity: 0.18;
-  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
-  transition: opacity 600ms var(--ease);
-}
-
-.scene[data-status="unavailable"] .scene__fallback {
   opacity: 0.5;
+  mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
 }
 
 .intro {
