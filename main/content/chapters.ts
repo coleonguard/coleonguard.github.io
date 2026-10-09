@@ -7,13 +7,23 @@ export type ChapterLink = {
   href: string;
 };
 
+/** A run of text, or a redaction bar roughly `redact` characters wide. */
+export type Phrase = (string | { redact: number })[];
+
+export type Substrate = {
+  /** Completes "Intelligence through …". */
+  through: Phrase;
+  text: Phrase;
+  classified?: boolean;
+};
+
 export type Chapter = {
   id: ChapterId;
   index: string;
   label: string;
   field: string;
   caption: string;
-  tooltip: string;
+  substrate: Substrate;
   organization: string;
   role: string;
   dates: string;
@@ -35,7 +45,12 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     label: "Robotics",
     field: "Robotics & research",
     caption: "Prosthetics · Learning · Locomotion · MPC",
-    tooltip: "Learning to move and manipulate.",
+    substrate: {
+      through: ["the human body."],
+      text: [
+        "Prosthetic legs and hands that learn their user, restoring ability and giving back agency. The intelligence lives between what a person intends and what their body can do.",
+      ],
+    },
     organization: "Georgia Tech EPIC Lab · Caltech AMBER Lab",
     role: "Graduate Research Assistant · Research Fellow",
     dates: "2021 – 2025",
@@ -59,7 +74,12 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     label: "Terranova",
     field: "Field robotics & company building",
     caption: "Field robotics · Modeling · Company building",
-    tooltip: "Robotic systems for raising land.",
+    substrate: {
+      through: ["simple physics."],
+      text: [
+        "Pump slurry beneath the ground and the land rises. Robots that read the subsurface turn that one idea into higher ground for flood-prone places, without disturbing what sits on top.",
+      ],
+    },
     organization: "Terranova",
     role: "Co-Founder & CTO",
     dates: "Jan 2021 – Jul 2025",
@@ -79,7 +99,12 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     label: "Echo",
     field: "Conversational research & ML systems",
     caption: "Conversational ML · Marketplaces · Company building",
-    tooltip: "Understanding people through conversation.",
+    substrate: {
+      through: ["the social fabric."],
+      text: [
+        "People make sense of the world in conversation. Echo works at that layer, turning real conversations into an understanding of people that brands can act on.",
+      ],
+    },
     organization: "Echo",
     role: "Founder & CPO",
     dates: "Aug 2025 – Aug 2026",
@@ -101,7 +126,25 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     label: "SpaceX",
     field: "Systems in orbit",
     caption: "Orbital systems · Software · Starshield",
-    tooltip: "Planning and connecting systems in orbit.",
+    substrate: {
+      through: [{ redact: 9 }, " in orbit."],
+      text: [
+        "Building ",
+        { redact: 8 },
+        " that lets ",
+        { redact: 12 },
+        " talk to ",
+        { redact: 6 },
+        " before ",
+        { redact: 10 },
+        " even ",
+        { redact: 7 },
+        ". ",
+        { redact: 16 },
+        ".",
+      ],
+      classified: true,
+    },
     organization: "SpaceX",
     role: "Software Engineer, Starshield",
     dates: "Oct 2026 – Present",

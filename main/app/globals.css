@@ -336,19 +336,108 @@ button.text-link {
   color: var(--muted);
 }
 
-.cluster-label__tip {
-  font-size: 13px;
-  color: var(--silver);
-  opacity: 0;
-  transform: translateY(-4px);
-  transition:
-    opacity 200ms var(--ease),
-    transform 200ms var(--ease);
+/* Substrate notes, shown beside the intro while a form is hovered */
+
+.substrates {
+  position: absolute;
+  z-index: 5;
+  right: var(--gutter);
+  top: calc(var(--nav-height) + clamp(16px, 6vh, 72px) + 8px);
+  width: min(34vw, 480px);
+  pointer-events: none;
 }
 
-.cluster-label[data-highlighted="true"] .cluster-label__tip {
+.substrate {
+  position: absolute;
+  inset: 0 0 auto;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 260ms var(--ease),
+    transform 260ms var(--ease);
+}
+
+.substrate[data-active="true"] {
   opacity: 1;
   transform: none;
+}
+
+.substrate__through {
+  font-size: clamp(24px, 2.1vw, 32px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--white);
+}
+
+.substrate__lead {
+  color: var(--muted);
+}
+
+.substrate__text {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--silver);
+}
+
+.redacted {
+  display: inline-block;
+  width: calc(var(--chars) * 0.6em);
+  height: 0.9em;
+  vertical-align: -0.08em;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.substrate[data-active="true"] .redacted {
+  transform: scaleX(1);
+  transition: transform 220ms var(--ease) calc(120ms + var(--order) * 70ms);
+}
+
+.substrate__stamp {
+  position: absolute;
+  right: 8px;
+  bottom: 34px;
+  padding: 6px 12px;
+  border: 2px solid var(--white);
+  background: var(--bg);
+  border-radius: 4px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0;
+  transform: rotate(-9deg) scale(1.6);
+}
+
+.substrate[data-active="true"] .substrate__stamp {
+  opacity: 0.9;
+  transform: rotate(-9deg) scale(1);
+  transition:
+    opacity 120ms ease-out 700ms,
+    transform 180ms cubic-bezier(0.3, 1.6, 0.5, 1) 700ms;
+}
+
+.substrate__footnote {
+  margin-top: 14px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 /* Chapter panel */

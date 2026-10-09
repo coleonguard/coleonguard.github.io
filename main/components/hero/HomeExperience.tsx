@@ -11,6 +11,7 @@ import { ChapterPanel } from "@/components/chapter/ChapterPanel";
 import { ChapterSelectors } from "@/components/hud/ChapterSelectors";
 import { Constellation } from "@/components/scene/Constellation";
 import { Intro } from "./Intro";
+import { Substrates } from "./Substrate";
 
 export function HomeExperience() {
   const { selected, select } = useChapterState();
@@ -105,7 +106,7 @@ export function HomeExperience() {
                     type="button"
                     className="cluster-label__button"
                     aria-label={`${chapter.index} ${chapter.label}`}
-                    aria-describedby={`tip-${chapter.id}`}
+                    aria-describedby={`substrate-${chapter.id}`}
                     onClick={() => choose(chapter.id)}
                     onPointerEnter={() => setLabelHighlight(chapter.id)}
                     onPointerLeave={() => setLabelHighlight(null)}
@@ -115,9 +116,6 @@ export function HomeExperience() {
                     <ChapterLogos chapter={chapter.id} scale={1.25} decorative className="cluster-label__logos" />
                   </button>
                   <span className="cluster-label__years">{chapter.years}</span>
-                  <span id={`tip-${chapter.id}`} className="cluster-label__tip" role="tooltip">
-                    {chapter.tooltip}
-                  </span>
                 </div>
               );
             })}
@@ -126,6 +124,8 @@ export function HomeExperience() {
       </div>
 
       <Intro />
+
+      {layout && !layout.compact && !selected && <Substrates active={highlighted} />}
 
       {selected && (
         <div className="hero__panel">
