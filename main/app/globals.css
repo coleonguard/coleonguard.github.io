@@ -284,13 +284,15 @@ button.text-link {
   position: absolute;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+  text-align: center;
   gap: 6px;
   white-space: nowrap;
 }
 
 .cluster-label__button {
   pointer-events: auto;
-  align-self: flex-start;
   display: flex;
   align-items: center;
   gap: 12px;

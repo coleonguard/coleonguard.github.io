@@ -96,7 +96,7 @@ export function HomeExperience() {
                   className="cluster-label"
                   data-highlighted={isHighlighted ? "true" : "false"}
                   style={{
-                    left: slot.center.x - slot.scale,
+                    left: slot.center.x,
                     top: slot.center.y + slot.scale + 18,
                   }}
                 >
