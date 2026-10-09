@@ -18,14 +18,17 @@ export const metadata: Metadata = {
   description:
     "Cole Johnson builds intelligent systems that interact with the physical world: robotics research, company building, and autonomous systems.",
   keywords: ["robotics", "machine learning", "prosthetics", "control", "Terranova", "Echo", "SpaceX", "Cole Johnson"],
-  icons: { icon: "/fav.png" },
   openGraph: {
     title: "Cole Johnson",
     description: "Robotics, intelligence, and systems that act in the world.",
     url: "https://colebjohnson.com",
     siteName: "Cole Johnson",
-    images: [{ url: "/banner.png" }],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cole Johnson",
+    description: "Robotics, intelligence, and systems that act in the world.",
   },
 };
 
