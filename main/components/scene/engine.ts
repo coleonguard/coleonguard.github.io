@@ -7,6 +7,7 @@ import {
   KIND_STATIC,
   KIND_ORBITER,
   KIND_RIG,
+  KIND_TERRANOVA,
   buildShape,
   globePoint,
   orbiterPoint,
@@ -14,6 +15,7 @@ import {
 } from "./shapes";
 import { FRAGMENT_SHADER, VERTEX_SHADER } from "./shaders";
 import { echoPoint } from "./echo";
+import { terranovaPoint } from "./terranova";
 import { rigPoint } from "./walker";
 
 export type EngineState = {
@@ -329,6 +331,19 @@ export class SceneEngine {
       bright *= p.z > 0 ? 0.5 + p.z * 0.7 : 0.12;
     } else if (kind === KIND_ECHO) {
       const p = echoPoint(
+        shape.params[j * 4],
+        shape.params[j * 4 + 1],
+        shape.params[j * 4 + 2],
+        shape.params[j * 4 + 3],
+        nx,
+        ny,
+        t,
+      );
+      nx = p.x;
+      ny = p.y;
+      bright *= p.glow;
+    } else if (kind === KIND_TERRANOVA) {
+      const p = terranovaPoint(
         shape.params[j * 4],
         shape.params[j * 4 + 1],
         shape.params[j * 4 + 2],

@@ -1,5 +1,6 @@
 import type { ChapterId } from "@/content/chapters";
 import { sampleEcho } from "./echo";
+import { sampleTerranova } from "./terranova";
 import { sampleRig } from "./walker";
 
 /**
@@ -12,6 +13,7 @@ export const KIND_GLOBE = 1;
 export const KIND_ORBITER = 2;
 export const KIND_RIG = 3;
 export const KIND_ECHO = 4;
+export const KIND_TERRANOVA = 5;
 
 export type ShapeData = {
   count: number;
@@ -164,10 +166,6 @@ function seg(a: Vec, b: Vec, width = 0.03, extra: Partial<Primitive> = {}): Prim
   return { kind: "segment", a, b, width, ...extra } as Primitive;
 }
 
-function polyline(points: Vec[], width: number, extra: Partial<Primitive> = {}): Primitive[] {
-  return points.slice(1).map((p, i) => seg(points[i], p, width, extra));
-}
-
 function buildRobotics(shape: ShapeData, rng: Rng): void {
   const groundCount = Math.floor(shape.count * 0.06);
   const rigCount = shape.count - groundCount;
@@ -187,49 +185,11 @@ function buildRobotics(shape: ShapeData, rng: Rng): void {
   );
 }
 
-function terranova(): Primitive[] {
-  const ground: Vec[] = [];
-  for (let i = 0; i <= 24; i++) {
-    const x = -1 + (i / 24) * 2;
-    ground.push([x, 0.06 - 0.12 * Math.exp(-(x * x) / 0.18)]);
-  }
-  const strata = [0.36, 0.56, 0.78].flatMap((y, s) => {
-    const pts: Vec[] = [];
-    for (let i = 0; i <= 16; i++) {
-      const x = -1 + (i / 16) * 2;
-      pts.push([x, y + Math.sin(x * 3 + s) * 0.02]);
-    }
-    return polyline(pts, 0.008, { density: 0.35, bright: 0.35 });
-  });
-  const houseLeft = -0.32;
-  const houseRight = 0.06;
-  const floor = -0.07;
-  const eave = -0.32;
-  return [
-    ...polyline(ground, 0.02, { density: 1.6 }),
-    ...strata,
-    { kind: "ellipse", c: [0, 0.21], rx: 0.55, ry: 0.07, fill: true, density: 1.1, bright: 1.15 },
-    seg([-0.55, 0.21], [-0.85, 0.27], 0.01, { density: 0.7, bright: 0.6 }),
-    seg([0.55, 0.21], [0.82, 0.16], 0.01, { density: 0.7, bright: 0.6 }),
-    seg([houseLeft, floor], [houseLeft, eave], 0.015, { density: 1.6 }),
-    seg([houseRight, floor], [houseRight, eave], 0.015, { density: 1.6 }),
-    seg([houseLeft, eave], [houseRight, eave], 0.015, { density: 1.4 }),
-    seg([houseLeft - 0.05, eave], [-0.13, -0.53], 0.015, { density: 1.6 }),
-    seg([-0.13, -0.53], [houseRight + 0.05, eave], 0.015, { density: 1.6 }),
-    { kind: "disc", c: [-0.21, -0.2], r: 0.04, density: 1.5, bright: 1.3 },
-    seg([-0.04, floor], [-0.04, -0.2], 0.04, { density: 0.8, bright: 0.6 }),
-    seg([0.6, -0.62], [0.6, -0.02], 0.022, { density: 1.8 }),
-    seg([0.6, -0.62], [0.46, -0.44], 0.014, { density: 1.2 }),
-    seg([0.5, -0.02], [0.8, -0.02], 0.05, { density: 1.6 }),
-    seg([0.6, 0.0], [0.55, 0.2], 0.008, { density: 1.2, bright: 0.8, dots: 10 }),
-    { kind: "disc", c: [-0.7, -0.17], r: 0.08, density: 0.9, bright: 0.7 },
-    seg([-0.7, -0.1], [-0.7, 0.02], 0.012, { density: 0.8, bright: 0.6 }),
-  ];
-}
+type ParamSample = { x: number; y: number; sub: number; a: number; b: number; c: number; bright: number };
 
-function buildEcho(shape: ShapeData, rng: Rng): void {
-  sampleEcho(shape.count, rng, () => gaussian(rng)).forEach((sample, i) => {
-    shape.kind[i] = KIND_ECHO;
+function fillFromSamples(shape: ShapeData, kind: number, samples: ParamSample[]): void {
+  samples.forEach((sample, i) => {
+    shape.kind[i] = kind;
     shape.xy[i * 2] = sample.x;
     shape.xy[i * 2 + 1] = sample.y;
     shape.params[i * 4] = sample.sub;
@@ -320,9 +280,9 @@ export function buildShape(id: ChapterId, count: number, salt = 0): ShapeData {
   } else if (id === "robotics") {
     buildRobotics(shape, rng);
   } else if (id === "echo") {
-    buildEcho(shape, rng);
+    fillFromSamples(shape, KIND_ECHO, sampleEcho(count, rng, () => gaussian(rng)));
   } else {
-    fillFromPrimitives(shape, 0, count, terranova(), rng);
+    fillFromSamples(shape, KIND_TERRANOVA, sampleTerranova(count, rng, () => gaussian(rng)));
   }
   return shape;
 }
