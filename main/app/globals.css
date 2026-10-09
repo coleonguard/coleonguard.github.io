@@ -63,6 +63,10 @@ p {
   margin: 0;
 }
 
+#main {
+  padding-bottom: 120px;
+}
+
 .skip-link {
   position: absolute;
   left: var(--gutter);
@@ -643,44 +647,6 @@ p {
   display: flex;
   gap: 16px;
   margin-top: 10px;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 80px auto 0;
-  padding: 40px var(--gutter) 56px;
-  border-top: 1px solid var(--line);
-}
-
-.footer__name {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 24px;
-}
-
-.footer__line {
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.footer__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  font-size: 13px;
-  color: var(--silver);
-}
-
-.footer__links a {
-  text-decoration: none;
-}
-
-.footer__links a:hover {
-  color: var(--white);
 }
 
 /* Content pages */

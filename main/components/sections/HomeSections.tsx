@@ -68,28 +68,3 @@ export function ResearchPreview() {
     </section>
   );
 }
-
-export function SiteFooter() {
-  return (
-    <footer className="footer">
-      <div>
-        <p className="footer__name">Cole Johnson</p>
-        <p className="footer__line">Robotics, intelligence, and systems that act in the world.</p>
-      </div>
-      <nav aria-label="Footer" className="footer__links">
-        <Link href="/about">About</Link>
-        <Link href="/research">Research</Link>
-        <a href={PROFILE.portfolio} target="_blank" rel="noreferrer">
-          Portfolio ↗
-        </a>
-        <a href={PROFILE.resume} target="_blank" rel="noreferrer">
-          Résumé ↗
-        </a>
-        <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
-          LinkedIn ↗
-        </a>
-        <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-      </nav>
-    </footer>
-  );
-}

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SiteFooter } from "@/components/sections/HomeSections";
 import { PROFILE } from "@/content/profile";
 import { PUBLICATIONS, PUBLICATION_GROUPS } from "@/content/research";
 
@@ -53,7 +52,6 @@ export default function ResearchPage() {
           );
         })}
       </main>
-      <SiteFooter />
     </>
   );
 }

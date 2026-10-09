@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SiteFooter } from "@/components/sections/HomeSections";
 import { AWARDS, EDUCATION, PATENTS, PROFILE, TIMELINE } from "@/content/profile";
 
 export const metadata: Metadata = { title: "About · Cole Johnson" };
@@ -87,7 +86,6 @@ export default function AboutPage() {
           </section>
         </div>
       </main>
-      <SiteFooter />
     </>
   );
 }

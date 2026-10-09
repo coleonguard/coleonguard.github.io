@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { HomeExperience } from "@/components/hero/HomeExperience";
 import { HeroFallback } from "@/components/hero/Intro";
-import { ResearchPreview, SelectedWork, SiteFooter } from "@/components/sections/HomeSections";
+import { ResearchPreview, SelectedWork } from "@/components/sections/HomeSections";
 
 export default function HomePage() {
   return (
@@ -13,7 +13,6 @@ export default function HomePage() {
         <SelectedWork />
         <ResearchPreview />
       </main>
-      <SiteFooter />
     </>
   );
 }
