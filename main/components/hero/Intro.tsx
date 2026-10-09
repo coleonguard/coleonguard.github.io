@@ -1,4 +1,4 @@
-import { PROFILE } from "@/content/profile";
+import { PortfolioLink } from "@/components/brand/PortfolioLink";
 
 export function Intro() {
   return (
@@ -6,9 +6,9 @@ export function Intro() {
       <h1 className="intro__name">Cole Johnson</h1>
       <p className="intro__lead">I build intelligent systems that interact with the physical world.</p>
       <div className="intro__actions">
-        <a className="button button--primary" href={PROFILE.portfolio} target="_blank" rel="noreferrer">
+        <PortfolioLink className="button button--primary" placement="below">
           View portfolio <span aria-hidden="true">↗</span>
-        </a>
+        </PortfolioLink>
       </div>
     </div>
   );

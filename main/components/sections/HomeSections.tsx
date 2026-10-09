@@ -1,6 +1,6 @@
 import { CHAPTERS, type ChapterId } from "@/content/chapters";
-import { PROFILE } from "@/content/profile";
 import { ChapterLogos } from "@/components/brand/ChapterLogos";
+import { PortfolioLink } from "@/components/brand/PortfolioLink";
 
 const ORDER: ChapterId[] = ["space", "echo", "terranova", "robotics"];
 
@@ -27,9 +27,9 @@ export function SelectedWork() {
           );
         })}
       </ul>
-      <a className="button button--primary section__cta" href={PROFILE.portfolio} target="_blank" rel="noreferrer">
+      <PortfolioLink className="button button--primary" wrapperClassName="section__cta" placement="above">
         View full portfolio <span aria-hidden="true">↗</span>
-      </a>
+      </PortfolioLink>
     </section>
   );
 }
