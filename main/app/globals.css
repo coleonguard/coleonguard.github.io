@@ -205,21 +205,6 @@ p {
   font-size: 15px;
 }
 
-.intro__now {
-  margin-top: 20px;
-  font-size: 14px;
-  color: var(--white);
-}
-
-.intro__now-tag {
-  margin-right: 10px;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
 .intro__actions {
   display: flex;
   flex-wrap: wrap;
