@@ -112,7 +112,7 @@ export function HomeExperience() {
         )}
       </div>
 
-      <Intro onExplore={() => choose("robotics")} />
+      <Intro />
 
       {selected && (
         <div className="hero__panel">

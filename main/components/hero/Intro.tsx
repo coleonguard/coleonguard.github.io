@@ -1,8 +1,6 @@
 import { PROFILE } from "@/content/profile";
 
-type Props = { onExplore?: () => void };
-
-export function Intro({ onExplore }: Props) {
+export function Intro() {
   return (
     <div className="intro">
       <h1 className="intro__name">Cole Johnson</h1>
@@ -12,15 +10,6 @@ export function Intro({ onExplore }: Props) {
         <a className="button button--primary" href={PROFILE.portfolio} target="_blank" rel="noreferrer">
           View portfolio <span aria-hidden="true">↗</span>
         </a>
-        {onExplore ? (
-          <button type="button" className="button button--quiet" onClick={onExplore}>
-            Explore my work
-          </button>
-        ) : (
-          <a className="button button--quiet" href="/?chapter=robotics">
-            Explore my work
-          </a>
-        )}
       </div>
     </div>
   );

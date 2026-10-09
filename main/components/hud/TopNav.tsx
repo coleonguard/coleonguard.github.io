@@ -11,9 +11,6 @@ export function TopNav() {
         <a href={PROFILE.portfolio} target="_blank" rel="noreferrer">
           Portfolio <span aria-hidden="true">↗</span>
         </a>
-        <a href={PROFILE.resume} target="_blank" rel="noreferrer">
-          Résumé <span aria-hidden="true">↗</span>
-        </a>
         <a href={`mailto:${PROFILE.email}`}>Contact</a>
       </nav>
     </header>
