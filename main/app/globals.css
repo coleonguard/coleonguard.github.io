@@ -649,10 +649,6 @@ button.text-link {
 .pub__meta {
   margin-top: 6px;
   font-size: 13px;
-  color: var(--silver);
-}
-
-.pub[data-featured="true"] .pub__meta {
   color: var(--accent);
 }
 

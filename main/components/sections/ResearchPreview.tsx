@@ -19,7 +19,7 @@ export function ResearchPreview() {
       </div>
       <ol className="pub-list">
         {PAPERS.map((p) => (
-          <li key={p.id} className="pub" data-featured={p.featured ? "true" : undefined}>
+          <li key={p.id} className="pub">
             <p className="pub__title">{p.title}</p>
             <p className="pub__meta">
               {p.venue} · {p.year}

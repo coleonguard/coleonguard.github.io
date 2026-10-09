@@ -8,7 +8,6 @@ export type Publication = {
   year: number;
   group: PublicationGroup;
   note?: string;
-  featured?: boolean;
   links: { label: string; href: string }[];
 };
 
@@ -23,28 +22,6 @@ export const PUBLICATIONS: Publication[] = [
     year: 2026,
     group: "review",
     note: "In review",
-    featured: true,
-    links: [],
-  },
-  {
-    id: "C1",
-    title: "Authors Should Label Their Own Documents",
-    authors:
-      "Cole Johnson, Marcus Ma, Nolan Bridges, Jackson Trager, Georgios Chochlakis, Shrikanth Narayanan",
-    venue: "Annual Meeting of the Association for Computational Linguistics (ACL)",
-    year: 2026,
-    group: "review",
-    note: "Submitted",
-    links: [],
-  },
-  {
-    id: "C2",
-    title: "Learning Human Simulators from Author-Labeled Beliefs",
-    authors: "Cole Johnson, Marcus Ma, Nolan Bridges",
-    venue: "Annual Meeting of the Association for Computational Linguistics (ACL)",
-    year: 2026,
-    group: "review",
-    note: "Submitted",
     links: [],
   },
   {
@@ -55,7 +32,6 @@ export const PUBLICATIONS: Publication[] = [
     venue: "Transactions on Medical Robotics & Bionics",
     year: 2025,
     group: "published",
-    featured: true,
     links: [{ label: "Paper", href: `${PORTFOLIO_RESEARCH}/stabilityplasticity.pdf` }],
   },
   {
@@ -67,7 +43,6 @@ export const PUBLICATIONS: Publication[] = [
     year: 2025,
     group: "published",
     note: "Best Paper Finalist",
-    featured: true,
     links: [
       { label: "arXiv", href: "https://arxiv.org/abs/2411.15350" },
       { label: "Code", href: "https://github.com/wdc3iii/legged_gym_dev" },
