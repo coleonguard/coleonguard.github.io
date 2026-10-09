@@ -18,13 +18,6 @@ export type SceneLayout = {
   focus: ClusterSlot;
 };
 
-const OVERVIEW_POSITIONS: Record<ChapterId, Point> = {
-  robotics: { x: 0.16, y: 0.3 },
-  terranova: { x: 0.38, y: 0.74 },
-  echo: { x: 0.66, y: 0.27 },
-  space: { x: 0.86, y: 0.68 },
-};
-
 export function computeLayout(width: number, height: number): SceneLayout {
   const compact = width < COMPACT_BREAKPOINT;
 
@@ -40,25 +33,14 @@ export function computeLayout(width: number, height: number): SceneLayout {
   }
 
   const gutter = width >= 1280 ? 48 : 24;
-  const regionLeft = width * 0.36;
-  const regionRight = width - gutter;
-  const regionTop = 96;
-  const regionBottom = height - 132;
-  const regionWidth = regionRight - regionLeft;
-  const regionHeight = regionBottom - regionTop;
-  const scale = Math.max(48, Math.min(regionWidth * 0.12, regionHeight * 0.2));
+  const rowTop = Math.max(height * 0.44, 390);
+  const rowBottom = height - 112;
+  const slotWidth = (width - gutter * 2) / CHAPTER_IDS.length;
+  const scale = Math.max(48, Math.min(slotWidth * 0.4, ((rowBottom - rowTop) / 2) * 0.96));
+  const centerY = (rowTop + rowBottom) / 2;
 
   const clusters = Object.fromEntries(
-    CHAPTER_IDS.map((id) => {
-      const p = OVERVIEW_POSITIONS[id];
-      return [
-        id,
-        {
-          center: { x: regionLeft + p.x * regionWidth, y: regionTop + p.y * regionHeight },
-          scale,
-        },
-      ];
-    }),
+    CHAPTER_IDS.map((id, i) => [id, { center: { x: gutter + slotWidth * (i + 0.5), y: centerY }, scale }]),
   ) as Record<ChapterId, ClusterSlot>;
 
   const focus = {

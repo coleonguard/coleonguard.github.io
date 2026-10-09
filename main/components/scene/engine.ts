@@ -70,13 +70,6 @@ export class SceneEngine {
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.OrthographicCamera(0, 1, 0, 1, -10, 10);
   private readonly material: THREE.ShaderMaterial;
-  private readonly lineMaterial = new THREE.LineBasicMaterial({
-    color: SILVER,
-    transparent: true,
-    opacity: 0,
-    depthWrite: false,
-  });
-  private lines: THREE.Line[] = [];
 
   private readonly count: number;
   private readonly positions: Float32Array;
@@ -94,7 +87,6 @@ export class SceneEngine {
   private layout: SceneLayout;
   private state: EngineState = { focused: null, preview: "robotics", highlighted: null };
   private coherence: Record<ChapterId, number> = { robotics: 0, terranova: 0, echo: 0, space: 0 };
-  private lineOpacity = 0;
   private accentMix = 0;
   private changeTime = 0;
   private pointer = { x: -9999, y: -9999, active: false };
@@ -178,7 +170,6 @@ export class SceneEngine {
     this.scene.add(points);
 
     this.updateCamera();
-    this.buildLines();
 
     this.resizeObserver = new ResizeObserver(() => this.handleResize());
     this.resizeObserver.observe(container);
@@ -218,8 +209,6 @@ export class SceneEngine {
     document.removeEventListener("visibilitychange", this.handleVisibility);
     this.geometry.dispose();
     this.material.dispose();
-    this.lineMaterial.dispose();
-    this.lines.forEach((line) => line.geometry.dispose());
     this.renderer.dispose();
     this.renderer.domElement.remove();
   }
@@ -263,7 +252,6 @@ export class SceneEngine {
     this.layout = computeLayout(width, height);
     this.renderer.setSize(width, height);
     this.updateCamera();
-    this.buildLines();
     if (!this.running) this.renderStatic();
   }
 
@@ -274,39 +262,6 @@ export class SceneEngine {
     this.camera.top = 0;
     this.camera.bottom = height;
     this.camera.updateProjectionMatrix();
-  }
-
-  private buildLines(): void {
-    this.lines.forEach((line) => {
-      this.scene.remove(line);
-      line.geometry.dispose();
-    });
-    this.lines = [];
-    if (this.layout.compact) return;
-    const c = this.layout.clusters;
-    const pairs: [ChapterId, ChapterId, number][] = [
-      ["robotics", "terranova", -0.35],
-      ["terranova", "echo", 0.3],
-      ["echo", "space", 0.35],
-      ["robotics", "echo", -0.25],
-      ["terranova", "space", 0.2],
-    ];
-    for (const [a, b, bend] of pairs) {
-      const pa = c[a].center;
-      const pb = c[b].center;
-      const mx = (pa.x + pb.x) / 2 - (pb.y - pa.y) * bend;
-      const my = (pa.y + pb.y) / 2 + (pb.x - pa.x) * bend;
-      const curve = new THREE.QuadraticBezierCurve3(
-        new THREE.Vector3(pa.x, pa.y, 0),
-        new THREE.Vector3(mx, my, 0),
-        new THREE.Vector3(pb.x, pb.y, 0),
-      );
-      const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(80));
-      const line = new THREE.Line(geometry, this.lineMaterial);
-      line.frustumCulled = false;
-      this.scene.add(line);
-      this.lines.push(line);
-    }
   }
 
   private displayedFocus(): ChapterId | null {
@@ -383,9 +338,6 @@ export class SceneEngine {
       const goal = !focus && highlighted === id ? 1 : 0;
       this.coherence[id] += (goal - this.coherence[id]) * ease;
     }
-    const lineGoal = focus ? 0 : 0.085;
-    this.lineOpacity += (lineGoal - this.lineOpacity) * ease;
-    this.lineMaterial.opacity = this.lineOpacity;
     const accentGoal = this.state.focused ? 1 : 0;
     this.accentMix += (accentGoal - this.accentMix) * ease;
     this.material.uniforms.uAccentMix.value = this.accentMix;

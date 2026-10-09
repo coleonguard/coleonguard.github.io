@@ -17,6 +17,8 @@ export type Chapter = {
   organization: string;
   role: string;
   dates: string;
+  /** Short span for the hero timeline. */
+  years: string;
   summary: string;
   /** One line for the homepage work list; defaults to the first highlight. */
   blurb?: string;
@@ -37,6 +39,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     organization: "Georgia Tech EPIC Lab · Caltech AMBER Lab",
     role: "Graduate Research Assistant · Research Fellow",
     dates: "2021 – 2025",
+    years: "2021 – 2025",
     blurb:
       "Learning-based control for lower- and upper-limb prostheses that adapt to their users, and Dynamic Tube MPC for robust, obstacle-avoiding planning. Best Paper Finalist at ICRA 2025.",
     summary:
@@ -60,6 +63,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     organization: "Terranova",
     role: "Co-Founder & CTO",
     dates: "Jan 2021 – Jul 2025",
+    years: "2021 – 2025",
     summary:
       "Terranova permanently elevates flood-prone land by injecting wood slurry beneath the surface, with no surface disturbance. I co-founded the company and led its technology from the first prototype to a fleet in the field.",
     highlights: [
@@ -79,6 +83,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     organization: "Echo",
     role: "Founder & CPO",
     dates: "Aug 2025 – Aug 2026",
+    years: "2025 – 2026",
     blurb:
       "Free premium AI chat for consumers, and research for brands grounded in those real conversations: surveys, asset tests, and voice interviews in minutes.",
     summary:
@@ -100,6 +105,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     organization: "SpaceX",
     role: "Software Engineer, Starshield",
     dates: "Oct 2026 – Present",
+    years: "2026 – Now",
     blurb: "Building software for Starshield, SpaceX’s satellite network for government missions.",
     summary:
       "I build software for Starshield, SpaceX’s satellite network for government missions. The constellation shown here is an illustration, not a depiction of any SpaceX system.",

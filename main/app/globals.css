@@ -172,9 +172,8 @@ p {
   position: absolute;
   z-index: 5;
   left: var(--gutter);
-  top: 46%;
-  transform: translateY(-50%);
-  width: min(32vw, 460px);
+  top: calc(var(--nav-height) + clamp(16px, 6vh, 72px));
+  width: min(44vw, 620px);
   transition:
     opacity 400ms var(--ease),
     visibility 400ms;
@@ -206,11 +205,26 @@ p {
   font-size: 15px;
 }
 
+.intro__now {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--white);
+}
+
+.intro__now-tag {
+  margin-right: 10px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .intro__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 36px;
+  margin-top: 28px;
 }
 
 .button {
@@ -278,6 +292,14 @@ button.text-link {
   pointer-events: none;
 }
 
+.cluster-labels__rule {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  height: 1px;
+  background: var(--line);
+}
+
 .cluster-label {
   position: absolute;
   display: flex;
@@ -326,6 +348,13 @@ button.text-link {
   display: block;
   width: auto;
   filter: brightness(0) invert(1);
+}
+
+.cluster-label__years {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
 }
 
 .cluster-label__tip {
@@ -458,6 +487,12 @@ button.text-link {
 
 .hud > * {
   pointer-events: auto;
+}
+
+@media (min-width: 900px) {
+  .hero[data-selected="false"] .hud {
+    display: none;
+  }
 }
 
 .hud__caption {

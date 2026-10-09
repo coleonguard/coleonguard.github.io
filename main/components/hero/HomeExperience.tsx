@@ -44,7 +44,8 @@ export function HomeExperience() {
     if (selected) {
       headingRef.current?.focus({ preventScroll: !compact });
     } else if (lastSelected.current) {
-      returnFocus.current.get(`selector-${lastSelected.current}`)?.focus({ preventScroll: true });
+      const key = compact ? "selector" : "label";
+      returnFocus.current.get(`${key}-${lastSelected.current}`)?.focus({ preventScroll: true });
     }
     lastSelected.current = selected;
   }, [selected, compact]);
@@ -57,11 +58,14 @@ export function HomeExperience() {
     return () => window.removeEventListener("keydown", onKey);
   }, [selected, back]);
 
-  const registerSelector = useCallback((id: ChapterId, el: HTMLButtonElement | null) => {
-    const key = `selector-${id}`;
+  const register = useCallback((key: string, el: HTMLButtonElement | null) => {
     if (el) returnFocus.current.set(key, el);
     else returnFocus.current.delete(key);
   }, []);
+  const registerSelector = useCallback(
+    (id: ChapterId, el: HTMLButtonElement | null) => register(`selector-${id}`, el),
+    [register],
+  );
 
   return (
     <section className="hero" data-selected={selected ? "true" : "false"} aria-label="Introduction">
@@ -78,6 +82,11 @@ export function HomeExperience() {
 
         {layout && !layout.compact && !selected && (
           <div className="cluster-labels">
+            <div
+              className="cluster-labels__rule"
+              style={{ top: layout.clusters.robotics.center.y + layout.clusters.robotics.scale + 6 }}
+              aria-hidden="true"
+            />
             {CHAPTER_LIST.map((chapter) => {
               const slot = layout.clusters[chapter.id];
               const isHighlighted = highlighted === chapter.id;
@@ -88,10 +97,11 @@ export function HomeExperience() {
                   data-highlighted={isHighlighted ? "true" : "false"}
                   style={{
                     left: slot.center.x - slot.scale,
-                    top: slot.center.y + slot.scale + 14,
+                    top: slot.center.y + slot.scale + 18,
                   }}
                 >
                   <button
+                    ref={(el) => register(`label-${chapter.id}`, el)}
                     type="button"
                     className="cluster-label__button"
                     aria-label={`${chapter.index} ${chapter.label}`}
@@ -105,6 +115,7 @@ export function HomeExperience() {
                     <span className="cluster-label__index">{chapter.index}</span>
                     <ChapterLogos chapter={chapter.id} scale={0.75} decorative className="cluster-label__logos" />
                   </button>
+                  <span className="cluster-label__years">{chapter.years}</span>
                   <span id={`tip-${chapter.id}`} className="cluster-label__tip" role="tooltip">
                     {chapter.tooltip}
                   </span>
