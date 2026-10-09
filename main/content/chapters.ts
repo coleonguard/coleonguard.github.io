@@ -48,7 +48,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     dates: "2021 – 2024",
     years: "2021 – 2024",
     blurb:
-      "Learning-based control for lower- and upper-limb prostheses that adapt to their users, and Dynamic Tube MPC for robust, obstacle-avoiding planning. Best Paper Finalist at ICRA 2025.",
+      "Prostheses that learn the person wearing them. I built learning-based control for robotic legs and hands, and safety-aware planning for legged robots. Best Paper at ISMR 2023, Best Paper Finalist at ICRA 2025.",
     summary:
       "Learning-based control for robots that move with and around people. At Georgia Tech I worked on prosthetic legs and hands that adapt to their users; at Caltech, on learned controllers and safety-aware planning for legged robots.",
     highlights: [
@@ -73,6 +73,8 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     role: "Co-Founder & CTO",
     dates: "Jan 2021 – Jul 2025",
     years: "2021 – 2025",
+    blurb:
+      "Levees hold water back; we raised the land instead. I led the robots that inject wood slurry underground and lift an acre of ground a foot in a day, at up to a tenth the cost of a levee.",
     summary:
       "Terranova permanently elevates flood-prone land by injecting wood slurry beneath the surface, with no surface disturbance. I co-founded the company and led its technology from the first prototype to a fleet in the field.",
     highlights: [
@@ -98,7 +100,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     dates: "Aug 2025 – Aug 2026",
     years: "2025 – 2026",
     blurb:
-      "Free premium AI chat for consumers, and research for brands grounded in those real conversations: surveys, asset tests, and voice interviews in minutes.",
+      "People tell an AI things they’d never tell a survey. Echo gave consumers free premium AI chat, and turned those conversations into research organizations can buy: surveys, asset tests, and voice interviews answered in minutes, not weeks.",
     summary:
       "Echo is a two-sided marketplace: consumers get free premium AI chat, and enterprises get research grounded in real consumer conversations. Each side compounds the value of the other.",
     highlights: [
@@ -136,7 +138,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     role: "Software Engineer, Starshield",
     dates: "Oct 2026 – Present",
     years: "2026 – Now",
-    blurb: "Building software for Starshield, SpaceX’s satellite network for government missions.",
+    blurb: "Writing software for Starshield, SpaceX’s satellite network for national security missions. That’s about all I’m allowed to say.",
     summary:
       "I build software for Starshield, SpaceX’s satellite network for government missions. The constellation shown here is an illustration, not a depiction of any SpaceX system.",
     highlights: [],
