@@ -22,7 +22,6 @@ export type EngineState = {
 export type EngineOptions = {
   reducedMotion: boolean;
   onPointerCluster: (id: ChapterId | null) => void;
-  onSelect: (id: ChapterId) => void;
 };
 
 const SILVER = new THREE.Color("#c9ccd2");
@@ -182,7 +181,6 @@ export class SceneEngine {
     window.addEventListener("pointermove", this.handlePointerMove, { passive: true });
     window.addEventListener("pointerleave", this.handlePointerLeave);
     document.addEventListener("visibilitychange", this.handleVisibility);
-    this.renderer.domElement.addEventListener("click", this.handleClick);
 
     if (options.reducedMotion) {
       this.renderStatic();
@@ -208,7 +206,6 @@ export class SceneEngine {
     window.removeEventListener("pointermove", this.handlePointerMove);
     window.removeEventListener("pointerleave", this.handlePointerLeave);
     document.removeEventListener("visibilitychange", this.handleVisibility);
-    this.renderer.domElement.removeEventListener("click", this.handleClick);
     this.geometry.dispose();
     this.material.dispose();
     this.lineMaterial.dispose();
@@ -458,7 +455,6 @@ export class SceneEngine {
     const cluster = inside ? this.nearestCluster(x, y) : null;
     if (cluster !== this.pointerCluster) {
       this.pointerCluster = cluster;
-      this.renderer.domElement.style.cursor = cluster ? "pointer" : "";
       this.options.onPointerCluster(cluster);
     }
   };
@@ -467,15 +463,8 @@ export class SceneEngine {
     this.pointer.active = false;
     if (this.pointerCluster) {
       this.pointerCluster = null;
-      this.renderer.domElement.style.cursor = "";
       this.options.onPointerCluster(null);
     }
-  };
-
-  private handleClick = (event: MouseEvent): void => {
-    const rect = this.container.getBoundingClientRect();
-    const cluster = this.nearestCluster(event.clientX - rect.left, event.clientY - rect.top);
-    if (cluster) this.options.onSelect(cluster);
   };
 
   private handleVisibility = (): void => {

@@ -10,7 +10,6 @@ type Props = {
   highlighted: ChapterId | null;
   reducedMotion: boolean;
   onPointerCluster: (id: ChapterId | null) => void;
-  onSelect: (id: ChapterId) => void;
 };
 
 export function Constellation({
@@ -19,15 +18,14 @@ export function Constellation({
   highlighted,
   reducedMotion,
   onPointerCluster,
-  onSelect,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<SceneEngine | null>(null);
-  const callbacks = useRef({ onPointerCluster, onSelect });
+  const callbacks = useRef({ onPointerCluster });
   const latest = useRef({ focused, preview, highlighted });
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
 
-  callbacks.current = { onPointerCluster, onSelect };
+  callbacks.current = { onPointerCluster };
   latest.current = { focused, preview, highlighted };
 
   useEffect(() => {
@@ -41,7 +39,6 @@ export function Constellation({
         const engine = new SceneEngine(container, {
           reducedMotion,
           onPointerCluster: (id) => callbacks.current.onPointerCluster(id),
-          onSelect: (id) => callbacks.current.onSelect(id),
         });
         engine.setState(latest.current);
         engineRef.current = engine;

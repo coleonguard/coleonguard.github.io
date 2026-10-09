@@ -8,7 +8,6 @@ import { useElementSize } from "@/lib/useElementSize";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ChapterPanel } from "@/components/chapter/ChapterPanel";
 import { ChapterSelectors } from "@/components/hud/ChapterSelectors";
-import { MotionControls } from "@/components/hud/MotionControls";
 import { Constellation } from "@/components/scene/Constellation";
 import { Intro } from "./Intro";
 
@@ -73,7 +72,6 @@ export function HomeExperience() {
             highlighted={labelHighlight}
             reducedMotion={reducedMotion}
             onPointerCluster={setPointerCluster}
-            onSelect={choose}
           />
         )}
 
@@ -139,7 +137,6 @@ export function HomeExperience() {
           onHighlight={setLabelHighlight}
           register={registerSelector}
         />
-        <MotionControls onReset={back} canReset={selected !== null} />
       </div>
     </section>
   );

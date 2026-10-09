@@ -498,36 +498,6 @@ p {
   color: var(--accent);
 }
 
-.motion {
-  display: flex;
-  justify-content: flex-end;
-  gap: 16px;
-}
-
-.hud-button {
-  padding: 6px 0;
-  border: 0;
-  background: none;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.hud-button {
-  cursor: pointer;
-}
-
-.hud-button:hover:not(:disabled) {
-  color: var(--white);
-}
-
-.hud-button:disabled {
-  color: var(--faint);
-  cursor: default;
-}
-
 /* Sections below the hero */
 
 .section {
@@ -825,10 +795,6 @@ p {
     justify-content: flex-start;
     padding: 14px 4px;
     border-bottom: 1px solid var(--line);
-  }
-
-  .motion {
-    justify-content: space-between;
   }
 
   .hero__panel {
