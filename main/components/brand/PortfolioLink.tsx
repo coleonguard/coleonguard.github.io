@@ -80,16 +80,17 @@ export function PortfolioLink({ className, wrapperClassName, placement, children
           Warning: legacy site ahead
         </span>
         <span className="legacy__sign" aria-hidden="true">
-          <span className="legacy__label">Days since last update</span>
           <span className="legacy__days">{days}</span>
-          <span className="legacy__clock">{time}</span>
+          <span className="legacy__unit">
+            days since last update
+            <span className="legacy__clock">{time}</span>
+          </span>
         </span>
         <span className="legacy__body" aria-hidden="true">
-          You are about to enter a portfolio that hasn’t been touched since {since}. Expect stale facts, very
-          questionable philosophical ramblings, and design choices I now regret.
+          Untouched since {since}. Expect questionable philosophical ramblings and design choices I now regret.
         </span>
         <span className="legacy__foot" aria-hidden="true">
-          Proceed at your own risk. Cringe not covered by warranty.
+          Cringe not covered by warranty.
         </span>
       </span>
     </span>
