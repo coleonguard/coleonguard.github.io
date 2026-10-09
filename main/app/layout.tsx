@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TopNav } from "@/components/hud/TopNav";
 import { ConsoleNote } from "@/components/brand/ConsoleNote";
+import { Konami } from "@/components/brand/Konami";
 import "./globals.css";
 
 const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-sans" });
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TopNav />
         {children}
         <ConsoleNote />
+        <Konami />
         <Analytics />
         <SpeedInsights />
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />

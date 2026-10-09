@@ -5,6 +5,7 @@ import { CHAPTERS, CHAPTER_LIST, type ChapterId } from "@/content/chapters";
 import { computeLayout } from "@/lib/layout";
 import { useElementSize } from "@/lib/useElementSize";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { rickroll } from "@/lib/rickroll";
 import { ChapterLogos } from "@/components/brand/ChapterLogos";
 import { ChapterSelectors } from "@/components/hud/ChapterSelectors";
 import { Constellation } from "@/components/scene/Constellation";
@@ -54,6 +55,26 @@ function useIntroStage() {
   return [stage, advance] as const;
 }
 
+const ROLL_DELAY = 650;
+const DECLASSIFIED_FOR = 4000;
+
+function useDeclassify() {
+  const [declassified, setDeclassified] = useState(false);
+  const timers = useRef<number[]>([]);
+
+  useEffect(() => () => timers.current.forEach((t) => window.clearTimeout(t)), []);
+
+  const declassify = useCallback(() => {
+    setDeclassified(true);
+    timers.current.push(
+      window.setTimeout(rickroll, ROLL_DELAY),
+      window.setTimeout(() => setDeclassified(false), DECLASSIFIED_FOR),
+    );
+  }, []);
+
+  return [declassified, declassify] as const;
+}
+
 const HINT_SEEN = "hover-hint-seen";
 
 function useExplored(highlighted: ChapterId | null) {
@@ -93,11 +114,18 @@ export function HomeExperience() {
   const active = compact ? preview : highlighted;
   const activeChapter = active ? CHAPTERS[active] : null;
   const explored = useExplored(highlighted);
+  const [declassified, declassify] = useDeclassify();
   const introSettled = introStage === "done" || introStage === "off";
 
   return (
     <section className="hero" aria-label="Introduction" data-intro={introStage}>
-      <div className="hero__scene" ref={sceneRef}>
+      <div
+        className="hero__scene"
+        ref={sceneRef}
+        onClick={() => {
+          if (!compact && highlighted === "space" && !declassified) declassify();
+        }}
+      >
         {reducedMotion !== null && (
           <Constellation
             preview={preview}
@@ -152,7 +180,9 @@ export function HomeExperience() {
 
       <Intro decode={introStage === "forming" || introStage === "done"} />
 
-      {layout && !layout.compact && <Substrates active={introSettled ? highlighted : null} />}
+      {layout && !layout.compact && (
+        <Substrates active={introSettled ? highlighted : null} declassified={declassified} />
+      )}
       {layout && !layout.compact && <HoverHint visible={introSettled && !explored && !highlighted} />}
       {layout && !layout.compact && (introStage === "name" || introStage === "forming") && <BootLog />}
 
@@ -170,7 +200,9 @@ export function HomeExperience() {
         <ChapterSelectors active={compact ? preview : null} onSelect={setPreview} onHighlight={setLabelHighlight} />
       </div>
 
-      {compact && <Substrates active={preview} variant="inline" />}
+      {compact && (
+        <Substrates active={preview} variant="inline" declassified={declassified} onDeclassify={declassify} />
+      )}
     </section>
   );
 }

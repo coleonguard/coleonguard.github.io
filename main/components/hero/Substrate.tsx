@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { CHAPTER_LIST, type ChapterId, type Phrase } from "@/content/chapters";
+import { LyricReveal } from "@/components/brand/LyricReveal";
 import { Stamp } from "@/components/brand/Stamp";
 
 function PhraseText({ phrase }: { phrase: Phrase }) {
@@ -8,13 +9,9 @@ function PhraseText({ phrase }: { phrase: Phrase }) {
     if (typeof part === "string") return <span key={i}>{part}</span>;
     const order = bar++;
     return (
-      <span
-        key={i}
-        className="redacted"
-        style={{ "--chars": part.redact, "--order": order } as CSSProperties}
-      >
+      <LyricReveal key={i} className="redacted" style={{ "--chars": part.redact, "--order": order } as CSSProperties}>
         <span className="sr-only">redacted</span>
-      </span>
+      </LyricReveal>
     );
   });
 }
@@ -22,9 +19,11 @@ function PhraseText({ phrase }: { phrase: Phrase }) {
 type Props = {
   active: ChapterId | null;
   variant?: "aside" | "inline";
+  declassified?: boolean;
+  onDeclassify?: () => void;
 };
 
-export function Substrates({ active, variant = "aside" }: Props) {
+export function Substrates({ active, variant = "aside", declassified = false, onDeclassify }: Props) {
   return (
     <div className={`substrates substrates--${variant}`}>
       {CHAPTER_LIST.map(({ id, substrate }) => (
@@ -45,7 +44,18 @@ export function Substrates({ active, variant = "aside" }: Props) {
           </p>
           {substrate.classified && (
             <>
-              <Stamp top="★ Classified ★" word="Top secret" bottom="Eyes only" play={active === id} />
+              {declassified ? (
+                <Stamp key="declassified" top="★ Cleared ★" word="Declassified" bottom="Never gonna" play={active === id} />
+              ) : (
+                <Stamp
+                  key="classified"
+                  top="★ Classified ★"
+                  word="Top secret"
+                  bottom="Eyes only"
+                  play={active === id}
+                  onClick={onDeclassify}
+                />
+              )}
               <p className="substrate__footnote">Approved for public release. Declassify on: never.</p>
             </>
           )}

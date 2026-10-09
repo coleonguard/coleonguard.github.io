@@ -1,5 +1,6 @@
-const NAME = "COLE JOHNSON";
+const NAME = ["COLE JOHNSON"];
 const SAMPLE_STEP = 2;
+const LINE_HEIGHT = 1.15;
 
 function displayFamily(): string {
   const source = document.querySelector(".intro__name");
@@ -8,11 +9,11 @@ function displayFamily(): string {
 
 /** Resolves once the light display face is usable from canvas. */
 export function loadNameFont(): Promise<unknown> {
-  return document.fonts ? document.fonts.load(`300 100px ${displayFamily()}`, NAME) : Promise.resolve();
+  return document.fonts ? document.fonts.load(`300 100px ${displayFamily()}`, NAME[0]) : Promise.resolve();
 }
 
-/** Pixel positions covering the name, drawn in the page's display face and centered in the scene. */
-export function sampleNameTargets(width: number, height: number, compact: boolean): Float32Array {
+/** Pixel positions covering the text lines, drawn in the page's display face and centered in the scene. */
+export function sampleNameTargets(width: number, height: number, compact: boolean, lines: string[] = NAME): Float32Array {
   const canvas = document.createElement("canvas");
   canvas.width = Math.ceil(width);
   canvas.height = Math.ceil(height);
@@ -23,13 +24,16 @@ export function sampleNameTargets(width: number, height: number, compact: boolea
   const font = (size: number) => `300 ${size}px ${family}`;
 
   ctx.font = font(100);
-  const measured = ctx.measureText(NAME).width || 1;
-  const size = Math.min((100 * width * (compact ? 0.84 : 0.62)) / measured, height * 0.28);
+  const measured = Math.max(...lines.map((line) => ctx.measureText(line).width), 1);
+  const size = Math.min((100 * width * (compact ? 0.84 : 0.62)) / measured, (height * 0.28) / lines.length);
   ctx.font = font(size);
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fff";
-  ctx.fillText(NAME, width / 2, height * (compact ? 0.5 : 0.48));
+  const center = height * (compact ? 0.5 : 0.48);
+  lines.forEach((line, i) => {
+    ctx.fillText(line, width / 2, center + (i - (lines.length - 1) / 2) * size * LINE_HEIGHT);
+  });
 
   const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const points: number[] = [];

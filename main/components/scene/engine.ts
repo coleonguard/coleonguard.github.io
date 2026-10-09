@@ -99,6 +99,9 @@ export class SceneEngine {
   private pointerCluster: ChapterId | null = null;
   private introStage: IntroStage = "done";
   private formStart = 0;
+  private nameStart = 0;
+  private nameHold = NAME_HOLD;
+  private nameLines: string[] | undefined;
   private nameTargets: Float32Array = new Float32Array(0);
   private lastFrame = 0;
   private time = 0;
@@ -213,6 +216,17 @@ export class SceneEngine {
     if (!this.running) this.renderStatic();
   }
 
+  /** Briefly gathers the particles into text, then lets them re-form the drawings. Returns false if it can't play. */
+  spell(lines: string[], hold: number): boolean {
+    if (!this.running || this.introStage !== "done") return false;
+    this.nameLines = lines;
+    this.nameTargets = sampleNameTargets(this.layout.width, this.layout.height, this.layout.compact, lines);
+    this.nameStart = this.time;
+    this.nameHold = hold;
+    this.introStage = "name";
+    return true;
+  }
+
   destroy(): void {
     this.running = false;
     cancelAnimationFrame(this.frame);
@@ -257,7 +271,7 @@ export class SceneEngine {
   };
 
   private advanceIntro(): void {
-    if (this.introStage === "name" && this.time >= NAME_HOLD) {
+    if (this.introStage === "name" && this.time - this.nameStart >= this.nameHold) {
       const { width } = this.layout;
       for (let i = 0; i < this.count; i++) {
         const order = this.layout.compact ? 0 : i % CHAPTER_IDS.length;
@@ -285,7 +299,9 @@ export class SceneEngine {
     this.layout = computeLayout(width, height);
     this.renderer.setSize(width, height);
     this.updateCamera();
-    if (this.introStage === "name") this.nameTargets = sampleNameTargets(width, height, this.layout.compact);
+    if (this.introStage === "name") {
+      this.nameTargets = sampleNameTargets(width, height, this.layout.compact, this.nameLines);
+    }
     if (!this.running) this.renderStatic();
   }
 

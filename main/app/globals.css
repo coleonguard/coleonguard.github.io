@@ -958,6 +958,62 @@ html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluste
   color: var(--muted);
 }
 
+.lyric-host {
+  position: relative;
+}
+
+.lyric-slip {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  bottom: calc(100% + 6px);
+  padding: 3px 7px;
+  white-space: nowrap;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  color: #0b0b0c;
+  background: var(--white);
+  pointer-events: none;
+  animation: lyric-slip 2400ms var(--ease) both;
+}
+
+@keyframes lyric-slip {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  8%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.declassify-link {
+  margin-left: 0.8em;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dotted var(--line-strong);
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--silver);
+  cursor: pointer;
+  transition: color 160ms var(--ease);
+}
+
+.declassify-link:hover,
+.declassify-link:focus-visible {
+  color: var(--white);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

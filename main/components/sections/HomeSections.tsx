@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { CHAPTERS, type ChapterId } from "@/content/chapters";
 import { ChapterLogos } from "@/components/brand/ChapterLogos";
+import { LyricReveal } from "@/components/brand/LyricReveal";
 import { PortfolioLink } from "@/components/brand/PortfolioLink";
 
 const ORDER: ChapterId[] = ["space", "echo", "terranova", "robotics"];
@@ -18,9 +19,9 @@ function RedactingText({ text }: { text: string }) {
         .split(" ")
         .map((word, i) => (
           <span key={i}>
-            <span className="redactable" style={{ "--order": i } as CSSProperties}>
+            <LyricReveal className="redactable" style={{ "--order": i } as CSSProperties}>
               {word}
-            </span>{" "}
+            </LyricReveal>{" "}
           </span>
         ))}
       {rest}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ChapterId } from "@/content/chapters";
+import { SPELL_EVENT, type SpellDetail } from "@/lib/rickroll";
 import type { IntroStage, SceneEngine } from "./engine";
 
 type Props = {
@@ -40,8 +41,7 @@ export function Constellation({ preview, highlighted, reducedMotion, intro, onPo
         });
         introRef.current = false;
         engine.setState(latest.current);
-        engineRef.current = engine;
-        setStatus("ready");
+        engineRef.current = engine;        setStatus("ready");
       })
       .catch(() => {
         if (!disposed) setStatus("unavailable");
@@ -57,6 +57,15 @@ export function Constellation({ preview, highlighted, reducedMotion, intro, onPo
   useEffect(() => {
     engineRef.current?.setState({ preview, highlighted });
   }, [preview, highlighted]);
+
+  useEffect(() => {
+    const onSpell = (event: Event) => {
+      const detail = (event as CustomEvent<SpellDetail>).detail;
+      if (engineRef.current?.spell(detail.lines, detail.hold)) detail.handled = true;
+    };
+    window.addEventListener(SPELL_EVENT, onSpell);
+    return () => window.removeEventListener(SPELL_EVENT, onSpell);
+  }, []);
 
   return (
     <div ref={containerRef} className="scene" data-status={status}>
