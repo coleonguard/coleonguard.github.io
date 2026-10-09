@@ -19,10 +19,8 @@ export function SelectedWork() {
             <li key={id} className="work-row">
               <ChapterLogos chapter={id} className="work-row__logos" />
               <span className="work-row__head">
-                <span className="work-row__title">{chapter.organization}</span>
-                <span className="work-row__role">
-                  {chapter.role} · {chapter.dates}
-                </span>
+                <span className="work-row__title">{chapter.role}</span>
+                <span className="work-row__role">{chapter.dates}</span>
               </span>
               <span className="work-row__summary">{chapter.blurb ?? chapter.highlights[0] ?? chapter.summary}</span>
             </li>
