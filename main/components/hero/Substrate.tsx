@@ -39,8 +39,12 @@ export function Substrates({ active }: { active: ChapterId | null }) {
           </p>
           {substrate.classified && (
             <>
-              <span className="substrate__stamp" aria-hidden="true">
-                Top secret
+              <span className="stamp" aria-hidden="true">
+                <span className="stamp__ink">
+                  <span className="stamp__rule">★ Classified ★</span>
+                  <span className="stamp__word">Top secret</span>
+                  <span className="stamp__rule">Eyes only</span>
+                </span>
               </span>
               <p className="substrate__footnote">Approved for public release. Declassify on: never.</p>
             </>
