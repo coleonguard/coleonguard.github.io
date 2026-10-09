@@ -43,7 +43,7 @@ export function SelectedWork() {
 }
 
 export function ResearchPreview() {
-  const featured = PUBLICATIONS.filter((p) => p.featured && p.id !== "J1");
+  const preview = PUBLICATIONS.filter((p) => p.group === "published").slice(0, 5);
   return (
     <section className="section" aria-labelledby="research-preview">
       <div className="section__head">
@@ -52,8 +52,8 @@ export function ResearchPreview() {
         </h2>
       </div>
       <ol className="pub-list">
-        {featured.map((p) => (
-          <li key={p.id} className="pub">
+        {preview.map((p) => (
+          <li key={p.id} className="pub" data-featured={p.featured ? "true" : undefined}>
             <p className="pub__title">{p.title}</p>
             <p className="pub__meta">
               {p.venue} · {p.year}
@@ -63,7 +63,7 @@ export function ResearchPreview() {
         ))}
       </ol>
       <Link href="/research" className="text-link">
-        All publications <span aria-hidden="true">→</span>
+        See more <span aria-hidden="true">→</span>
       </Link>
     </section>
   );
