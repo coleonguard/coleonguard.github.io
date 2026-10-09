@@ -44,7 +44,7 @@ export const PUBLICATIONS: Publication[] = [
     group: "published",
     note: "Best Paper Finalist",
     links: [
-      { label: "arXiv", href: "https://arxiv.org/abs/2411.15350" },
+      { label: "IEEE", href: "https://ieeexplore.ieee.org/document/11127279" },
       { label: "Code", href: "https://github.com/wdc3iii/legged_gym_dev" },
     ],
   },
