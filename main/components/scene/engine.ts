@@ -3,13 +3,16 @@ import { CHAPTER_IDS, type ChapterId } from "@/content/chapters";
 import { computeLayout, type ClusterSlot, type SceneLayout } from "@/lib/layout";
 import {
   KIND_GLOBE,
+  KIND_STATIC,
   KIND_ORBITER,
+  KIND_RIG,
   buildShape,
   globePoint,
   orbiterPoint,
   type ShapeData,
 } from "./shapes";
 import { FRAGMENT_SHADER, VERTEX_SHADER } from "./shaders";
+import { rigPoint } from "./walker";
 
 export type EngineState = {
   /** Chapter brought into focus, or null for the overview. */
@@ -31,6 +34,9 @@ const POINTER_RADIUS = 96;
 const POINTER_PUSH = 22;
 const STIFFNESS = 0.055;
 const DAMPING = 0.82;
+/** Moving forms track their targets tightly once a transition settles, so limbs don't smear. */
+const TRACK_STIFFNESS = 0.32;
+const TRACK_DAMPING = 0.5;
 
 function particleBudget(width: number): number {
   const cores = typeof navigator !== "undefined" ? navigator.hardwareConcurrency ?? 4 : 4;
@@ -309,7 +315,7 @@ export class SceneEngine {
     j: number,
     slot: ClusterSlot,
     t: number,
-  ): { x: number; y: number; bright: number } {
+  ): { x: number; y: number; bright: number; moving: boolean } {
     const kind = shape.kind[j];
     let nx = shape.xy[j * 2];
     let ny = shape.xy[j * 2 + 1];
@@ -319,12 +325,21 @@ export class SceneEngine {
       nx = p.x;
       ny = p.y;
       bright *= p.z > 0 ? 0.5 + p.z * 0.7 : 0.12;
+    } else if (kind === KIND_RIG) {
+      const p = rigPoint(shape.params[j * 4], shape.params[j * 4 + 1], shape.params[j * 4 + 2], t);
+      nx = p.x;
+      ny = p.y;
     } else if (kind === KIND_ORBITER) {
       const p = orbiterPoint(shape.params[j * 4], shape.params[j * 4 + 1], shape.params[j * 4 + 2], t);
       nx = p.x;
       ny = p.y;
     }
-    return { x: slot.center.x + nx * slot.scale, y: slot.center.y + ny * slot.scale, bright };
+    return {
+      x: slot.center.x + nx * slot.scale,
+      y: slot.center.y + ny * slot.scale,
+      bright,
+      moving: kind !== KIND_STATIC,
+    };
   }
 
   private step(frames: number, snap: boolean): void {
@@ -351,6 +366,7 @@ export class SceneEngine {
     const py = this.pointer.y;
     const pointerOn = this.pointer.active && !snap;
     const damping = Math.pow(DAMPING, frames);
+    const trackDamping = Math.pow(TRACK_DAMPING, frames);
     const alphaEase = snap ? 1 : 1 - Math.pow(0.92, frames);
 
     for (let i = 0; i < this.count; i++) {
@@ -358,6 +374,7 @@ export class SceneEngine {
       let ty: number;
       let alpha: number;
       let drift: number;
+      let moving = false;
 
       if (focus) {
         const r = this.rank[i];
@@ -367,6 +384,7 @@ export class SceneEngine {
           ty = p.y;
           alpha = 0.8 * p.bright;
           drift = 1.4;
+          moving = p.moving;
         } else {
           tx = this.ambient[i * 2] * width;
           ty = this.ambient[i * 2 + 1] * height;
@@ -384,6 +402,7 @@ export class SceneEngine {
         const dimmed = highlighted && highlighted !== id ? 0.7 : 1;
         alpha = (0.7 + 0.3 * coherence) * p.bright * dimmed;
         drift = 2.6 * (1 - 0.7 * coherence);
+        moving = p.moving;
       }
 
       const ph = i * 4;
@@ -412,10 +431,13 @@ export class SceneEngine {
         this.velocities[i * 2] = 0;
         this.velocities[i * 2 + 1] = 0;
       } else {
-        const gate = Math.min(1, Math.max(0.03, (sinceChange - this.delay[i]) / 0.5));
-        const k = STIFFNESS * gate * frames;
-        const vx = this.velocities[i * 2] * damping + (tx - x) * k;
-        const vy = this.velocities[i * 2 + 1] * damping + (ty - y) * k;
+        const elapsed = sinceChange - this.delay[i];
+        const gate = Math.min(1, Math.max(0.03, elapsed / 0.5));
+        const track = moving ? Math.min(1, Math.max(0, elapsed - 1)) : 0;
+        const k = (STIFFNESS + (TRACK_STIFFNESS - STIFFNESS) * track) * gate * frames;
+        const d = damping + (trackDamping - damping) * track;
+        const vx = this.velocities[i * 2] * d + (tx - x) * k;
+        const vy = this.velocities[i * 2 + 1] * d + (ty - y) * k;
         this.velocities[i * 2] = vx;
         this.velocities[i * 2 + 1] = vy;
         x += vx;

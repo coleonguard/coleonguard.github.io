@@ -1,4 +1,5 @@
 import type { ChapterId } from "@/content/chapters";
+import { sampleRig } from "./walker";
 
 /**
  * Forms are authored in a normalized space: x and y roughly in [-1, 1], with y pointing down
@@ -8,6 +9,7 @@ import type { ChapterId } from "@/content/chapters";
 export const KIND_STATIC = 0;
 export const KIND_GLOBE = 1;
 export const KIND_ORBITER = 2;
+export const KIND_RIG = 3;
 
 export type ShapeData = {
   count: number;
@@ -164,38 +166,23 @@ function polyline(points: Vec[], width: number, extra: Partial<Primitive> = {}):
   return points.slice(1).map((p, i) => seg(points[i], p, width, extra));
 }
 
-function robotics(): Primitive[] {
-  const hip: Vec = [-0.02, -0.06];
-  const shoulder: Vec = [0.04, -0.5];
-  const prostheticKnee: Vec = [-0.14, 0.34];
-  const prostheticAnkle: Vec = [-0.3, 0.72];
-  return [
-    { kind: "ring", c: [0.07, -0.72], r: 0.1, width: 0.025, density: 1.6 },
-    { kind: "disc", c: [0.07, -0.72], r: 0.08, density: 0.35, bright: 0.55 },
-    seg(shoulder, hip, 0.13, { density: 2.2 }),
-    seg([0.06, -0.62], shoulder, 0.05),
-    ...polyline([shoulder, [0.2, -0.26], [0.29, -0.06]], 0.05, { density: 1.3 }),
-    ...polyline([shoulder, [-0.13, -0.28], [-0.21, -0.08]], 0.04, { density: 1.1, bright: 0.7 }),
-    ...polyline([hip, [0.2, 0.33], [0.29, 0.76], [0.44, 0.79]], 0.06, { density: 1.6 }),
-    seg(hip, prostheticKnee, 0.07, { density: 1.4 }),
-    { kind: "ring", c: prostheticKnee, r: 0.045, width: 0.012, density: 3, bright: 1.25 },
-    seg(prostheticKnee, prostheticAnkle, 0.012, { density: 2.4, bright: 1.25 }),
-    seg(prostheticAnkle, [-0.16, 0.79], 0.018, { density: 2, bright: 1.15 }),
-    { kind: "ring", c: hip, r: 0.04, width: 0.01, density: 2, bright: 1.1 },
-    {
-      kind: "ellipse",
-      c: [0.05, 0.79],
-      rx: 0.46,
-      ry: 0.16,
-      fill: false,
-      from: Math.PI,
-      to: Math.PI * 2,
-      dots: 34,
-      density: 0.6,
-      bright: 0.55,
-    },
-    seg([-0.85, 0.84], [0.85, 0.84], 0.006, { density: 0.5, bright: 0.35 }),
-  ];
+function buildRobotics(shape: ShapeData, rng: Rng): void {
+  const groundCount = Math.floor(shape.count * 0.06);
+  const rigCount = shape.count - groundCount;
+  sampleRig(rigCount, rng, () => gaussian(rng)).forEach((sample, i) => {
+    shape.kind[i] = KIND_RIG;
+    shape.params[i * 4] = sample.part;
+    shape.params[i * 4 + 1] = sample.u;
+    shape.params[i * 4 + 2] = sample.offset;
+    shape.bright[i] = sample.bright;
+  });
+  fillFromPrimitives(
+    shape,
+    rigCount,
+    groundCount,
+    [seg([-0.85, 0.86], [0.85, 0.86], 0.006, { density: 0.5, bright: 0.35 })],
+    rng,
+  );
 }
 
 function terranova(): Primitive[] {
@@ -363,8 +350,7 @@ export function orbiterPoint(orbit: number, phase: number, jitter: number, t: nu
   };
 }
 
-const BUILDERS: Record<Exclude<ChapterId, "space">, () => Primitive[]> = {
-  robotics,
+const BUILDERS: Record<Exclude<ChapterId, "space" | "robotics">, () => Primitive[]> = {
   terranova,
   echo,
 };
@@ -376,6 +362,8 @@ export function buildShape(id: ChapterId, count: number, salt = 0): ShapeData {
   const shape = emptyShape(count);
   if (id === "space") {
     buildSpace(shape, rng);
+  } else if (id === "robotics") {
+    buildRobotics(shape, rng);
   } else {
     fillFromPrimitives(shape, 0, count, BUILDERS[id](), rng);
   }
