@@ -112,8 +112,7 @@ export function HomeExperience() {
                     onFocus={() => setLabelHighlight(chapter.id)}
                     onBlur={() => setLabelHighlight(null)}
                   >
-                    <span className="cluster-label__index">{chapter.index}</span>
-                    <ChapterLogos chapter={chapter.id} scale={0.75} decorative className="cluster-label__logos" />
+                    <ChapterLogos chapter={chapter.id} scale={1.25} decorative className="cluster-label__logos" />
                   </button>
                   <span className="cluster-label__years">{chapter.years}</span>
                   <span id={`tip-${chapter.id}`} className="cluster-label__tip" role="tooltip">

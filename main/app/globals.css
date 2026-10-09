@@ -199,11 +199,6 @@ p {
   color: var(--white);
 }
 
-.intro__support {
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 15px;
-}
 
 .intro__actions {
   display: flex;
@@ -314,9 +309,6 @@ button.text-link {
     color 200ms var(--ease);
 }
 
-.cluster-label__index {
-  color: var(--muted);
-}
 
 .cluster-label[data-highlighted="true"] .cluster-label__button {
   opacity: 1;
