@@ -94,7 +94,6 @@ export class SceneEngine {
   private time = 0;
   private frame = 0;
   private running = false;
-  private userPaused = false;
   private visible = true;
   private onScreen = true;
   private readonly resizeObserver: ResizeObserver;
@@ -201,12 +200,6 @@ export class SceneEngine {
     if (!this.running) this.renderStatic();
   }
 
-  setPaused(paused: boolean): void {
-    this.userPaused = paused;
-    if (paused) this.renderStatic();
-    this.syncLoop();
-  }
-
   destroy(): void {
     this.running = false;
     cancelAnimationFrame(this.frame);
@@ -224,17 +217,13 @@ export class SceneEngine {
     this.renderer.domElement.remove();
   }
 
-  private get animated(): boolean {
-    return !this.options.reducedMotion && !this.userPaused;
-  }
-
   private size(): { width: number; height: number } {
     const rect = this.container.getBoundingClientRect();
     return { width: Math.max(1, rect.width), height: Math.max(1, rect.height) };
   }
 
   private syncLoop(): void {
-    const shouldRun = this.animated && this.visible && this.onScreen;
+    const shouldRun = !this.options.reducedMotion && this.visible && this.onScreen;
     if (shouldRun && !this.running) {
       this.running = true;
       this.lastFrame = performance.now();

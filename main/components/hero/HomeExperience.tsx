@@ -15,7 +15,6 @@ import { Intro } from "./Intro";
 export function HomeExperience() {
   const { selected, select } = useChapterState();
   const reducedMotion = useReducedMotion();
-  const [paused, setPaused] = useState(false);
   const [labelHighlight, setLabelHighlight] = useState<ChapterId | null>(null);
   const [pointerCluster, setPointerCluster] = useState<ChapterId | null>(null);
   const [preview, setPreview] = useState<ChapterId>("robotics");
@@ -72,7 +71,6 @@ export function HomeExperience() {
             focused={selected}
             preview={preview}
             highlighted={labelHighlight}
-            paused={paused}
             reducedMotion={reducedMotion}
             onPointerCluster={setPointerCluster}
             onSelect={choose}
@@ -126,17 +124,12 @@ export function HomeExperience() {
 
       <div className="hud">
         <div className="hud__caption" aria-live="polite">
-          {activeChapter ? (
+          {activeChapter && (
             <>
               <span className="hud__caption-title">
                 {activeChapter.index} / {activeChapter.label}
               </span>
               <span className="hud__caption-field">{activeChapter.caption}</span>
-            </>
-          ) : (
-            <>
-              <span className="hud__caption-title">Four chapters</span>
-              <span className="hud__caption-field">Hover a system, or choose one below.</span>
             </>
           )}
         </div>
@@ -146,13 +139,7 @@ export function HomeExperience() {
           onHighlight={setLabelHighlight}
           register={registerSelector}
         />
-        <MotionControls
-          paused={paused}
-          motionReduced={reducedMotion === true}
-          onTogglePaused={() => setPaused((p) => !p)}
-          onReset={back}
-          canReset={selected !== null}
-        />
+        <MotionControls onReset={back} canReset={selected !== null} />
       </div>
     </section>
   );

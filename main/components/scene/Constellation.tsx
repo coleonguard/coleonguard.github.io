@@ -8,7 +8,6 @@ type Props = {
   focused: ChapterId | null;
   preview: ChapterId;
   highlighted: ChapterId | null;
-  paused: boolean;
   reducedMotion: boolean;
   onPointerCluster: (id: ChapterId | null) => void;
   onSelect: (id: ChapterId) => void;
@@ -18,7 +17,6 @@ export function Constellation({
   focused,
   preview,
   highlighted,
-  paused,
   reducedMotion,
   onPointerCluster,
   onSelect,
@@ -26,11 +24,11 @@ export function Constellation({
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<SceneEngine | null>(null);
   const callbacks = useRef({ onPointerCluster, onSelect });
-  const latest = useRef({ focused, preview, highlighted, paused });
+  const latest = useRef({ focused, preview, highlighted });
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
 
   callbacks.current = { onPointerCluster, onSelect };
-  latest.current = { focused, preview, highlighted, paused };
+  latest.current = { focused, preview, highlighted };
 
   useEffect(() => {
     const container = containerRef.current;
@@ -45,9 +43,7 @@ export function Constellation({
           onPointerCluster: (id) => callbacks.current.onPointerCluster(id),
           onSelect: (id) => callbacks.current.onSelect(id),
         });
-        const { focused: f, preview: p, highlighted: h, paused: paused0 } = latest.current;
-        engine.setState({ focused: f, preview: p, highlighted: h });
-        engine.setPaused(paused0);
+        engine.setState(latest.current);
         engineRef.current = engine;
         setStatus("ready");
       })
@@ -65,10 +61,6 @@ export function Constellation({
   useEffect(() => {
     engineRef.current?.setState({ focused, preview, highlighted });
   }, [focused, preview, highlighted]);
-
-  useEffect(() => {
-    engineRef.current?.setPaused(paused);
-  }, [paused]);
 
   return (
     <div ref={containerRef} className="scene" data-status={status}>

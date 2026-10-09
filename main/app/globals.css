@@ -500,8 +500,7 @@ p {
   gap: 16px;
 }
 
-.hud-button,
-.hud-note {
+.hud-button {
   padding: 6px 0;
   border: 0;
   background: none;
