@@ -30,16 +30,11 @@ bundle exec jekyll serve
 
 ## Deploying (Vercel)
 
-Create two Vercel projects from this repo:
+Two Vercel projects deploy from this repo on every push to `main`:
 
-1. **main**: root directory `main`, framework Next.js. Domain `www.colebjohnson.com` (redirect the apex to `www`).
-2. **portfolio**: root directory `portfolio`, framework Jekyll. Domain `portfolio.colebjohnson.com`.
+1. **colebjohnson**: root directory `main`, Next.js. Serves `www.colebjohnson.com`; the apex redirects to `www`.
+2. **colebjohnson-portfolio**: root directory `portfolio`, Jekyll. Serves `portfolio.colebjohnson.com`.
 
-Each folder's `vercel.json` skips builds when that folder did not change.
+Each folder's `vercel.json` skips builds when that folder did not change. DNS is hosted on Vercel.
 
-DNS cutover, after both preview deployments look right:
-
-1. Add both domains in Vercel.
-2. Point `www` and `portfolio` CNAME records to `cname.vercel-dns.com`, and the apex A record to `76.76.21.21`.
-3. Disable GitHub Pages on `coleonguard.github.io` and `coleonguard/portfolio`, then delete the `CNAME` files in this repo.
-4. Archive `coleonguard/portfolio`.
+GitHub Pages can't be disabled for a `username.github.io` repo, so the root `index.html` redirects `coleonguard.github.io` to `www.colebjohnson.com`.
