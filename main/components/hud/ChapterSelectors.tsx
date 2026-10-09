@@ -1,6 +1,7 @@
 "use client";
 
 import { CHAPTER_LIST, type ChapterId } from "@/content/chapters";
+import { ChapterLogos } from "@/components/brand/ChapterLogos";
 
 type Props = {
   active: ChapterId | null;
@@ -18,6 +19,7 @@ export function ChapterSelectors({ active, onSelect, onHighlight, register }: Pr
           ref={(el) => register(chapter.id, el)}
           type="button"
           className="selectors__item"
+          aria-label={`${chapter.index} ${chapter.label}`}
           aria-current={active === chapter.id ? "true" : undefined}
           onClick={() => onSelect(chapter.id)}
           onPointerEnter={() => onHighlight(chapter.id)}
@@ -26,7 +28,7 @@ export function ChapterSelectors({ active, onSelect, onHighlight, register }: Pr
           onBlur={() => onHighlight(null)}
         >
           <span className="selectors__index">{chapter.index}</span>
-          <span>{chapter.label}</span>
+          <ChapterLogos chapter={chapter.id} scale={0.72} decorative className="selectors__logos" />
         </button>
       ))}
     </nav>
