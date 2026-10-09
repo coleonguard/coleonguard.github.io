@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { ChapterId } from "@/content/chapters";
 
 type Logo = { src: string; alt: string; aspect: number; height: number };
@@ -25,16 +26,22 @@ type Props = {
 export function ChapterLogos({ chapter, scale = 1, decorative = false, className }: Props) {
   return (
     <span className={className}>
-      {LOGOS[chapter].map((logo) => {
+      {LOGOS[chapter].map((logo, i) => {
         const height = Math.round(logo.height * scale);
         return (
-          <img
-            key={logo.src}
-            src={logo.src}
-            alt={decorative ? "" : logo.alt}
-            width={Math.round(height * logo.aspect)}
-            height={height}
-          />
+          <Fragment key={logo.src}>
+            {i > 0 && (
+              <span className="logo-plus" aria-hidden="true" style={{ fontSize: Math.round(22 * scale) }}>
+                +
+              </span>
+            )}
+            <img
+              src={logo.src}
+              alt={decorative ? "" : logo.alt}
+              width={Math.round(height * logo.aspect)}
+              height={height}
+            />
+          </Fragment>
         );
       })}
     </span>

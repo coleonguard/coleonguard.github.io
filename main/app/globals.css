@@ -329,6 +329,13 @@ button.text-link {
   filter: brightness(0) invert(1);
 }
 
+.logo-plus {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--silver);
+}
+
 .cluster-label__years {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
