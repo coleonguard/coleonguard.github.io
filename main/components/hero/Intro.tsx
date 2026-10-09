@@ -13,16 +13,3 @@ export function Intro() {
     </div>
   );
 }
-
-export function HeroFallback() {
-  return (
-    <section className="hero" data-selected="false" aria-label="Introduction">
-      <div className="hero__scene">
-        <div className="scene" data-status="loading">
-          <div className="scene__fallback" aria-hidden="true" />
-        </div>
-      </div>
-      <Intro />
-    </section>
-  );
-}

@@ -19,9 +19,7 @@ import { terranovaPoint } from "./terranova";
 import { rigPoint } from "./walker";
 
 export type EngineState = {
-  /** Chapter brought into focus, or null for the overview. */
-  focused: ChapterId | null;
-  /** Chapter shown in compact layouts when nothing is focused. */
+  /** Chapter shown in compact layouts. */
   preview: ChapterId;
   highlighted: ChapterId | null;
 };
@@ -32,7 +30,6 @@ export type EngineOptions = {
 };
 
 const SILVER = new THREE.Color("#c9ccd2");
-const AMBER = new THREE.Color("#c8a06a");
 const FOCUS_SHARE = 0.84;
 const POINTER_RADIUS = 96;
 const POINTER_PUSH = 22;
@@ -85,9 +82,8 @@ export class SceneEngine {
   private readonly focusCount: number;
 
   private layout: SceneLayout;
-  private state: EngineState = { focused: null, preview: "robotics", highlighted: null };
+  private state: EngineState = { preview: "robotics", highlighted: null };
   private coherence: Record<ChapterId, number> = { robotics: 0, terranova: 0, echo: 0, space: 0 };
-  private accentMix = 0;
   private changeTime = 0;
   private pointer = { x: -9999, y: -9999, active: false };
   private pointerCluster: ChapterId | null = null;
@@ -132,7 +128,6 @@ export class SceneEngine {
     this.rank = shuffled(this.count, 7);
 
     const sizes = new Float32Array(this.count);
-    const accents = new Float32Array(this.count);
     for (let i = 0; i < this.count; i++) {
       this.positions[i * 3] = Math.random() * width;
       this.positions[i * 3 + 1] = Math.random() * height;
@@ -144,14 +139,11 @@ export class SceneEngine {
       this.ambient[i * 2] = Math.random();
       this.ambient[i * 2 + 1] = Math.random();
       sizes[i] = 1.5 + Math.pow(Math.random(), 3) * 2.4;
-      accents[i] = Math.random() < 0.08 ? 1 : 0;
     }
 
     this.geometry.setAttribute("position", new THREE.BufferAttribute(this.positions, 3));
     this.geometry.setAttribute("aAlpha", new THREE.BufferAttribute(this.alphas, 1));
     this.geometry.setAttribute("aSize", new THREE.BufferAttribute(sizes, 1));
-    this.geometry.setAttribute("aAccent", new THREE.BufferAttribute(accents, 1));
-
     this.material = new THREE.ShaderMaterial({
       vertexShader: VERTEX_SHADER,
       fragmentShader: FRAGMENT_SHADER,
@@ -161,8 +153,6 @@ export class SceneEngine {
       uniforms: {
         uPixelRatio: { value: this.renderer.getPixelRatio() },
         uColor: { value: SILVER },
-        uAccent: { value: AMBER },
-        uAccentMix: { value: 0 },
       },
     });
     const points = new THREE.Points(this.geometry, this.material);
@@ -191,9 +181,7 @@ export class SceneEngine {
   }
 
   setState(next: EngineState): void {
-    const modeChanged =
-      next.focused !== this.state.focused ||
-      (this.layout.compact && next.preview !== this.state.preview);
+    const modeChanged = this.layout.compact && next.preview !== this.state.preview;
     this.state = next;
     if (modeChanged) this.changeTime = this.time;
     if (!this.running) this.renderStatic();
@@ -265,7 +253,6 @@ export class SceneEngine {
   }
 
   private displayedFocus(): ChapterId | null {
-    if (this.state.focused) return this.state.focused;
     return this.layout.compact ? this.state.preview : null;
   }
 
@@ -338,10 +325,6 @@ export class SceneEngine {
       const goal = !focus && highlighted === id ? 1 : 0;
       this.coherence[id] += (goal - this.coherence[id]) * ease;
     }
-    const accentGoal = this.state.focused ? 1 : 0;
-    this.accentMix += (accentGoal - this.accentMix) * ease;
-    this.material.uniforms.uAccentMix.value = this.accentMix;
-
     const motion = snap ? 0 : 1;
     const sinceChange = t - this.changeTime;
     const px = this.pointer.x;
@@ -440,7 +423,7 @@ export class SceneEngine {
   }
 
   private nearestCluster(x: number, y: number): ChapterId | null {
-    if (this.layout.compact || this.state.focused) return null;
+    if (this.layout.compact) return null;
     let best: ChapterId | null = null;
     let bestDistance = Infinity;
     for (const id of CHAPTER_IDS) {

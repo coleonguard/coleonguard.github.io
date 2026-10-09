@@ -7,16 +7,14 @@ type Props = {
   active: ChapterId | null;
   onSelect: (id: ChapterId) => void;
   onHighlight: (id: ChapterId | null) => void;
-  register: (id: ChapterId, element: HTMLButtonElement | null) => void;
 };
 
-export function ChapterSelectors({ active, onSelect, onHighlight, register }: Props) {
+export function ChapterSelectors({ active, onSelect, onHighlight }: Props) {
   return (
     <nav aria-label="Chapters" className="selectors">
       {CHAPTER_LIST.map((chapter) => (
         <button
           key={chapter.id}
-          ref={(el) => register(chapter.id, el)}
           type="button"
           className="selectors__item"
           aria-label={`${chapter.index} ${chapter.label}`}

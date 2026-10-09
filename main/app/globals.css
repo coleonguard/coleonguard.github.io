@@ -179,11 +179,6 @@ p {
     visibility 400ms;
 }
 
-.hero[data-selected="true"] .intro {
-  opacity: 0;
-  visibility: hidden;
-}
-
 .intro__name {
   font-family: var(--font-sans), system-ui, sans-serif;
   font-weight: 300;
@@ -299,7 +294,8 @@ button.text-link {
   padding: 4px 0;
   border: 0;
   background: none;
-  cursor: pointer;
+  cursor: default;
+  outline-offset: 6px;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -447,102 +443,6 @@ button.text-link {
   white-space: nowrap;
 }
 
-/* Chapter panel */
-
-.hero__panel {
-  position: absolute;
-  z-index: 6;
-  left: var(--gutter);
-  top: calc(var(--nav-height) + 24px);
-  bottom: calc(var(--hud-height) + 8px);
-  width: min(36vw, 520px);
-  display: flex;
-  align-items: center;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-.panel {
-  width: 100%;
-  margin: auto 0;
-  animation: panel-in 500ms var(--ease) both;
-}
-
-@keyframes panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.panel__back {
-  margin-bottom: 32px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--silver);
-}
-
-.panel__back:hover {
-  color: var(--white);
-}
-
-.panel__title {
-  margin-top: 12px;
-  font-family: var(--font-sans), system-ui, sans-serif;
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  font-size: clamp(36px, 3.6vw, 56px);
-  line-height: 1.02;
-}
-
-.panel__title:focus {
-  outline: none;
-}
-
-.panel__role {
-  margin-top: 12px;
-  font-size: 14px;
-  color: var(--accent);
-}
-
-.panel__summary {
-  margin-top: 20px;
-  font-size: 16px;
-  color: var(--white);
-}
-
-.panel__highlights {
-  margin: 20px 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--line);
-}
-
-.panel__highlights li {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--silver);
-}
-
-.panel__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 24px;
-}
-
 /* HUD */
 
 .hud {
@@ -565,7 +465,7 @@ button.text-link {
 }
 
 @media (min-width: 900px) {
-  .hero[data-selected="false"] .hud {
+  .hud {
     display: none;
   }
 }
@@ -688,13 +588,11 @@ button.text-link {
 
 .work-row {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr) minmax(0, 1.25fr) 24px;
+  grid-template-columns: 220px minmax(0, 1fr) minmax(0, 1.25fr);
   gap: 40px;
   align-items: center;
   padding: 36px 0;
   border-bottom: 1px solid var(--line);
-  color: inherit;
-  text-decoration: none;
 }
 
 .work-row__logos {
@@ -707,8 +605,7 @@ button.text-link {
   display: block;
   width: auto;
   filter: brightness(0) invert(1);
-  opacity: 0.72;
-  transition: opacity 240ms var(--ease);
+  opacity: 0.88;
 }
 
 .work-row__head {
@@ -734,22 +631,6 @@ button.text-link {
   font-size: 14px;
   line-height: 1.55;
   color: var(--silver);
-}
-
-.work-row__arrow {
-  color: var(--muted);
-  transition: transform 240ms var(--ease), color 240ms var(--ease);
-}
-
-.work-row:hover .work-row__logos img,
-.work-row:focus-visible .work-row__logos img {
-  opacity: 1;
-}
-
-.work-row:hover .work-row__arrow,
-.work-row:focus-visible .work-row__arrow {
-  color: var(--white);
-  transform: translateX(4px);
 }
 
 .pub-list {
@@ -806,8 +687,7 @@ button.text-link {
     overflow: visible;
   }
 
-  .intro,
-  .hero[data-selected="true"] .intro {
+  .intro {
     position: static;
     order: 1;
     width: auto;
@@ -865,33 +745,14 @@ button.text-link {
     display: flex;
   }
 
-  .hero__panel {
-    position: static;
-    order: 4;
-    width: auto;
-    padding: 24px var(--gutter) 0;
-    overflow: visible;
-  }
-
   .section {
     padding-top: 80px;
   }
 
   .work-row {
-    grid-template-columns: minmax(0, 1fr) 24px;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
     padding: 28px 0;
-  }
-
-  .work-row__logos,
-  .work-row__head,
-  .work-row__summary {
-    grid-column: 1;
-  }
-
-  .work-row__arrow {
-    grid-column: 2;
-    grid-row: 1;
   }
 }
 

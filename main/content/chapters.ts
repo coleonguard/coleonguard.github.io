@@ -2,11 +2,6 @@ export const CHAPTER_IDS = ["robotics", "terranova", "echo", "space"] as const;
 
 export type ChapterId = (typeof CHAPTER_IDS)[number];
 
-export type ChapterLink = {
-  label: string;
-  href: string;
-};
-
 /** A run of text, or a redaction bar roughly `redact` characters wide. */
 export type Phrase = (string | { redact: number })[];
 
@@ -33,10 +28,7 @@ export type Chapter = {
   /** One line for the homepage work list; defaults to the first highlight. */
   blurb?: string;
   highlights: string[];
-  links: ChapterLink[];
 };
-
-const PORTFOLIO_URL = "https://portfolio.colebjohnson.com";
 
 export const CHAPTERS: Record<ChapterId, Chapter> = {
   robotics: {
@@ -64,9 +56,6 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
       "Continual and transfer learning for lower-limb prosthetic intent recognition and speed estimation, published in Transactions on Medical Robotics & Bionics and at ISMR (Best Paper Award, ISMR ’23).",
       "Founded an EPIC Lab subgroup on imitation learning from human grasping for upper-limb control. Task-agnostic prosthetic hand control is in review at Science Robotics.",
     ],
-    links: [
-      { label: "Research portfolio", href: `${PORTFOLIO_URL}/research` },
-    ],
   },
   terranova: {
     id: "terranova",
@@ -91,7 +80,6 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
       "Developed self-learning topographic and fluid-structure models for predicting site suitability and planning injection campaigns.",
       "Raised $9.6M during my tenure, and hired and led 10+ engineers across robotics, ML, and field deployment.",
     ],
-    links: [{ label: "Experience", href: `${PORTFOLIO_URL}/experience` }],
   },
   echo: {
     id: "echo",
@@ -118,7 +106,6 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
       "Retained all 34 customers, including 8 Fortune 500 brands and a U.S. presidential primary campaign, with zero churn. 85K active consumer users.",
       "Architected the ML core: LLM pipelines that distill intent and sentiment from 100M+ labeled human-feedback data points into surveys, asset tests, and voice interviews delivered in minutes, not weeks.",
     ],
-    links: [],
   },
   space: {
     id: "space",
@@ -153,7 +140,6 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     summary:
       "I build software for Starshield, SpaceX’s satellite network for government missions. The constellation shown here is an illustration, not a depiction of any SpaceX system.",
     highlights: [],
-    links: [],
   },
 };
 

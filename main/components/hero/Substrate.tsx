@@ -27,6 +27,7 @@ export function Substrates({ active }: { active: ChapterId | null }) {
           id={`substrate-${id}`}
           className="substrate"
           data-active={active === id ? "true" : "false"}
+          aria-hidden={active !== id}
           data-classified={substrate.classified ? "true" : "false"}
         >
           <p className="substrate__through">
