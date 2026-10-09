@@ -405,6 +405,7 @@ export class SceneEngine {
       let alpha: number;
       let drift: number;
       let moving = false;
+      let hidden = false;
 
       if (focus) {
         const r = this.rank[i];
@@ -415,6 +416,7 @@ export class SceneEngine {
           alpha = 0.8 * p.bright;
           drift = 1.4;
           moving = p.moving;
+          hidden = p.bright <= 0;
         } else {
           tx = this.ambient[i * 2] * width;
           ty = this.ambient[i * 2 + 1] * height;
@@ -433,6 +435,7 @@ export class SceneEngine {
         alpha = (0.7 + 0.3 * coherence) * p.bright * dimmed;
         drift = 2.6 * (1 - 0.7 * coherence);
         moving = p.moving;
+        hidden = p.bright <= 0;
       }
 
       const ph = i * 4;
@@ -455,11 +458,12 @@ export class SceneEngine {
         }
       }
 
-      if (snap) {
+      if (snap || hidden) {
         x = tx;
         y = ty;
         this.velocities[i * 2] = 0;
         this.velocities[i * 2 + 1] = 0;
+        if (hidden) this.alphas[i] = 0;
       } else {
         const elapsed = sinceChange - this.delay[i];
         const gate = Math.min(1, Math.max(0.03, elapsed / 0.5));
@@ -476,7 +480,7 @@ export class SceneEngine {
 
       this.positions[ix] = x;
       this.positions[ix + 1] = y;
-      this.alphas[i] += (alpha - this.alphas[i]) * alphaEase;
+      if (!hidden) this.alphas[i] += (alpha - this.alphas[i]) * alphaEase;
     }
 
     (this.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;

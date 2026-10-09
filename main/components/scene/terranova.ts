@@ -33,14 +33,17 @@ function smoothstep(e0: number, e1: number, x: number): number {
   return t * t * (3 - 2 * t);
 }
 
-/** Inflation in [0, 1] and the flow direction (1 injecting, -1 draining, 0 idle). */
-function inflation(t: number): { s: number; flow: number } {
+/**
+ * Inflation in [0, 1], the flow (1 injecting, -1 draining, 0 idle), and the slug direction,
+ * which only flips during idle phases so slugs never jump while visible.
+ */
+function inflation(t: number): { s: number; flow: number; dir: number } {
   const u = t / CYCLE - Math.floor(t / CYCLE);
-  if (u < 0.06) return { s: 0, flow: 0 };
-  if (u < 0.5) return { s: smoothstep(0.06, 0.5, u), flow: 1 };
-  if (u < 0.6) return { s: 1, flow: 0 };
-  if (u < 0.94) return { s: 1 - smoothstep(0.6, 0.94, u), flow: -1 };
-  return { s: 0, flow: 0 };
+  if (u < 0.06) return { s: 0, flow: 0, dir: 1 };
+  if (u < 0.5) return { s: smoothstep(0.06, 0.5, u), flow: 1, dir: 1 };
+  if (u < 0.6) return { s: 1, flow: 0, dir: -1 };
+  if (u < 0.94) return { s: 1 - smoothstep(0.6, 0.94, u), flow: -1, dir: -1 };
+  return { s: 0, flow: 0, dir: 1 };
 }
 
 function cavity(s: number): { rx: number; ry: number; cy: number } {
@@ -240,7 +243,7 @@ export function terranovaPoint(
   y: number,
   t: number,
 ): { x: number; y: number; glow: number } {
-  const { s, flow } = inflation(t);
+  const { s, flow, dir } = inflation(t);
   switch (sub) {
     case TERRA_SOIL: {
       const dy = lift(x, s);
@@ -253,16 +256,16 @@ export function terranovaPoint(
       return { x, y: y - lift(x, s) * weight, glow: 1 + 0.6 * Math.abs(flow) };
     }
     case TERRA_FLOW: {
-      if (flow === 0) return { x: PIPE_TOP[0], y: PIPE_TOP[1], glow: 0 };
-      const travel = (t * 0.32 * flow + a) % 1;
+      const travel = (t * 0.32 * dir + a) % 1;
       const u = travel < 0 ? travel + 1 : travel;
+      const atEnds = u < 0.03 || u > 0.97;
       const [px, py] = pipePoint(u);
       const vertical = u * PIPE_LENGTH <= PIPE_VERTICAL;
       const weight = vertical ? Math.max(0, (PIPE_ELBOW[1] - py) / PIPE_VERTICAL) : 0;
       return {
-        x: px + (vertical ? b : 0),
-        y: py - lift(px, s) * weight + (vertical ? 0 : b),
-        glow: flow > 0 ? 1 : 0.55,
+        x: px + b,
+        y: py - lift(px, s) * weight + b,
+        glow: flow === 0 || atEnds ? 0 : flow > 0 ? 1 : 0.55,
       };
     }
     case TERRA_CAVITY: {
