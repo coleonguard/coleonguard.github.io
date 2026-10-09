@@ -560,6 +560,133 @@ button.text-link {
   color: var(--muted);
 }
 
+/* Opening sequence: first load of a session only */
+
+html.intro-pending .intro__name,
+html.intro-pending .intro__lead,
+html.intro-pending .intro__actions,
+html.intro-pending .cluster-label,
+html.intro-pending .cluster-labels__rule {
+  opacity: 0;
+}
+
+html.intro-pending .cluster-label {
+  transform: translate(-50%, 8px);
+}
+
+html.intro-pending .cluster-labels__rule {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) :is(.intro__name, .intro__lead, .intro__actions) {
+  opacity: 1;
+  transition: opacity 600ms var(--ease);
+}
+
+html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .intro__lead {
+  transition-delay: 150ms;
+}
+
+html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .intro__actions {
+  transition-delay: 1100ms;
+}
+
+html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluster-labels__rule {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 300ms var(--ease) 200ms,
+    transform 900ms var(--ease) 200ms;
+}
+
+html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluster-label {
+  opacity: 1;
+  transform: translateX(-50%);
+  transition:
+    opacity 500ms var(--ease),
+    transform 500ms var(--ease);
+  transition-delay: calc(500ms + var(--i) * 150ms);
+}
+
+.decode {
+  position: relative;
+  display: block;
+}
+
+.decode__ghost {
+  color: transparent;
+}
+
+.decode__shown {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bootlog {
+  position: absolute;
+  z-index: 5;
+  right: var(--gutter);
+  top: calc(var(--nav-height) + clamp(16px, 6vh, 72px) + 8px);
+  width: 240px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  pointer-events: none;
+  animation: bootlog-out 400ms var(--ease) 2900ms forwards;
+}
+
+.bootlog__line {
+  opacity: 0;
+  animation: bootlog-in 120ms steps(2) calc(250ms + var(--line) * 300ms) forwards;
+}
+
+.bootlog__row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.bootlog__dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--line-strong);
+  transform: translateY(-3px);
+}
+
+.bootlog__status {
+  color: var(--silver);
+}
+
+.bootlog__status--redacted {
+  color: var(--danger);
+}
+
+.bootlog__bar {
+  display: inline-block;
+  width: 5.5ch;
+  height: 0.9em;
+  margin-right: 0.6ch;
+  vertical-align: -0.1em;
+  background: var(--white);
+}
+
+@keyframes bootlog-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bootlog-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
 /* Substrate notes, shown beside the intro while a form is hovered */
 
 .substrates--aside {

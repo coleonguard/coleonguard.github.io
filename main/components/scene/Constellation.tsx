@@ -2,23 +2,26 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ChapterId } from "@/content/chapters";
-import type { SceneEngine } from "./engine";
+import type { IntroStage, SceneEngine } from "./engine";
 
 type Props = {
   preview: ChapterId;
   highlighted: ChapterId | null;
   reducedMotion: boolean;
+  intro: boolean;
   onPointerCluster: (id: ChapterId | null) => void;
+  onIntro: (stage: IntroStage) => void;
 };
 
-export function Constellation({ preview, highlighted, reducedMotion, onPointerCluster }: Props) {
+export function Constellation({ preview, highlighted, reducedMotion, intro, onPointerCluster, onIntro }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<SceneEngine | null>(null);
-  const callbacks = useRef({ onPointerCluster });
+  const callbacks = useRef({ onPointerCluster, onIntro });
   const latest = useRef({ preview, highlighted });
+  const introRef = useRef(intro);
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
 
-  callbacks.current = { onPointerCluster };
+  callbacks.current = { onPointerCluster, onIntro };
   latest.current = { preview, highlighted };
 
   useEffect(() => {
@@ -31,8 +34,11 @@ export function Constellation({ preview, highlighted, reducedMotion, onPointerCl
         if (disposed) return;
         const engine = new SceneEngine(container, {
           reducedMotion,
+          intro: introRef.current,
           onPointerCluster: (id) => callbacks.current.onPointerCluster(id),
+          onIntro: (stage) => callbacks.current.onIntro(stage),
         });
+        introRef.current = false;
         engine.setState(latest.current);
         engineRef.current = engine;
         setStatus("ready");

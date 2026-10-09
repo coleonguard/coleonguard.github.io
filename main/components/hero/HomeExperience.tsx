@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { CHAPTERS, CHAPTER_LIST, type ChapterId } from "@/content/chapters";
 import { computeLayout } from "@/lib/layout";
 import { useElementSize } from "@/lib/useElementSize";
@@ -8,11 +8,54 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ChapterLogos } from "@/components/brand/ChapterLogos";
 import { ChapterSelectors } from "@/components/hud/ChapterSelectors";
 import { Constellation } from "@/components/scene/Constellation";
+import type { IntroStage } from "@/components/scene/engine";
+import { BootLog } from "./BootLog";
 import { Intro } from "./Intro";
 import { Substrates } from "./Substrate";
 
+type HeroIntro = "off" | IntroStage;
+
+/** Fallbacks in case the particle engine never starts (no WebGL, slow load) or stalls. */
+const START_TIMEOUT = 4000;
+const STAGE_TIMEOUT = 4500;
+
+function useIntroStage() {
+  const [stage, setStage] = useState<HeroIntro>("off");
+  const [engineStarted, setEngineStarted] = useState(false);
+
+  useEffect(() => {
+    if (document.documentElement.classList.contains("intro-pending")) setStage("name");
+  }, []);
+
+  useEffect(() => {
+    if (stage === "done") {
+      document.documentElement.classList.remove("intro-pending");
+      try {
+        sessionStorage.setItem("intro-seen", "1");
+      } catch {}
+      return;
+    }
+    if (stage === "off") return;
+    const next = stage === "name" ? "forming" : "done";
+    const wait = engineStarted ? STAGE_TIMEOUT : START_TIMEOUT;
+    const timer = window.setTimeout(() => setStage(next), wait);
+    return () => window.clearTimeout(timer);
+  }, [stage, engineStarted]);
+
+  const advance = useCallback((next: IntroStage) => {
+    if (next === "name") {
+      setEngineStarted(true);
+      return;
+    }
+    setStage((current) => (current === "off" || current === "done" ? current : next));
+  }, []);
+
+  return [stage, advance] as const;
+}
+
 export function HomeExperience() {
   const reducedMotion = useReducedMotion();
+  const [introStage, advanceIntro] = useIntroStage();
   const [labelHighlight, setLabelHighlight] = useState<ChapterId | null>(null);
   const [pointerCluster, setPointerCluster] = useState<ChapterId | null>(null);
   const [preview, setPreview] = useState<ChapterId>("robotics");
@@ -26,14 +69,16 @@ export function HomeExperience() {
   const activeChapter = active ? CHAPTERS[active] : null;
 
   return (
-    <section className="hero" aria-label="Introduction">
+    <section className="hero" aria-label="Introduction" data-intro={introStage}>
       <div className="hero__scene" ref={sceneRef}>
         {reducedMotion !== null && (
           <Constellation
             preview={preview}
             highlighted={labelHighlight}
             reducedMotion={reducedMotion}
+            intro={introStage === "name"}
             onPointerCluster={setPointerCluster}
+            onIntro={advanceIntro}
           />
         )}
 
@@ -44,17 +89,20 @@ export function HomeExperience() {
               style={{ top: layout.clusters.robotics.center.y + layout.clusters.robotics.scale + 6 }}
               aria-hidden="true"
             />
-            {CHAPTER_LIST.map((chapter) => {
+            {CHAPTER_LIST.map((chapter, i) => {
               const slot = layout.clusters[chapter.id];
               return (
                 <div
                   key={chapter.id}
                   className="cluster-label"
                   data-highlighted={highlighted === chapter.id ? "true" : "false"}
-                  style={{
-                    left: slot.center.x,
-                    top: slot.center.y + slot.scale + 18,
-                  }}
+                  style={
+                    {
+                      left: slot.center.x,
+                      top: slot.center.y + slot.scale + 18,
+                      "--i": i,
+                    } as CSSProperties
+                  }
                 >
                   <span
                     tabIndex={0}
@@ -75,9 +123,10 @@ export function HomeExperience() {
         )}
       </div>
 
-      <Intro />
+      <Intro decode={introStage === "forming" || introStage === "done"} />
 
-      {layout && !layout.compact && <Substrates active={highlighted} />}
+      {layout && !layout.compact && <Substrates active={introStage === "done" || introStage === "off" ? highlighted : null} />}
+      {layout && !layout.compact && (introStage === "name" || introStage === "forming") && <BootLog />}
 
       <div className="hud">
         <div className="hud__caption" aria-live="polite">

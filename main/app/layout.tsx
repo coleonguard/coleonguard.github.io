@@ -10,6 +10,8 @@ const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600", "
 
 const GA_ID = "G-GREG4LTX4E";
 
+const INTRO_GATE = `try{if(location.pathname==="/"&&!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro-pending")}catch(e){}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.colebjohnson.com"),
   title: "Cole Johnson",
@@ -35,7 +37,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_GATE }} />
+      </head>
       <body>
         <a href="#main" className="skip-link">
           Skip to content

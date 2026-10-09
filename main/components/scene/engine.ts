@@ -13,6 +13,7 @@ import {
   orbiterPoint,
   type ShapeData,
 } from "./shapes";
+import { loadNameFont, sampleNameTargets } from "./nameTargets";
 import { FRAGMENT_SHADER, VERTEX_SHADER } from "./shaders";
 import { echoPoint } from "./echo";
 import { terranovaPoint } from "./terranova";
@@ -24,10 +25,18 @@ export type EngineState = {
   highlighted: ChapterId | null;
 };
 
+export type IntroStage = "name" | "forming" | "done";
+
 export type EngineOptions = {
   reducedMotion: boolean;
+  intro: boolean;
   onPointerCluster: (id: ChapterId | null) => void;
+  onIntro: (stage: IntroStage) => void;
 };
+
+/** Seconds the name holds before it dissolves, and how long the forms take to gather. */
+const NAME_HOLD = 1.5;
+const FORM_DURATION = 1.7;
 
 const SILVER = new THREE.Color("#c9ccd2");
 const FOCUS_SHARE = 0.84;
@@ -74,6 +83,7 @@ export class SceneEngine {
   private readonly alphas: Float32Array;
   private readonly phase: Float32Array;
   private readonly delay: Float32Array;
+  private readonly baseDelay: Float32Array;
   private readonly rank: Uint32Array;
   private readonly ambient: Float32Array;
   private readonly geometry = new THREE.BufferGeometry();
@@ -87,6 +97,9 @@ export class SceneEngine {
   private changeTime = 0;
   private pointer = { x: -9999, y: -9999, active: false };
   private pointerCluster: ChapterId | null = null;
+  private introStage: IntroStage = "done";
+  private formStart = 0;
+  private nameTargets: Float32Array = new Float32Array(0);
   private lastFrame = 0;
   private time = 0;
   private frame = 0;
@@ -124,6 +137,7 @@ export class SceneEngine {
     this.alphas = new Float32Array(this.count);
     this.phase = new Float32Array(this.count * 4);
     this.delay = new Float32Array(this.count);
+    this.baseDelay = new Float32Array(this.count);
     this.ambient = new Float32Array(this.count * 2);
     this.rank = shuffled(this.count, 7);
 
@@ -139,6 +153,18 @@ export class SceneEngine {
       this.ambient[i * 2] = Math.random();
       this.ambient[i * 2 + 1] = Math.random();
       sizes[i] = 1.5 + Math.pow(Math.random(), 3) * 2.4;
+    }
+    this.baseDelay.set(this.delay);
+
+    if (options.intro && !options.reducedMotion) {
+      this.introStage = "name";
+      this.nameTargets = sampleNameTargets(width, height, this.layout.compact);
+      loadNameFont().then(() => {
+        if (this.introStage === "name") {
+          this.nameTargets = sampleNameTargets(this.layout.width, this.layout.height, this.layout.compact);
+        }
+      });
+      options.onIntro("name");
     }
 
     this.geometry.setAttribute("position", new THREE.BufferAttribute(this.positions, 3));
@@ -224,10 +250,29 @@ export class SceneEngine {
     const dt = Math.min((now - this.lastFrame) / 1000, 1 / 20);
     this.lastFrame = now;
     this.time += dt;
+    this.advanceIntro();
     this.step(dt * 60, false);
     this.renderer.render(this.scene, this.camera);
     this.frame = requestAnimationFrame(this.tick);
   };
+
+  private advanceIntro(): void {
+    if (this.introStage === "name" && this.time >= NAME_HOLD) {
+      const { width } = this.layout;
+      for (let i = 0; i < this.count; i++) {
+        const order = this.layout.compact ? 0 : i % CHAPTER_IDS.length;
+        this.delay[i] = (0.5 * this.positions[i * 3]) / width + Math.random() * 0.15 + order * 0.15;
+      }
+      this.introStage = "forming";
+      this.formStart = this.time;
+      this.changeTime = this.time;
+      this.options.onIntro("forming");
+    } else if (this.introStage === "forming" && this.time - this.formStart >= FORM_DURATION) {
+      this.introStage = "done";
+      this.delay.set(this.baseDelay);
+      this.options.onIntro("done");
+    }
+  }
 
   private renderStatic(): void {
     this.changeTime = this.time - 10;
@@ -240,6 +285,7 @@ export class SceneEngine {
     this.layout = computeLayout(width, height);
     this.renderer.setSize(width, height);
     this.updateCamera();
+    if (this.introStage === "name") this.nameTargets = sampleNameTargets(width, height, this.layout.compact);
     if (!this.running) this.renderStatic();
   }
 
@@ -318,7 +364,10 @@ export class SceneEngine {
     const t = this.time;
     const focus = this.displayedFocus();
     const { width, height } = this.layout;
-    const highlighted = this.state.highlighted ?? this.pointerCluster;
+    const intro = this.introStage !== "done";
+    const naming = this.introStage === "name" && this.nameTargets.length > 0;
+    const nameCount = this.nameTargets.length / 2;
+    const highlighted = intro ? null : (this.state.highlighted ?? this.pointerCluster);
     const ease = 1 - Math.pow(0.9, frames);
 
     for (const id of CHAPTER_IDS) {
@@ -329,7 +378,7 @@ export class SceneEngine {
     const sinceChange = t - this.changeTime;
     const px = this.pointer.x;
     const py = this.pointer.y;
-    const pointerOn = this.pointer.active && !snap;
+    const pointerOn = this.pointer.active && !snap && !intro;
     const damping = Math.pow(DAMPING, frames);
     const trackDamping = Math.pow(TRACK_DAMPING, frames);
     const alphaEase = snap ? 1 : 1 - Math.pow(0.85, frames);
@@ -342,7 +391,13 @@ export class SceneEngine {
       let moving = false;
       let hidden = false;
 
-      if (focus) {
+      if (naming) {
+        const n = this.rank[i] % nameCount;
+        tx = this.nameTargets[n * 2] + this.ambient[i * 2] - 0.5;
+        ty = this.nameTargets[n * 2 + 1] + this.ambient[i * 2 + 1] - 0.5;
+        alpha = 0.6;
+        drift = 0.5;
+      } else if (focus) {
         const r = this.rank[i];
         if (r < this.focusCount) {
           const p = this.shapePoint(this.focusShapes[focus], r, this.layout.focus, t);
@@ -443,7 +498,7 @@ export class SceneEngine {
     const y = event.clientY - rect.top;
     const inside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
     this.pointer = { x, y, active: inside && event.pointerType !== "touch" };
-    const cluster = inside ? this.nearestCluster(x, y) : null;
+    const cluster = inside && this.introStage === "done" ? this.nearestCluster(x, y) : null;
     if (cluster !== this.pointerCluster) {
       this.pointerCluster = cluster;
       this.options.onPointerCluster(cluster);
