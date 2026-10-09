@@ -28,6 +28,7 @@ export function ChapterSelectors({ active, onSelect, onHighlight, register }: Pr
           onBlur={() => onHighlight(null)}
         >
           <span className="selectors__index">{chapter.index}</span>
+          <span className="selectors__label">{chapter.label}</span>
           <ChapterLogos chapter={chapter.id} scale={0.72} decorative className="selectors__logos" />
         </button>
       ))}

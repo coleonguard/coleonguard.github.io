@@ -289,6 +289,9 @@ button.text-link {
 .cluster-label__button {
   pointer-events: auto;
   align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 4px 0;
   border: 0;
   background: none;
@@ -311,6 +314,18 @@ button.text-link {
 .cluster-label[data-highlighted="true"] .cluster-label__button {
   opacity: 1;
   color: var(--white);
+}
+
+.cluster-label__logos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cluster-label__logos img {
+  display: block;
+  width: auto;
+  filter: brightness(0) invert(1);
 }
 
 .cluster-label__tip {
@@ -467,14 +482,14 @@ button.text-link {
 
 .selectors {
   display: flex;
-  gap: 12px;
+  gap: 4px;
 }
 
 .selectors__item {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 14px 18px;
+  gap: 8px;
+  align-items: baseline;
+  padding: 10px 14px;
   border: 0;
   border-bottom: 1px solid transparent;
   background: none;
@@ -499,7 +514,7 @@ button.text-link {
 }
 
 .selectors__logos {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 10px;
 }
@@ -725,9 +740,19 @@ button.text-link {
   }
 
   .selectors__item {
+    align-items: center;
+    gap: 12px;
     justify-content: flex-start;
     padding: 14px 4px;
     border-bottom: 1px solid var(--line);
+  }
+
+  .selectors__label {
+    display: none;
+  }
+
+  .selectors__logos {
+    display: flex;
   }
 
   .hero__panel {

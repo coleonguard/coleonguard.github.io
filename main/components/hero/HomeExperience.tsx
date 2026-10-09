@@ -6,6 +6,7 @@ import { computeLayout } from "@/lib/layout";
 import { useChapterState } from "@/lib/useChapterState";
 import { useElementSize } from "@/lib/useElementSize";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { ChapterLogos } from "@/components/brand/ChapterLogos";
 import { ChapterPanel } from "@/components/chapter/ChapterPanel";
 import { ChapterSelectors } from "@/components/hud/ChapterSelectors";
 import { Constellation } from "@/components/scene/Constellation";
@@ -93,6 +94,7 @@ export function HomeExperience() {
                   <button
                     type="button"
                     className="cluster-label__button"
+                    aria-label={`${chapter.index} ${chapter.label}`}
                     aria-describedby={`tip-${chapter.id}`}
                     onClick={() => choose(chapter.id)}
                     onPointerEnter={() => setLabelHighlight(chapter.id)}
@@ -100,7 +102,8 @@ export function HomeExperience() {
                     onFocus={() => setLabelHighlight(chapter.id)}
                     onBlur={() => setLabelHighlight(null)}
                   >
-                    <span className="cluster-label__index">{chapter.index}</span> / {chapter.label}
+                    <span className="cluster-label__index">{chapter.index}</span>
+                    <ChapterLogos chapter={chapter.id} scale={0.75} decorative className="cluster-label__logos" />
                   </button>
                   <span id={`tip-${chapter.id}`} className="cluster-label__tip" role="tooltip">
                     {chapter.tooltip}
