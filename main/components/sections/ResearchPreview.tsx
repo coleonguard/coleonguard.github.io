@@ -1,9 +1,6 @@
-"use client";
-
-import { useState } from "react";
+import { PROFILE } from "@/content/profile";
 import { PUBLICATIONS } from "@/content/research";
 
-const INITIAL_COUNT = 5;
 const HIDDEN_FROM_HOME = new Set(["J1"]);
 
 const GROUP_ORDER = { published: 0, review: 1, presentation: 2 } as const;
@@ -13,9 +10,6 @@ const PAPERS = PUBLICATIONS.filter((p) => p.group !== "presentation" && !HIDDEN_
 );
 
 export function ResearchPreview() {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? PAPERS : PAPERS.slice(0, INITIAL_COUNT);
-
   return (
     <section className="section" aria-labelledby="research-preview">
       <div className="section__head">
@@ -23,15 +17,15 @@ export function ResearchPreview() {
           Research
         </h2>
       </div>
-      <ol className="pub-list" id="publication-list">
-        {visible.map((p) => (
+      <ol className="pub-list">
+        {PAPERS.map((p) => (
           <li key={p.id} className="pub" data-featured={p.featured ? "true" : undefined}>
             <p className="pub__title">{p.title}</p>
             <p className="pub__meta">
               {p.venue} · {p.year}
               {p.note ? ` · ${p.note}` : ""}
             </p>
-            {expanded && p.links.length > 0 && (
+            {p.links.length > 0 && (
               <p className="pub__links">
                 {p.links.map((link) => (
                   <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="text-link">
@@ -43,17 +37,9 @@ export function ResearchPreview() {
           </li>
         ))}
       </ol>
-      {PAPERS.length > INITIAL_COUNT && (
-        <button
-          type="button"
-          className="text-link"
-          aria-expanded={expanded}
-          aria-controls="publication-list"
-          onClick={() => setExpanded((e) => !e)}
-        >
-          {expanded ? "See less" : "See more"}
-        </button>
-      )}
+      <a className="button button--primary section__cta" href={PROFILE.scholar} target="_blank" rel="noreferrer">
+        Google Scholar <span aria-hidden="true">↗</span>
+      </a>
     </section>
   );
 }
