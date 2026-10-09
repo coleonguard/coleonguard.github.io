@@ -18,6 +18,8 @@ export type Chapter = {
   role: string;
   dates: string;
   summary: string;
+  /** One line for the homepage work list; defaults to the first highlight. */
+  blurb?: string;
   highlights: string[];
   links: ChapterLink[];
 };
@@ -75,6 +77,8 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     organization: "Echo",
     role: "Founder & CPO",
     dates: "Aug 2025 – Aug 2026",
+    blurb:
+      "Free premium AI chat for consumers, and research for brands grounded in those real conversations: surveys, asset tests, and voice interviews in minutes.",
     summary:
       "Echo is a two-sided marketplace: consumers get free premium AI chat, and enterprises get research grounded in real consumer conversations. Each side compounds the value of the other.",
     highlights: [
@@ -89,14 +93,14 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     index: "04",
     label: "SpaceX",
     field: "Systems in orbit",
-    caption: "Orbital systems · Software · Next chapter",
+    caption: "Orbital systems · Software · Starshield",
     tooltip: "Planning and connecting systems in orbit.",
     organization: "SpaceX",
-    // TODO(confirm): exact public title, whether to name Starshield, and start date.
-    role: "Incoming Software Engineer",
-    dates: "Upcoming",
+    role: "Software Engineer, Starshield",
+    dates: "Oct 2026 – Present",
+    blurb: "Building software for Starshield, SpaceX’s satellite network for government missions.",
     summary:
-      "My next chapter is at SpaceX, building software for systems in orbit. The constellation shown here is an illustration, not a depiction of any SpaceX system.",
+      "I build software for Starshield, SpaceX’s satellite network for government missions. The constellation shown here is an illustration, not a depiction of any SpaceX system.",
     highlights: [],
     links: [],
   },

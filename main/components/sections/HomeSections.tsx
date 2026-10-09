@@ -42,7 +42,7 @@ export function SelectedWork() {
                     {chapter.role} · {chapter.dates}
                   </span>
                 </span>
-                <span className="work-row__summary">{chapter.highlights[0] ?? chapter.summary}</span>
+                <span className="work-row__summary">{chapter.blurb ?? chapter.highlights[0] ?? chapter.summary}</span>
                 <span className="work-row__arrow" aria-hidden="true">
                   →
                 </span>

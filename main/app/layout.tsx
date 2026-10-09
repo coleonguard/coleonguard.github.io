@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Inter, Instrument_Serif } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import Script from "next/script";
 import { TopNav } from "@/components/hud/TopNav";
 import "./globals.css";
 
-const display = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-display" });
-const body = Inter({ subsets: ["latin"], variable: "--font-body" });
+const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-sans" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
 
 const GA_ID = "G-GREG4LTX4E";
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
   title: "Cole Johnson",
   description:
     "Cole Johnson builds intelligent systems that interact with the physical world: robotics research, company building, and autonomous systems.",
-  keywords: ["robotics", "machine learning", "prosthetics", "control", "Terranova", "Echo", "Cole Johnson"],
+  keywords: ["robotics", "machine learning", "prosthetics", "control", "Terranova", "Echo", "SpaceX", "Cole Johnson"],
   icons: { icon: "/fav.png" },
   openGraph: {
     title: "Cole Johnson",
@@ -35,7 +34,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content
