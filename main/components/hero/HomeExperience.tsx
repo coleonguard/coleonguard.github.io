@@ -92,6 +92,8 @@ export function HomeExperience() {
         </div>
         <ChapterSelectors active={compact ? preview : null} onSelect={setPreview} onHighlight={setLabelHighlight} />
       </div>
+
+      {compact && <Substrates active={preview} variant="inline" />}
     </section>
   );
 }

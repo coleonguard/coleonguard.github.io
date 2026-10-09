@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { PROFILE } from "@/content/profile";
 import { PortfolioLink } from "@/components/brand/PortfolioLink";
+import { ContactLink } from "./ContactLink";
 
 export function TopNav() {
   return (
@@ -12,7 +12,7 @@ export function TopNav() {
         <PortfolioLink placement="below-end">
           Portfolio <span aria-hidden="true">↗</span>
         </PortfolioLink>
-        <a href={`mailto:${PROFILE.email}`}>Contact</a>
+        <ContactLink />
       </nav>
     </header>
   );

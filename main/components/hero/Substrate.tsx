@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { CHAPTER_LIST, type ChapterId, type Phrase } from "@/content/chapters";
+import { Stamp } from "@/components/brand/Stamp";
 
 function PhraseText({ phrase }: { phrase: Phrase }) {
   let bar = 0;
@@ -18,13 +19,18 @@ function PhraseText({ phrase }: { phrase: Phrase }) {
   });
 }
 
-export function Substrates({ active }: { active: ChapterId | null }) {
+type Props = {
+  active: ChapterId | null;
+  variant?: "aside" | "inline";
+};
+
+export function Substrates({ active, variant = "aside" }: Props) {
   return (
-    <div className="substrates">
+    <div className={`substrates substrates--${variant}`}>
       {CHAPTER_LIST.map(({ id, substrate }) => (
         <div
           key={id}
-          id={`substrate-${id}`}
+          id={variant === "aside" ? `substrate-${id}` : undefined}
           className="substrate"
           data-active={active === id ? "true" : "false"}
           aria-hidden={active !== id}
@@ -39,13 +45,7 @@ export function Substrates({ active }: { active: ChapterId | null }) {
           </p>
           {substrate.classified && (
             <>
-              <span className="stamp" aria-hidden="true">
-                <span className="stamp__ink">
-                  <span className="stamp__rule">★ Classified ★</span>
-                  <span className="stamp__word">Top secret</span>
-                  <span className="stamp__rule">Eyes only</span>
-                </span>
-              </span>
+              <Stamp top="★ Classified ★" word="Top secret" bottom="Eyes only" play={active === id} />
               <p className="substrate__footnote">Approved for public release. Declassify on: never.</p>
             </>
           )}
