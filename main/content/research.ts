@@ -27,8 +27,8 @@ export const PUBLICATIONS: Publication[] = [
   {
     id: "J2",
     title:
-      "Real-Time Balancing of Stability and Plasticity in Continual Learning: Application to Speed Estimation for Lower-Limb Prostheses",
-    authors: "Cole Johnson, Jairo Maldonado-Contreras, Aaron J. Young",
+      "Real-Time Balancing of Stability and Plasticity in Continual Learning Enables Adaptive Speed Estimation for Lower-Limb Prostheses",
+    authors: "Cole Johnson, Jairo Maldonado-Contreras, Kinsey R. Herrin, Aaron J. Young",
     venue: "Transactions on Medical Robotics & Bionics",
     year: 2025,
     group: "published",
@@ -37,7 +37,7 @@ export const PUBLICATIONS: Publication[] = [
   {
     id: "C3",
     title:
-      "Dynamic Tube MPC: Learning Error Dynamics with Massively Parallel Simulation for Robust Safety in Practice",
+      "Dynamic Tube MPC: Learning Tube Dynamics with Massively Parallel Simulation for Robust Safety in Practice",
     authors: "William D. Compton, Noel Csomay-Shanklin, Cole Johnson, Aaron D. Ames",
     venue: "International Conference on Robotics and Automation (ICRA)",
     year: 2025,
@@ -51,23 +51,22 @@ export const PUBLICATIONS: Publication[] = [
   {
     id: "C4",
     title:
-      "Transfer Learning for Efficient Walking Speed Estimation Across Novel Prosthetic Devices and Populations",
+      "Transfer Learning for Walking Speed Estimation Across Novel Prosthetic Devices and Populations",
     authors:
-      "Jairo Maldonado-Contreras, Cole Johnson, Ian Knight, Sixu Zhou, Hanjun Kim, Kinsey R. Herrin, Aaron J. Young",
+      "Jairo Maldonado-Contreras, Cole Johnson, Ian Knight, Aarnav Sawant, Sixu Zhou, Hanjun Kim, Kinsey R. Herrin, Aaron J. Young",
     venue: "International Conference on Intelligent Robots and Systems (IROS)",
     year: 2025,
     group: "published",
-    note: "Accepted",
     links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/11246290" }],
   },
   {
     id: "J3",
     title:
-      "Real-time Adaptation of Deep Learning Walking Speed Estimators Enables Biomimetic Assistance Modulation in an Open-Source Bionic Leg",
+      "Real-Time Adaptation of Deep Learning Walking Speed Estimators Enables Biomimetic Assistance Modulation in an Open-Source Bionic Leg",
     authors:
       "Jairo Maldonado-Contreras, Cole Johnson, Sixu Zhou, Hanjun Kim, Ian Knight, Kinsey R. Herrin, Aaron J. Young",
     venue: "Transactions on Medical Robotics & Bionics",
-    year: 2024,
+    year: 2025,
     group: "published",
     links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/10924209" }],
   },
