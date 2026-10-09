@@ -13,7 +13,7 @@ const GA_ID = "G-GREG4LTX4E";
 const INTRO_GATE = `try{if(location.pathname==="/"&&!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro-pending")}catch(e){}`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.colebjohnson.com"),
+  metadataBase: new URL("https://colebjohnson.com"),
   title: "Cole Johnson",
   description:
     "Cole Johnson builds intelligent systems that interact with the physical world: robotics research, company building, and autonomous systems.",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cole Johnson",
     description: "Robotics, intelligence, and systems that act in the world.",
-    url: "https://www.colebjohnson.com",
+    url: "https://colebjohnson.com",
     siteName: "Cole Johnson",
     images: [{ url: "/banner.png" }],
     type: "website",
