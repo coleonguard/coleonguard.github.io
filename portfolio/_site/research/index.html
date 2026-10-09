@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Portfolio &middot; Cole J.</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="public/css/poole.css">
+  <link rel="stylesheet" href="public/css/syntax.css">
+  <link rel="stylesheet" href="public/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://portfolio.colebjohnson.com/public/fav.png">
+                                 <link rel="shortcut icon" href="https://portfolio.colebjohnson.com/public/fav.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="https://www.colebjohnson.com" target="_blank">
+          Cole Johnson
+        </a>
+      </h1>
+      <p class="lead">This is my portfolio. <br>I hope you enjoy!</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="https://www.colebjohnson.com">Home</a>
+      <a class="sidebar-nav-item" href="https://portfolio.colebjohnson.com/research">Research</a>
+      <a class="sidebar-nav-item" href="https://portfolio.colebjohnson.com/experience">Industry & Start-Up</a>
+      <div class="sidebar-nav-item-row">
+        <span>Projects:</span>
+        <a class="sidebar-nav-item" href="https://portfolio.colebjohnson.com/makerprojects">Maker</a>
+        <span class="separator">&middot;</span>
+        <a class="sidebar-nav-item" href="https://portfolio.colebjohnson.com/otherprojects">Non-Maker</a>
+      </div>      
+      <div class="sidebar-nav-item-row">
+        <a class="sidebar-nav-item" href="https://portfolio.colebjohnson.com/education">Education</a>
+        <span class="separator">&middot;</span>
+        <a class="sidebar-nav-item" href="https://www.linkedin.com/in/colebjohnson" target="_blank">LinkedIn</a>
+        <span class="separator">&middot;</span>
+        <a class="sidebar-nav-item" href="https://portfolio.colebjohnson.com/experience/resume.pdf" target="_blank">Resume</a>
+      </div>
+    </nav>
+
+    <p>&copy; 2024. All rights reserved.</p>
+  </div>
+</div>
+<style>
+.sidebar-nav-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Adjust spacing as needed */
+}
+
+.separator {
+  font-size: 1.2em; /* Adjust size as needed */
+  line-height: 1;
+}</style>
+
+
+    <div class="content container">
+      <h1 id="robotics-research">Robotics Research</h1>
+
+<p>I’ve been immensely fortunate to have the academic resources that I have had and most of the projects resulted in publications which I link to below, but some either failed or were explored more out of personal interest – I include both below. All of the overviews are very brief, contact me if you’d like to hear more!</p>
+
+<hr />
+
+<h2 id="proximity--pressure-based-manipulation-controller-ms-thesis">Proximity &amp; Pressure-Based Manipulation Controller (MS Thesis)</h2>
+
+<blockquote>
+  <p>Unlocking humanoid robotic, prosthetic, and exoskeleton controllers for grasping tasks.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: April 2024 - April 2025</li>
+  <li><strong>Description</strong>: Using the below project (The Infinity Gauntlet), I perform data collections with 15 individuals and subsequently train deep learning position and torque controllers for prosthetic manipulators.</li>
+</ul>
+
+<hr />
+
+<h2 id="the-infinity-gauntlet-ms-thesis">The Infinity Gauntlet (MS Thesis)</h2>
+
+<blockquote>
+  <p>Enabling anthropomorphic grasping imitation learning.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: April 2024 - December 2024</li>
+  <li><strong>Description</strong>: Many techniques for manipulators now rely on deep learning methods wherein models learn from examples. Currently, systems are limited to motion tracking and very rudimentary force sensing (these systems cost between $45k and $150k). In order to reduce the barrier to entry and enable imitation learning from human gripping motions (which unlocks prosthetic and exoskeleton applications), I develop a glove sensor suite that contains <em>25 proximity sensors, 35 pressure sensors, full joint tracking (sub-mm accuracy), and 22-channel EMG sensing</em> and additional loadcell-instrumented objects. Additionally, I’ve designed an end-to-end OpenSim pipeline to compute inverse kinematics and joint torque profiles. In sum, the glove allows for complete data collection on how we use our hands when interacting with objects.</li>
+</ul>
+
+<hr />
+
+<h2 id="learning-tube-dynamics-with-massively-parallel-simulation-for-robust-safety-in-practice">Learning Tube Dynamics with Massively Parallel Simulation for Robust Safety in Practice</h2>
+
+<blockquote>
+  <p>“Thou shalt not bump into things.”</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="http://www.bipedalrobotics.com/" target="_blank">AMBER Lab</a>, California Institute of Technology</li>
+  <li><strong>Dates</strong>: April 2024 - August 2024</li>
+  <li><strong>Description</strong>: We used simulations in IsaacSim to collect massive amounts of data on the relation between planning and tracking controllers (i.e. tracking accuracy) in moving robots - demonstrated on quadruped, biped, and hopping robots in simulation. The resulting data was then used to train a neural network. The parameters of this neural network were used in model predictive control (MPC) to plan optimal safety-robust trajectories through environments.</li>
+  <li><strong>Publication</strong>: Submitted to <em>ICRA 2025</em></li>
+  <li><strong>Links</strong>: <a href="https://arxiv.org/abs/2411.15350">Read the paper</a>, <a href="https://github.com/wdc3iii/legged_gym_dev">See the code</a></li>
+</ul>
+
+<hr />
+
+<h2 id="massively-parallelized-reinforcement-learning-for-trajectory-based-controllers">Massively Parallelized Reinforcement Learning for Trajectory-Based Controllers</h2>
+
+<blockquote>
+  <p>30,000 robots flailing on a screen until they start sprinting around complex paths.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="http://www.bipedalrobotics.com/" target="_blank">AMBER Lab</a>, California Institute of Technology</li>
+  <li><strong>Dates</strong>: April 2024 - August 2024</li>
+  <li><strong>Description</strong>: There exist many velocity-based controllers that use simulations to train reinforcement learning models, but none that train trajectory-based controllers. Trajectory-based controllers are much more robust (e.g. no need for extensive PID tuning) both individually and generally as part of a hierarchical pipeline (e.g. MPC planning). Thus, I developed a curriculum training pipeline inside of IsaacSim and demonstrated its efficacy on quadruped, biped, and hopper robots.</li>
+  <li><strong>Links</strong>: <a href="https://portfolio.colebjohnson.com/research/presentation.pdf">Read a very partial report</a>, <a href="https://github.com/wdc3iii/legged_gym_dev">See the code</a></li>
+</ul>
+
+<hr />
+
+<h2 id="real-time-balancing-of-stability-and-plasticity-in-continual-learning-enables-adaptive-speed-estimation-controllers-for-lower-limb-prostheses">Real-Time Balancing of Stability and Plasticity in Continual Learning Enables Adaptive Speed Estimation Controllers for Lower-Limb Prostheses</h2>
+
+<blockquote>
+  <p>“The essence of repression lies simply in turning something away, and keeping it at a distance, from the conscious.”<br />
+— <em>Freud, 1915, p. 147</em></p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: August 2023 - June 2024</li>
+  <li><strong>Description</strong>: This project is generalized entirely to any continual learning system, and just finds apt use in the control systems of transfemoral prostheses, which is what I apply it to. In continual learning systems, there is a persistent issue of the stability (ability to retain generalizations from old data) and the plasticity (ability to learn from new data) of a network. Until now, there were only mitigation techniques on each side of this dynamic proposed. I developed a system that functionally controls the balance between stability and plasticity in real-time and dynamically modifies that balance based on error-wise optimization.</li>
+  <li><strong>Award</strong>: Presidential Undergraduate Research Award 2024</li>
+  <li><strong>Publication</strong>: Submitted to <em>Transactions on Medical Robotics &amp; Bionics</em></li>
+  <li><strong>Links</strong>: <a href="https://portfolio.colebjohnson.com/research/stabilityplasticity.pdf">Read the paper</a></li>
+</ul>
+
+<hr />
+
+<h2 id="real-time-adaptation-of-deep-learning-walking-speed-estimators-enables-biomimetic-assistance-modulation-in-an-open-source-bionic-leg">Real-time Adaptation of Deep Learning Walking Speed Estimators Enables Biomimetic Assistance Modulation in an Open-Source Bionic Leg</h2>
+
+<blockquote>
+  <p>Prosthetics learning to walk with users in real-time.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: May 2022 - January 2024</li>
+  <li><strong>Description</strong>: This project is the real-time implementation and experimental evaluation of the previous system for prosthetic adaptation. We train deep learning subject-independent speed estimator models and iteratively fine-tune them through walking trials with transfemoral amputee subjects.</li>
+  <li><strong>Publication</strong>: Accepted to <em>Transactions on Medical Robotics &amp; Bionics</em></li>
+  <li><strong>Links</strong>: <a href="https://portfolio.colebjohnson.com/research/adaptation.pdf">Read the paper</a>, <a href="https://github.gatech.edu/epicprosthetics/ALTAIR">See the code</a></li>
+</ul>
+
+<hr />
+
+<h2 id="transfer-learning-for-efficient-walking-speed-estimation-across-novel-prosthetic-devices-and-populations">Transfer Learning for Efficient Walking Speed Estimation Across Novel Prosthetic Devices and Populations</h2>
+
+<blockquote>
+  <p>Optimizing prosthetic performance by transferring learned knowledge across devices.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: January 2023 – July 2023</li>
+  <li><strong>Description</strong>: It’s become clear that deep learning controllers are the best for speed estimation in transfemoral prosthetics. But experimentally collecting sufficient data for the models to be highly performant is very costly. Thus, we wish to avoid repeatedly doing this for all different prosthetics. In this method, we enable foundational models to be trained with large amounts of data and the resulting controllers to be effectively transferred between devices.</li>
+  <li><strong>Publication</strong>: Submitted to <em>ICRA 2025</em></li>
+  <li><strong>Links</strong>: <a href="https://portfolio.colebjohnson.com/research/transfer.pdf">Read the paper</a></li>
+</ul>
+
+<hr />
+
+<h2 id="accelerating-constrained-continual-learning-with-dynamic-active-learning-a-study-in-adaptive-speed-estimation-for-lower-limb-prostheses">Accelerating Constrained Continual Learning with Dynamic Active Learning: A Study in Adaptive Speed Estimation for Lower-Limb Prostheses</h2>
+
+<blockquote>
+  <p>Optimizing the process of real-time prosthetic adaptation to users.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: May 2023 - December 2023</li>
+  <li><strong>Description</strong>: Upon testing the adaptive pipeline which enables transfemoral prosthetics to learn users walking patterns in real-time (i.e. fine-tuning a subject-independent predictive model) using Temporal Convolutional Neural Networks (TCNs), we realized that the networks could not fine-tune fast enough. Thus, I used active learning methods (similar to query an oracle method) to select the most error-impactful datapoints to adapt on, thus speeding up the process.</li>
+  <li><strong>Publication</strong>: Published &amp; Presented at <em>ISMR 2024</em></li>
+  <li><strong>Links</strong>: <a href="https://ieeexplore.ieee.org/document/10585934">Read the paper</a>, <a href="https://github.gatech.edu/epicprosthetics/pyLIRA">See the code</a></li>
+</ul>
+
+<hr />
+
+<h2 id="adaptive-lower-limb-prosthetic-control-towards-personalized-intent-recognition--context-estimation">Adaptive Lower-Limb Prosthetic Control: Towards Personalized Intent Recognition &amp; Context Estimation</h2>
+
+<blockquote>
+  <p>Personalizing prosthetic control for safer and more natural walking patterns.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: December 2022 - May 2023</li>
+  <li><strong>Description</strong>: This was a pilot project that looked at the offline results of a pipeline that I wrote to compare different learning-based approaches for intent recognition (walking mode) and context estimation (speed &amp;slope) as well as enable real-time fine-tuning of the models based on the user’s current walking patterns.</li>
+  <li><strong>Publication</strong>: Published &amp; Presented at <em>ISMR 2023</em></li>
+  <li><strong>Links</strong>: <a href="https://ieeexplore.ieee.org/document/10130251">Read the paper</a>, <a href="https://github.gatech.edu/epicprosthetics/pyLIRA">See the code</a></li>
+</ul>
+
+<hr />
+
+<h2 id="generative-networks-for-biomechanical-data-synthesis-to-augment-deep-learning-datasets">Generative Networks for Biomechanical Data Synthesis to Augment Deep Learning Datasets</h2>
+
+<blockquote>
+  <p>Enhancing prosthetic control with synthetic data to reduce the cost of real-world experimentation.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: <a href="https://www.epic.gatech.edu/" target="_blank">EPIC Lab</a>, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: February 2022 - June 2022</li>
+  <li><strong>Description</strong>: Biomechanical data is very expensive to attain both in cost of experimentation and post-processing and deep learning-based controllers, as the lab generally uses for intent recognition and context estimation in prosthetic controllers require very large datasets. Thus, I explored the use of Generative Adversarial Networks (GANs) and Variational Autoencoder Networks (VAEs) to synthetically produce novel biomechanical data based on real experimental data.</li>
+  <li><strong>Award</strong>: Presidential Undergraduate Research Award 2022</li>
+  <li><strong>Links</strong>: <a href="https://portfolio.colebjohnson.com/research/gans.pdf">Read a Short Report</a></li>
+</ul>
+
+<hr />
+
+<h2 id="artificial-potential-fields-for-human-in-the-loop-exoskeleton-controllers">Artificial Potential Fields for Human-in-the-Loop Exoskeleton Controllers</h2>
+
+<blockquote>
+  <p>Guiding human movement with intuitive, resistance-based control for exoskeletons.</p>
+</blockquote>
+
+<ul>
+  <li><strong>Institution</strong>: DART Labs, Georgia Institute of Technology</li>
+  <li><strong>Dates</strong>: April 2021 - February 2022</li>
+  <li><strong>Description</strong>: This project attempted to use Artificial Potential Fields (APFs) to guide exoskeleton users through obstacle-dense environments by increasing biomechanical resistence to deviation from intended paths. I used Unity for simulation development, C# for algorithm implementation, and Python/C for hardware integration.</li>
+</ul>
+
+    </div>
+
+  </body>
+</html>
