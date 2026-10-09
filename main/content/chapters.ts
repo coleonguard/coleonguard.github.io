@@ -102,7 +102,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     substrate: {
       through: ["the social fabric."],
       text: [
-        "People make sense of the world in conversation. Echo works at that layer, turning real conversations into an understanding of people that brands can act on.",
+        "People make sense of the world in conversation. Echo learns from hundreds of millions of them to predict how society will move, and turns that into foresight organizations can buy.",
       ],
     },
     organization: "Echo",
