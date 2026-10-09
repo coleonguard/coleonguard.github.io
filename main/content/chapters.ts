@@ -5,7 +5,6 @@ export type ChapterId = (typeof CHAPTER_IDS)[number];
 export type ChapterLink = {
   label: string;
   href: string;
-  external?: boolean;
 };
 
 export type Chapter = {
@@ -44,8 +43,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
       "Founded an EPIC Lab subgroup on imitation learning from human grasping for upper-limb control. Task-agnostic prosthetic hand control is in review at Science Robotics.",
     ],
     links: [
-      { label: "Research", href: "/research" },
-      { label: "Research portfolio", href: `${PORTFOLIO_URL}/research`, external: true },
+      { label: "Research portfolio", href: `${PORTFOLIO_URL}/research` },
     ],
   },
   terranova: {
@@ -65,7 +63,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
       "Developed self-learning topographic and fluid-structure models for predicting site suitability and planning injection campaigns.",
       "Raised $9.6M during my tenure, and hired and led 10+ engineers across robotics, ML, and field deployment.",
     ],
-    links: [{ label: "Experience", href: `${PORTFOLIO_URL}/experience`, external: true }],
+    links: [{ label: "Experience", href: `${PORTFOLIO_URL}/experience` }],
   },
   echo: {
     id: "echo",
@@ -84,12 +82,12 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
       "Retained all 34 customers, including 8 Fortune 500 brands and a U.S. presidential primary campaign, with zero churn. 85K active consumer users.",
       "Architected the ML core: LLM pipelines that distill intent and sentiment from 100M+ labeled human-feedback data points into surveys, asset tests, and voice interviews delivered in minutes, not weeks.",
     ],
-    links: [{ label: "About", href: "/about" }],
+    links: [],
   },
   space: {
     id: "space",
     index: "04",
-    label: "Space",
+    label: "SpaceX",
     field: "Systems in orbit",
     caption: "Orbital systems · Software · Next chapter",
     tooltip: "Planning and connecting systems in orbit.",
@@ -100,7 +98,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     summary:
       "My next chapter is at SpaceX, building software for systems in orbit. The constellation shown here is an illustration, not a depiction of any SpaceX system.",
     highlights: [],
-    links: [{ label: "About", href: "/about" }],
+    links: [],
   },
 };
 

@@ -258,6 +258,13 @@ p {
   transition: border-color 160ms var(--ease);
 }
 
+button.text-link {
+  padding: 0 0 2px;
+  border-width: 0 0 1px;
+  background: none;
+  cursor: pointer;
+}
+
 .text-link:hover {
   border-color: var(--accent);
 }
@@ -597,12 +604,6 @@ p {
   max-width: 820px;
 }
 
-.pub__authors {
-  margin-top: 6px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
 .pub__meta {
   margin-top: 6px;
   font-size: 13px;
@@ -619,111 +620,6 @@ p {
   margin-top: 10px;
 }
 
-/* Content pages */
-
-.page {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: calc(var(--nav-height) + 72px) var(--gutter) 0;
-}
-
-.page__head {
-  max-width: 720px;
-  margin-bottom: 64px;
-}
-
-.page__title {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(44px, 5vw, 72px);
-  line-height: 1;
-}
-
-.page__lead {
-  margin-top: 24px;
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--silver);
-}
-
-.page__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 32px;
-}
-
-.page__section {
-  margin-bottom: 64px;
-}
-
-.page__section-title {
-  margin-bottom: 20px;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.page__columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-}
-
-.timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
-
-.timeline__item {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 24px;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.timeline__dates {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--muted);
-  padding-top: 3px;
-}
-
-.timeline__org {
-  font-size: 17px;
-}
-
-.timeline__role {
-  font-size: 14px;
-  color: var(--accent);
-}
-
-.timeline__detail {
-  margin-top: 6px;
-  font-size: 14px;
-  color: var(--silver);
-}
-
-.plain-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--line);
-}
-
-.plain-list li {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
-  color: var(--silver);
-}
-
 /* Compact layout: the same four chapters become tappable scenes in normal page flow. */
 
 @media (max-width: 899px) {
@@ -733,10 +629,6 @@ p {
 
   .topnav__links {
     gap: 16px;
-  }
-
-  .topnav__links a:nth-child(n + 4) {
-    display: none;
   }
 
   .hero {
@@ -809,14 +701,8 @@ p {
     padding-top: 80px;
   }
 
-  .work-grid,
-  .page__columns {
+  .work-grid {
     grid-template-columns: 1fr;
-  }
-
-  .timeline__item {
-    grid-template-columns: 1fr;
-    gap: 4px;
   }
 }
 

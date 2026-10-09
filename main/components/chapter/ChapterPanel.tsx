@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { forwardRef } from "react";
 import type { Chapter } from "@/content/chapters";
 
@@ -35,19 +34,15 @@ export const ChapterPanel = forwardRef<HTMLHeadingElement, Props>(function Chapt
           ))}
         </ul>
       )}
-      <div className="panel__links">
-        {chapter.links.map((link) =>
-          link.external ? (
+      {chapter.links.length > 0 && (
+        <div className="panel__links">
+          {chapter.links.map((link) => (
             <a key={link.href} href={link.href} target="_blank" rel="noreferrer" className="text-link">
               {link.label} <span aria-hidden="true">↗</span>
             </a>
-          ) : (
-            <Link key={link.href} href={link.href} className="text-link">
-              {link.label} <span aria-hidden="true">→</span>
-            </Link>
-          ),
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </article>
   );
 });

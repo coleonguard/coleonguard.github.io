@@ -159,9 +159,3 @@ export const PUBLICATIONS: Publication[] = [
     links: [{ label: "Slides", href: `${PORTFOLIO_RESEARCH}/presentation.pdf` }],
   },
 ];
-
-export const PUBLICATION_GROUPS: { id: PublicationGroup; title: string }[] = [
-  { id: "published", title: "Published & accepted" },
-  { id: "review", title: "In review & submitted" },
-  { id: "presentation", title: "Presentations & posters" },
-];
