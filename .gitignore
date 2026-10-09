@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+portfolio/_site/
+portfolio/.jekyll-cache/
+portfolio/.sass-cache/
