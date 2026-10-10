@@ -111,6 +111,7 @@ p {
 }
 
 .topnav a {
+  white-space: nowrap;
   pointer-events: auto;
   text-decoration: none;
   color: var(--silver);
@@ -1458,6 +1459,20 @@ html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluste
 
   .topnav__links {
     gap: 16px;
+  }
+
+  @media (max-width: 420px) {
+    .topnav {
+      letter-spacing: 0.08em;
+    }
+
+    .topnav__links {
+      gap: 12px;
+    }
+
+    .topnav__arrow {
+      display: none;
+    }
   }
 
   .hero {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PortfolioLink } from "@/components/brand/PortfolioLink";
+import { PROFILE } from "@/content/profile";
 import { ContactLink } from "./ContactLink";
 
 export function TopNav() {
@@ -10,9 +11,18 @@ export function TopNav() {
       </Link>
       <nav aria-label="Primary" className="topnav__links">
         <PortfolioLink placement="below-end">
-          Portfolio <span aria-hidden="true">↗</span>
+          Portfolio{" "}
+          <span className="topnav__arrow" aria-hidden="true">
+            ↗
+          </span>
         </PortfolioLink>
         <ContactLink />
+        <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
+          LinkedIn{" "}
+          <span className="topnav__arrow" aria-hidden="true">
+            ↗
+          </span>
+        </a>
       </nav>
     </header>
   );
