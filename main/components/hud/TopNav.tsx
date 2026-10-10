@@ -16,13 +16,13 @@ export function TopNav() {
             ↗
           </span>
         </PortfolioLink>
-        <ContactLink />
         <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
           LinkedIn{" "}
           <span className="topnav__arrow" aria-hidden="true">
             ↗
           </span>
         </a>
+        <ContactLink />
       </nav>
     </header>
   );
