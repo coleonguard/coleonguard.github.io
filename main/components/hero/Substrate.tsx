@@ -45,10 +45,18 @@ export function Substrates({ active, variant = "aside", declassified = false, on
           {substrate.classified && (
             <>
               {declassified ? (
-                <Stamp key="declassified" top="★ Cleared ★" word="Declassified" bottom="Never gonna" play={active === id} />
+                <Stamp
+                  key="declassified"
+                  className="stamp--quiet"
+                  top="★ Cleared ★"
+                  word="Declassified"
+                  bottom="Never gonna"
+                  play={active === id}
+                />
               ) : (
                 <Stamp
                   key="classified"
+                  className="stamp--quiet"
                   top="★ Classified ★"
                   word="Top secret"
                   bottom="Eyes only"

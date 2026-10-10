@@ -726,7 +726,7 @@ html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluste
 }
 
 .substrates--inline .substrate[data-classified="true"] {
-  padding-bottom: 96px;
+  padding-bottom: 56px;
 }
 
 .substrates--inline .stamp {
@@ -848,7 +848,7 @@ html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluste
   right: 18px;
   top: calc(100% - 8px);
   opacity: 0;
-  transform: rotate(-11deg);
+  transform: rotate(var(--stamp-tilt, -11deg));
 }
 
 .stamp::after {
@@ -909,21 +909,63 @@ html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluste
 @keyframes stamp-slam {
   0% {
     opacity: 0;
-    transform: rotate(-24deg) scale(2.6);
+    transform: rotate(calc(var(--stamp-tilt, -11deg) * 2.2)) scale(var(--stamp-from, 2.6));
     filter: blur(3px);
   }
   38% {
     opacity: 1;
-    transform: rotate(-9deg) scale(0.92);
+    transform: rotate(calc(var(--stamp-tilt, -11deg) * 0.8)) scale(0.92);
     filter: none;
   }
   60% {
-    transform: rotate(-12deg) scale(1.04);
+    transform: rotate(calc(var(--stamp-tilt, -11deg) * 1.1)) scale(1.04);
   }
   100% {
-    opacity: 0.92;
-    transform: rotate(-11deg) scale(1);
+    opacity: var(--stamp-rest, 0.92);
+    transform: rotate(var(--stamp-tilt, -11deg)) scale(1);
   }
+}
+
+.stamp--quiet {
+  --stamp-tilt: -5deg;
+  --stamp-from: 1.8;
+  --stamp-rest: 0.75;
+  --stamp-ink: color-mix(in srgb, var(--danger) 75%, transparent);
+  top: calc(100% - 2px);
+  right: 8px;
+}
+
+.stamp--quiet::after {
+  inset: -4px;
+  border-width: 1px;
+  border-color: var(--stamp-ink);
+  border-radius: 5px;
+}
+
+.stamp--quiet .stamp__ink {
+  gap: 2px;
+  padding: 4px 8px 3px;
+  border: 1px solid var(--stamp-ink);
+  border-radius: 3px;
+  box-shadow: none;
+  background: none;
+  color: var(--stamp-ink);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.stamp--quiet .stamp__rule {
+  font-size: 6.5px;
+  letter-spacing: 0.28em;
+  margin-right: -0.28em;
+}
+
+.stamp--quiet .stamp__word {
+  padding: 2px 0 1px;
+  border-block-color: var(--stamp-ink);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  margin-right: -0.12em;
 }
 
 @keyframes stamp-ring {
