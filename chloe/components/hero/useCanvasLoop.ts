@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 
 export type Rgb = [number, number, number];
 export type Point = [number, number];
@@ -9,6 +9,7 @@ export type Palette = { ink: Rgb; muted: Rgb; faint: Rgb; accent: Rgb };
 export type Frame = {
   t: number;
   dt: number;
+  still: boolean;
   pointer: Point | null;
   palette: Palette;
   width: number;
@@ -16,6 +17,7 @@ export type Frame = {
 };
 
 export type Draw = (ctx: CanvasRenderingContext2D, frame: Frame) => void;
+
 
 export function rgba([r, g, b]: Rgb, alpha: number) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
@@ -53,7 +55,7 @@ function readPalette(el: HTMLElement): Palette {
   return { ink: read("--ink"), muted: read("--muted"), faint: read("--faint"), accent: read("--accent") };
 }
 
-export function useCanvasLoop(draw: Draw, width: number, height: number, restingTime = 0) {
+export function useCanvasLoop(draw: Draw, pointerTarget: RefObject<HTMLElement | null>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawRef = useRef(draw);
 
@@ -67,23 +69,28 @@ export function useCanvasLoop(draw: Draw, width: number, height: number, resting
     if (!canvas || !ctx) return;
 
     const palette = readPalette(canvas);
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const listener = pointerTarget.current ?? canvas;
+    let width = canvas.clientWidth;
+    let height = canvas.clientHeight;
     let pointer: Point | null = null;
     let time = 0;
     let last = 0;
     let frame = 0;
     let visible = true;
 
-    const render = (dt: number) =>
-      drawRef.current(ctx, { t: reduced ? restingTime : time, dt, pointer: reduced ? null : pointer, palette, width, height });
+    const render = (dt: number) => {
+      ctx.clearRect(0, 0, width, height);
+      drawRef.current(ctx, { t: time, dt, still, pointer: still ? null : pointer, palette, width, height });
+    };
 
     const resize = () => {
-      const cssWidth = canvas.clientWidth;
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.round(cssWidth * dpr);
-      canvas.height = Math.round(cssWidth * (height / width) * dpr);
-      const scale = (cssWidth / width) * dpr;
-      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       render(0);
     };
 
@@ -91,13 +98,12 @@ export function useCanvasLoop(draw: Draw, width: number, height: number, resting
       const dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
       last = now;
       time += dt;
-      ctx.clearRect(0, 0, width, height);
       render(dt);
       frame = requestAnimationFrame(tick);
     };
 
     const start = () => {
-      if (reduced || frame || !visible || document.hidden) return;
+      if (still || frame || !visible || document.hidden) return;
       last = 0;
       frame = requestAnimationFrame(tick);
     };
@@ -115,10 +121,10 @@ export function useCanvasLoop(draw: Draw, width: number, height: number, resting
       pointer = null;
     };
 
-    canvas.addEventListener("pointermove", onPointer);
-    canvas.addEventListener("pointerdown", onPointer);
-    canvas.addEventListener("pointerleave", onLeave);
-    canvas.addEventListener("pointercancel", onLeave);
+    listener.addEventListener("pointermove", onPointer);
+    listener.addEventListener("pointerdown", onPointer);
+    listener.addEventListener("pointerleave", onLeave);
+    listener.addEventListener("pointercancel", onLeave);
 
     const sizes = new ResizeObserver(resize);
     sizes.observe(canvas);
@@ -141,12 +147,12 @@ export function useCanvasLoop(draw: Draw, width: number, height: number, resting
       sizes.disconnect();
       viewport.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
-      canvas.removeEventListener("pointermove", onPointer);
-      canvas.removeEventListener("pointerdown", onPointer);
-      canvas.removeEventListener("pointerleave", onLeave);
-      canvas.removeEventListener("pointercancel", onLeave);
+      listener.removeEventListener("pointermove", onPointer);
+      listener.removeEventListener("pointerdown", onPointer);
+      listener.removeEventListener("pointerleave", onLeave);
+      listener.removeEventListener("pointercancel", onLeave);
     };
-  }, [width, height, restingTime]);
+  }, [pointerTarget]);
 
   return canvasRef;
 }

@@ -1,4 +1,4 @@
-import { CrystalSeed } from "@/components/hero/CrystalSeed";
+import { PldStage } from "@/components/hero/PldStage";
 import { BEYOND, EDUCATION, EXPERIENCE, HONORS, PUBLICATIONS, SITE, type Entry } from "@/content/site";
 
 function EntryList({ entries }: { entries: Entry[] }) {
@@ -32,24 +32,26 @@ export default function Home() {
       </nav>
 
       <main id="main">
-        <header className="hero">
-          <div className="hero__text">
-            <p className="eyebrow">{SITE.role}</p>
-            <h1 className="hero__title">{SITE.name}</h1>
-            <p className="hero__intro">{SITE.intro}</p>
-            <div className="hero__actions">
-              <a className="button button--primary" href="#research">
-                Read the research
-              </a>
-              <a className="button button--quiet" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
-                LinkedIn ↗
-              </a>
+        <PldStage>
+          <header className="hero">
+            <div className="hero__text">
+              <p className="eyebrow">{SITE.role}</p>
+              <h1 className="hero__title">{SITE.name}</h1>
+              <p className="hero__intro">{SITE.intro}</p>
+              <div className="hero__actions">
+                <a className="button button--primary" href="#research">
+                  Read the research
+                </a>
+                <a className="button button--quiet" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
+                  LinkedIn ↗
+                </a>
+              </div>
             </div>
-          </div>
-          <div className="hero__figure">
-            <CrystalSeed />
-          </div>
-        </header>
+            <div className="hero__figure">
+              <div className="hero__slot" data-pld-target />
+            </div>
+          </header>
+        </PldStage>
 
         <section id="research" className="section">
           <div className="section__head">
