@@ -1,4 +1,4 @@
-import { Lattice } from "@/components/Lattice";
+import { FabCycle } from "@/components/FabCycle";
 import { BEYOND, EDUCATION, EXPERIENCE, HONORS, PUBLICATIONS, SITE, type Entry } from "@/content/site";
 
 function EntryList({ entries }: { entries: Entry[] }) {
@@ -47,7 +47,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hero__figure">
-            <Lattice />
+            <FabCycle />
           </div>
         </header>
 

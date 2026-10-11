@@ -207,41 +207,36 @@ ul {
   justify-content: center;
 }
 
-.lattice {
+.fab {
   width: 100%;
   max-width: 460px;
-  height: auto;
+  margin: 0;
 }
 
-.lattice__amorphous {
-  fill: var(--faint);
-  opacity: 0.55;
+.fab__canvas {
+  display: block;
+  width: 100%;
 }
 
-.lattice__crystal {
-  fill: var(--accent);
-  animation: crystallize 700ms var(--ease) both;
+.fab__steps {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 12px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
 
-@keyframes crystallize {
-  from {
-    opacity: 0;
-    transform: scale(0.4);
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-    transform-box: fill-box;
-    transform-origin: center;
-  }
+.fab__step {
+  transition: color 300ms var(--ease);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .lattice__crystal {
-    animation: none;
-  }
+.fab__step--active {
+  color: var(--ink);
 }
 
 /* Sections */
@@ -484,7 +479,7 @@ ul {
     justify-content: flex-start;
   }
 
-  .lattice {
+  .fab {
     max-width: 340px;
   }
 
