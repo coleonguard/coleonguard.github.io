@@ -207,36 +207,11 @@ ul {
   justify-content: center;
 }
 
-.fab {
-  width: 100%;
-  max-width: 460px;
-  margin: 0;
-}
-
-.fab__canvas {
+.hero-canvas {
   display: block;
   width: 100%;
-}
-
-.fab__steps {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  margin-top: 12px;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-.fab__step {
-  transition: color 300ms var(--ease);
-}
-
-.fab__step--active {
-  color: var(--ink);
+  max-width: 460px;
+  touch-action: pan-y;
 }
 
 /* Sections */
@@ -479,8 +454,8 @@ ul {
     justify-content: flex-start;
   }
 
-  .fab {
-    max-width: 340px;
+  .hero-canvas {
+    max-width: 380px;
   }
 
   .section {
