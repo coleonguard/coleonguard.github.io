@@ -38,7 +38,7 @@ export const SITE = {
   // Phrases from `story` shown in the accent color; each must match the text exactly.
   storyHighlights: ["WTA tour at 15", "experimental quantum materials", "PhD in Materials Science at USC"],
   // Path under public/, e.g. "/chloe.jpg". Until then a placeholder silhouette is drawn.
-  portrait: null as string | null,
+  portrait: "/chloe.jpg" as string | null,
   description:
     "Chloe Isabella Tsang is a Materials Science PhD student at the University of Southern California, working on thin films, crystallization, and nanoscale devices.",
   linkedin: "https://www.linkedin.com/in/chloeisabellatsang",
