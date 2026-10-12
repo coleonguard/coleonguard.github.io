@@ -260,6 +260,18 @@ ul {
   gap: 56px;
 }
 
+/* Story */
+
+.story__text {
+  max-width: 760px;
+  padding-left: 24px;
+  border-left: 2px solid var(--accent);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text);
+}
+
 /* Publications */
 
 .pub-list {
@@ -479,6 +491,10 @@ ul {
   .section--split {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .story__text {
+    padding-left: 18px;
   }
 
   .section--split > div + div {

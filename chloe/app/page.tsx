@@ -53,6 +53,13 @@ export default function Home() {
           </header>
         </PldStage>
 
+        <section id="story" className="section story">
+          <div className="section__head">
+            <p className="eyebrow">Background</p>
+          </div>
+          <p className="story__text">{SITE.story}</p>
+        </section>
+
         <section id="research" className="section">
           <div className="section__head">
             <p className="eyebrow">Research</p>
