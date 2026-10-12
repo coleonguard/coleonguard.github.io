@@ -33,6 +33,10 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+main {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -314,6 +318,8 @@ ul {
 /* Portrait */
 
 .portrait {
+  --reach: 80px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,9 +332,12 @@ ul {
 }
 
 .portrait__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: calc(var(--reach) * -1);
+  left: calc(50% - 50vw);
+  width: 100vw;
+  height: calc(100% + var(--reach));
+  pointer-events: none;
 }
 
 /* Publications */

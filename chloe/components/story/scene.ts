@@ -1,4 +1,5 @@
 import { drawBall } from "@/components/canvas/ball";
+import { handoff } from "@/components/canvas/handoff";
 import { clamp01, mix, rgba, seeded, smooth, type Palette, type Point, type Rgb } from "@/components/canvas/useCanvasLoop";
 
 export type Rect = { left: number; top: number; right: number; bottom: number };
@@ -121,7 +122,14 @@ export function createStoryScene() {
 
   return function drawScene(ctx: CanvasRenderingContext2D, input: SceneInput) {
     const { progress, beats, width, height, text, palette, t } = input;
-    if (!layout || layout.key !== layoutKey(width, height, text)) layout = buildLayout(width, height, text);
+    const inText = (x: number, y: number) =>
+      x > text.left - 16 && x < text.right + 16 && y > text.top - 16 && y < text.bottom + 16;
+    const veil = (x: number, y: number) => (inText(x, y) ? 0.15 : 1);
+    if (!layout || layout.key !== layoutKey(width, height, text)) {
+      layout = buildLayout(width, height, text);
+      handoff.film = layout.film.map(([x, y]) => [x, height - y]);
+      handoff.filmAlpha = layout.film.map(([x, y]) => veil(x, y) * 0.85);
+    }
 
     const [zoomStart, latticeStart, filmStart, revealEnd] = beats;
     const box = marginBox(width, height, text);
@@ -129,10 +137,6 @@ export function createStoryScene() {
     const bigRadius = Math.max(56, Math.min((box.right - box.left) * 0.42, height * 0.2, 130));
     const floor = height - 28;
     const hop = Math.min(220, height * 0.3);
-
-    const inText = (x: number, y: number) =>
-      x > text.left - 16 && x < text.right + 16 && y > text.top - 16 && y < text.bottom + 16;
-    const veil = (x: number, y: number) => (inText(x, y) ? 0.15 : 1);
 
     // Tennis: the ball bounces in along the floor and ends at the top of a hop in the margin.
     const serve = span(progress, 0, zoomStart);
@@ -144,7 +148,9 @@ export function createStoryScene() {
     const order = span(progress, latticeStart, filmStart);
     const settle = span(progress, filmStart, Math.min(1, revealEnd + 0.08));
 
-    if (progress > 0 && zoom === 0) {
+    if (progress <= 0) return;
+
+    if (progress < zoomStart) {
       ctx.fillStyle = rgba(palette.faint, 0.5 * Math.min(1, serve * 4));
       for (let x = 12; x < width; x += 12) {
         if (!inText(x, floor)) ctx.fillRect(x, floor, 1.5, 1.5);
@@ -225,7 +231,7 @@ export function createStoryScene() {
       const base: Rgb = layout.seam[i] ? [255, 255, 255] : palette.ball;
       const color = mix(mix(base, palette.accent, tint), palette.accent, toLattice);
       const lit = 1 + flash * 0.8 * (1 - layout.delays[i]);
-      const alpha = dotsIn * veil(x, y) * Math.min(1, 0.85 * lit);
+      const alpha = dotsIn * veil(x, y) * Math.min(1, 0.85 * lit) * (1 - handoff.lift * toFilm);
       if (alpha <= 0.01) continue;
       ctx.fillStyle = rgba(color, alpha);
       ctx.beginPath();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { handoff } from "@/components/canvas/handoff";
 import { clamp01, rgba, seeded, smooth, useCanvasLoop, type Draw, type Point } from "@/components/canvas/useCanvasLoop";
 
 type Dot = { home: Point; from: Point; radius: number; delay: number };
@@ -17,6 +18,8 @@ const LEVEL_CLIP = 0.04;
 const PHOTO_GAMMA = 2;
 const BLUR = 4;
 const SHARPEN = 1.8;
+const LIFT_SPAN = 0.15;
+const FILM_RADIUS = 1.9;
 
 function drawPlaceholder(ctx: CanvasRenderingContext2D, size: number) {
   ctx.fillStyle = "#fff";
@@ -125,6 +128,7 @@ function sampleDots(source: CanvasRenderingContext2D, size: number, photo: boole
 }
 
 export function Portrait({ src, alt }: { src: string | null; alt: string }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<Dot[]>([]);
   const sizeRef = useRef(0);
@@ -132,34 +136,58 @@ export function Portrait({ src, alt }: { src: string | null; alt: string }) {
 
   const [draw] = useState(() => {
     let hover = 0;
-    const render: Draw = (ctx, { dt, still, pointer, palette, width, height }) => {
-      const size = Math.min(width, height);
-      if (!size || !sizeRef.current) return;
-      const box = ctx.canvas.getBoundingClientRect();
-      const view = window.innerHeight;
-      const progress = still ? 1 : clamp01((view - box.top) / (view * 0.75));
+    const render: Draw = (ctx, { dt, still, pointer, palette }) => {
+      const frame = frameRef.current;
+      const story = document.getElementById("story");
+      if (!frame || !sizeRef.current) return;
+      const canvasBox = ctx.canvas.getBoundingClientRect();
+      const frameBox = frame.getBoundingClientRect();
+      const left = frameBox.left - canvasBox.left;
+      const top = frameBox.top - canvasBox.top;
+      const size = frameBox.width;
       const scale = size / sizeRef.current;
-      hover = clamp01(hover + (pointer && photoRef.current ? dt : -dt) * PHOTO_FADE);
+      const view = window.innerHeight;
+      const progress = still ? 1 : clamp01((view - frameBox.top) / (view * 0.75));
+      const lift = still ? 0 : smooth(progress / LIFT_SPAN);
+      handoff.lift = lift;
 
-      ctx.save();
-      ctx.scale(scale, scale);
-      ctx.fillStyle = rgba(palette.accent, 1 - hover * 0.85);
-      for (const dot of dotsRef.current) {
-        const k = smooth((progress - dot.delay) / 0.65);
-        if (k <= 0) continue;
-        const x = dot.from[0] + (dot.home[0] - dot.from[0]) * k;
-        const y = dot.from[1] + (dot.home[1] - dot.from[1]) * k;
-        ctx.globalAlpha = k;
-        ctx.beginPath();
-        ctx.arc(x, y, dot.radius, 0, Math.PI * 2);
-        ctx.fill();
+      const film = handoff.film;
+      const filmBottom = story ? story.getBoundingClientRect().bottom - canvasBox.top : null;
+      const inFrame =
+        pointer && pointer[0] >= left && pointer[0] <= left + size && pointer[1] >= top && pointer[1] <= top + size;
+      hover = clamp01(hover + (inFrame && photoRef.current ? dt : -dt) * PHOTO_FADE);
+
+      if (progress > 0) {
+        ctx.fillStyle = rgba(palette.accent, 1 - hover * 0.85);
+        const dots = dotsRef.current;
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i];
+          const k = smooth((progress - dot.delay) / 0.65);
+          const home: Point = [left + dot.home[0] * scale, top + dot.home[1] * scale];
+          let from: Point = [left + dot.from[0] * scale, top + dot.from[1] * scale];
+          let rest = 0;
+          if (film.length && filmBottom !== null) {
+            const [fx, fy] = film[i % film.length];
+            from = [fx - canvasBox.left, filmBottom - fy];
+            rest = handoff.filmAlpha[i % film.length] ?? 1;
+          }
+          const alpha = rest + (1 - rest) * k;
+          if (alpha <= 0) continue;
+          const u = 1 - k;
+          const x = u * u * from[0] + 2 * u * k * from[0] + k * k * home[0];
+          const y = u * u * from[1] + 2 * u * k * home[1] + k * k * home[1];
+          ctx.globalAlpha = k > 0 ? alpha : alpha * lift;
+          ctx.beginPath();
+          ctx.arc(x, y, FILM_RADIUS + (dot.radius * scale - FILM_RADIUS) * k, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
       }
-      ctx.globalAlpha = 1;
-      ctx.restore();
 
       if (hover > 0 && photoRef.current) {
         ctx.save();
         ctx.globalAlpha = hover;
+        ctx.translate(left, top);
         ctx.beginPath();
         ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
         ctx.clip();
@@ -169,12 +197,12 @@ export function Portrait({ src, alt }: { src: string | null; alt: string }) {
     };
     return render;
   });
-  const canvasRef = useCanvasLoop(draw, frameRef);
+  const canvasRef = useCanvasLoop(draw, sectionRef);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const size = canvas.clientWidth;
+    const frame = frameRef.current;
+    if (!frame) return;
+    const size = frame.clientWidth;
     const scratch = document.createElement("canvas");
     scratch.width = size;
     scratch.height = size;
@@ -196,13 +224,12 @@ export function Portrait({ src, alt }: { src: string | null; alt: string }) {
       photoRef.current = image;
     };
     image.src = src;
-  }, [src, canvasRef]);
+  }, [src]);
 
   return (
-    <section className="section portrait" aria-label="Portrait">
-      <div ref={frameRef} className="portrait__frame">
-        <canvas ref={canvasRef} className="portrait__canvas" role="img" aria-label={alt} />
-      </div>
+    <section ref={sectionRef} className="section portrait" aria-label="Portrait">
+      <canvas ref={canvasRef} className="portrait__canvas" role="img" aria-label={alt} />
+      <div ref={frameRef} className="portrait__frame" />
       {src ? null : <p className="eyebrow portrait__caption">Photo coming soon</p>}
     </section>
   );

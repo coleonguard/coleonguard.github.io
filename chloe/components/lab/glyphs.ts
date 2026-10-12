@@ -17,35 +17,38 @@ const pld: Glyph = (ctx, t, w, h, { accent, faint }) => {
   const cycle = 2.4;
   const k = (t % cycle) / cycle;
   const round = Math.floor(t / cycle) % 6;
-  const target: [number, number] = [10, h * 0.42];
-  const floor = h - 6;
+  const target: [number, number] = [8, h / 2];
+  const substrate = w - 5;
+  const top = h * 0.18;
+  const bottom = h * 0.82;
 
   ctx.fillStyle = rgba(faint, 0.9);
-  ctx.fillRect(4, target[1] - 8, 4, 16);
-  ctx.fillRect(w * 0.45, floor + 3, w * 0.5, 1);
+  ctx.fillRect(4, target[1] - 12, 4, 24);
+  ctx.fillRect(substrate, top - 2, 1, bottom - top + 4);
 
   const flash = 1 - clamp01(k / 0.12);
   if (flash > 0) {
     ctx.strokeStyle = rgba(accent, 0.9 * flash);
     ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.moveTo(w * 0.35, 2);
+    ctx.moveTo(w * 0.3, 2);
     ctx.lineTo(...target);
     ctx.stroke();
   }
 
   ctx.fillStyle = rgba(accent, 0.9);
   for (let layer = 0; layer <= round; layer++) {
-    for (let x = w * 0.47; x < w * 0.95; x += 5) dot(ctx, x + (layer % 2) * 2.5, floor - layer * 3.4, 1.2);
+    const x = substrate - 2 - layer * 3.4;
+    for (let y = top; y <= bottom; y += 5) dot(ctx, x, y + (layer % 2) * 2.5, 1.2);
   }
 
   for (const p of plume) {
     const u = smooth((k - 0.08 - p.lag) / 0.55);
     if (u <= 0 || u >= 1) continue;
-    const endX = w * (0.7 + p.spread * 0.45);
-    const endY = floor - (round + 1) * 3.4;
+    const endX = substrate - 2 - (round + 1) * 3.4;
+    const endY = target[1] + p.spread * (bottom - top);
     const x = target[0] + (endX - target[0]) * u;
-    const y = target[1] + (endY - target[1]) * u - Math.sin(u * Math.PI) * (8 + p.spread * 10);
+    const y = target[1] + (endY - target[1]) * Math.sin((u * Math.PI) / 2);
     dot(ctx, x, y, 1.3);
   }
 };
