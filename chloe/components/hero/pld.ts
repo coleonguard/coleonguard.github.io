@@ -1,5 +1,6 @@
 import type { Cloud } from "./cloud";
-import { clamp01, mix, rgba, seeded, type Palette, type Point } from "./useCanvasLoop";
+import { drawBall, isResting, launchBall, stepBall, type Ball } from "@/components/canvas/ball";
+import { clamp01, mix, rgba, seeded, type Palette, type Point } from "@/components/canvas/useCanvasLoop";
 
 const AIM = 0.25;
 const FLASH = 0.12;
@@ -17,6 +18,10 @@ const CLEARANCE = 24;
 const POP = 0.35;
 const PEEL = 1.2;
 const BEAM_Y = 96;
+const BALL_CHANCE = 1 / 6;
+const BALL_RADIUS = 9;
+const MAX_BALLS = 4;
+const FLOOR_INSET = 28;
 
 export type Env = {
   width: number;
@@ -53,9 +58,15 @@ export function createPld() {
   const film = new Map<string, number>();
   const reserved = new Set<string>();
   let particles: Particle[] = [];
+  let balls: Ball[] = [];
   let pulse: Pulse | null = null;
   let nextPulse = FIRST_PULSE;
   let peelStart: number | null = null;
+  let lastT = 0;
+
+  const addBall = (x: number, y: number, vx: number, vy: number) => {
+    if (balls.length < MAX_BALLS) balls.push(launchBall(x, y, vx, vy, BALL_RADIUS));
+  };
 
   const layout = ({ width, height, slotRight }: Env) => {
     const room = Math.floor((width - EDGE_INSET - slotRight - CLEARANCE) / LAYER_STEP);
@@ -117,9 +128,14 @@ export function createPld() {
       });
     }
     env.cloud.kick(current.local, 22);
+    if (rand() < BALL_CHANCE) addBall(ix, iy, 360 + rand() * 180, -520 - rand() * 160);
   };
 
   return {
+    serve([x, y]: Point) {
+      addBall(x, y, -(320 + rand() * 160), -560 - rand() * 200);
+    },
+
     prefill(env: Env, layerCount: number) {
       const { layers, rows } = layout(env);
       for (let layer = 0; layer < Math.min(layers, layerCount); layer++) {
@@ -128,7 +144,16 @@ export function createPld() {
     },
 
     update(t: number, env: Env) {
-      const { height } = env;
+      const { width, height } = env;
+      const dt = Math.min(0.05, Math.max(0, t - lastT));
+      lastT = t;
+
+      const court = { left: 0, right: width, floor: height - FLOOR_INSET, walls: false };
+      balls = balls.filter((ball) => {
+        stepBall(ball, dt, court);
+        if (isResting(ball) && Math.abs(ball.vx) < 40) ball.alpha -= dt * 1.5;
+        return ball.alpha > 0 && ball.x > -ball.radius && ball.x < width + ball.radius;
+      });
 
       if (peelStart !== null && t - peelStart >= PEEL) {
         film.clear();
@@ -238,6 +263,11 @@ export function createPld() {
         ctx.arc(head[0], head[1], 2, 0, Math.PI * 2);
         ctx.fill();
       }
+    },
+
+    drawBalls(ctx: CanvasRenderingContext2D, env: Env) {
+      const floor = env.height - FLOOR_INSET;
+      for (const ball of balls) drawBall(ctx, ball.x, ball.y, ball.radius, ball.spin, env.palette, ball.alpha, floor);
     },
 
     drawFilm(ctx: CanvasRenderingContext2D, t: number, env: Env) {

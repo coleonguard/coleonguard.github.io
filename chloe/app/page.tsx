@@ -1,4 +1,7 @@
 import { PldStage } from "@/components/hero/PldStage";
+import { ContactCourt } from "@/components/ContactCourt";
+import { LabGlyph } from "@/components/LabGlyph";
+import { Portrait } from "@/components/Portrait";
 import { Story } from "@/components/Story";
 import { BEYOND, EDUCATION, EXPERIENCE, HONORS, PUBLICATIONS, SITE, type Entry } from "@/content/site";
 
@@ -56,6 +59,8 @@ export default function Home() {
 
         <Story paragraphs={SITE.story} highlights={SITE.storyHighlights} />
 
+        <Portrait src={SITE.portrait} alt={`Portrait of ${SITE.name}, drawn in dots`} />
+
         <section id="research" className="section">
           <div className="section__head">
             <p className="eyebrow">Research</p>
@@ -94,6 +99,7 @@ export default function Home() {
             {EXPERIENCE.map((role) => (
               <li key={role.org} className="role">
                 <div className="role__meta">
+                  <LabGlyph name={role.glyph} />
                   <span>{role.dates}</span>
                   <span>{role.place}</span>
                 </div>
@@ -130,13 +136,13 @@ export default function Home() {
           <EntryList entries={BEYOND} />
         </section>
 
-        <section className="section contact">
+        <ContactCourt>
           <h2 className="section__title">Get in touch.</h2>
           <p className="contact__note">The best way to reach me is on LinkedIn.</p>
           <a className="button button--primary" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
             Message on LinkedIn ↗
           </a>
-        </section>
+        </ContactCourt>
       </main>
 
       <footer className="footer">

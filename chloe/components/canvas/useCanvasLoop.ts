@@ -4,7 +4,7 @@ import { useEffect, useRef, type RefObject } from "react";
 
 export type Rgb = [number, number, number];
 export type Point = [number, number];
-export type Palette = { ink: Rgb; muted: Rgb; faint: Rgb; accent: Rgb };
+export type Palette = { ink: Rgb; muted: Rgb; faint: Rgb; accent: Rgb; ball: Rgb };
 
 export type Frame = {
   t: number;
@@ -52,7 +52,13 @@ function hexToRgb(hex: string): Rgb {
 function readPalette(el: HTMLElement): Palette {
   const css = getComputedStyle(el);
   const read = (name: string) => hexToRgb(css.getPropertyValue(name));
-  return { ink: read("--ink"), muted: read("--muted"), faint: read("--faint"), accent: read("--accent") };
+  return {
+    ink: read("--ink"),
+    muted: read("--muted"),
+    faint: read("--faint"),
+    accent: read("--accent"),
+    ball: read("--ball"),
+  };
 }
 
 export function useCanvasLoop(draw: Draw, pointerTarget: RefObject<HTMLElement | null>) {

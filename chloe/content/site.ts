@@ -1,3 +1,5 @@
+import type { GlyphName } from "@/components/lab/glyphs";
+
 export type Link = { label: string; href: string };
 
 export type Publication = {
@@ -15,6 +17,7 @@ export type Role = {
   dates: string;
   place: string;
   summary: string;
+  glyph: GlyphName;
 };
 
 export type Entry = { title: string; detail: string; dates: string };
@@ -34,6 +37,8 @@ export const SITE = {
   ],
   // Phrases from `story` shown in the accent color; each must match the text exactly.
   storyHighlights: ["WTA tour at 15", "experimental quantum materials", "PhD in Materials Science at USC"],
+  // Path under public/, e.g. "/chloe.jpg". Until then a placeholder silhouette is drawn.
+  portrait: null as string | null,
   description:
     "Chloe Isabella Tsang is a Materials Science PhD student at the University of Southern California, working on thin films, crystallization, and nanoscale devices.",
   linkedin: "https://www.linkedin.com/in/chloeisabellatsang",
@@ -77,6 +82,7 @@ export const EXPERIENCE: Role[] = [
     place: "Los Angeles",
     summary:
       "Graduate research in the Ravichandran Lab focusing on pulsed laser deposition (PLD) growth, in-situ diagnostics, and structural engineering of oxide and fluoride thin films for high-performance optics, quantum, and photonic applications. Presented a poster at JPL's annual poster event.",
+    glyph: "pld",
   },
   {
     org: "USC Center of Nano-Imaging",
@@ -84,6 +90,7 @@ export const EXPERIENCE: Role[] = [
     dates: "2026 – Present",
     place: "Los Angeles",
     summary: "Super user for X-ray diffraction, X-ray fluorescence, and atomic force microscopy.",
+    glyph: "xrd",
   },
   {
     org: "Caltech",
@@ -92,6 +99,7 @@ export const EXPERIENCE: Role[] = [
     place: "Pasadena",
     summary:
       "Designed and custom-assembled an Inductively Coupled Plasma (ICP) source and vacuum chamber hardware from the ground up for Thermal Laser Epitaxy (TLE) research in Prof. Austin Minnich's Lab. Presented work at the Midstates Consortium and UChicago MRC Symposium.",
+    glyph: "plasma",
   },
   {
     org: "IBM Research, Almaden",
@@ -100,6 +108,7 @@ export const EXPERIENCE: Role[] = [
     place: "San Jose",
     summary:
       "Investigated polymeric matrix characterization for Area Selective Deposition (ASD) and Vapor Phase Infiltration (VPI) using Matrix Assisted Laser Desorption/Ionization (MALDI), AFM, and ellipsometry.",
+    glyph: "afm",
   },
   {
     org: "Argonne National Laboratory",
@@ -108,6 +117,7 @@ export const EXPERIENCE: Role[] = [
     place: "Chicago",
     summary:
       "First author in Prof. Junhong Chen's Lab on a comprehensive review examining two-dimensional nanomaterial tunnel FETs (TFETs), multiscale simulations, and machine learning optimizations, featured as the cover article of APL Machine Learning (March 2025).",
+    glyph: "tunnel",
   },
   {
     org: "Pritzker School of Molecular Engineering, UChicago",
@@ -116,6 +126,7 @@ export const EXPERIENCE: Role[] = [
     place: "Chicago",
     summary:
       "Researched atomic imprint crystallization (AIC) of Si/Ge films and performed senior thesis research on near-field direct-write micro-evaporator nozzle deposition for aluminum CVD in Prof. Supratik Guha's Lab. Served as PME Student Ambassador and Engineering Fellows Mentor.",
+    glyph: "crystal",
   },
 ];
 

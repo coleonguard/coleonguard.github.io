@@ -1,4 +1,4 @@
-import { clamp01, mix, rgba, seeded, smooth, type Palette, type Point } from "./useCanvasLoop";
+import { clamp01, mix, rgba, seeded, smooth, type Palette, type Point } from "@/components/canvas/useCanvasLoop";
 
 export const CLOUD_WIDTH = 440;
 export const CLOUD_HEIGHT = 330;
