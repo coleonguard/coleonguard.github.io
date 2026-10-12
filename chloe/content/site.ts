@@ -25,8 +25,15 @@ export const SITE = {
   role: "Materials Science PhD student at USC",
   intro:
     "I work on thin films and crystals at the nanoscale: how they form, how to control their structure, and the devices built from them.",
-  story:
-    "My journey began on the tennis court, competing internationally from age 8 and professionally on the WTA tour at 15. While tennis shaped my discipline and resilience, I was increasingly drawn to understanding the world at a fundamental level. At the University of Chicago, I discovered a passion for experimental quantum materials research that ultimately led me to step away from competitive tennis and pursue a PhD in Materials Science at USC. Today, I am driven by the belief that deep scientific curiosity can lay the foundation for innovations that address some of our most pressing challenges.",
+  // One entry per paragraph.
+  story: [
+    "My journey began on the tennis court, competing internationally from age 8 and professionally on the WTA tour at 15.",
+    "While tennis shaped my discipline and resilience, I was increasingly drawn to understanding the world at a fundamental level.",
+    "At the University of Chicago, I discovered a passion for experimental quantum materials research that ultimately led me to step away from competitive tennis and pursue a PhD in Materials Science at USC.",
+    "Today, I am driven by the belief that deep scientific curiosity can lay the foundation for innovations that address some of our most pressing challenges.",
+  ],
+  // Phrases from `story` shown in the accent color; each must match the text exactly.
+  storyHighlights: ["WTA tour at 15", "experimental quantum materials", "PhD in Materials Science at USC"],
   description:
     "Chloe Isabella Tsang is a Materials Science PhD student at the University of Southern California, working on thin films, crystallization, and nanoscale devices.",
   linkedin: "https://www.linkedin.com/in/chloeisabellatsang",

@@ -1,4 +1,5 @@
 import { PldStage } from "@/components/hero/PldStage";
+import { Story } from "@/components/Story";
 import { BEYOND, EDUCATION, EXPERIENCE, HONORS, PUBLICATIONS, SITE, type Entry } from "@/content/site";
 
 function EntryList({ entries }: { entries: Entry[] }) {
@@ -53,12 +54,7 @@ export default function Home() {
           </header>
         </PldStage>
 
-        <section id="story" className="section story">
-          <div className="section__head">
-            <p className="eyebrow">Background</p>
-          </div>
-          <p className="story__text">{SITE.story}</p>
-        </section>
+        <Story paragraphs={SITE.story} highlights={SITE.storyHighlights} />
 
         <section id="research" className="section">
           <div className="section__head">
