@@ -21,6 +21,14 @@ export function ResearchPreview() {
         {PAPERS.map((p) => (
           <li key={p.id} className="pub">
             <p className="pub__title">{p.title}</p>
+            <p className="pub__authors">
+              {p.authors.split(", ").map((name, i) => (
+                <span key={name}>
+                  {i > 0 ? ", " : ""}
+                  {name === PROFILE.name ? <strong>{name}</strong> : name}
+                </span>
+              ))}
+            </p>
             <p className="pub__meta">
               {p.venue} · {p.year}
               {p.note ? ` · ${p.note}` : ""}
