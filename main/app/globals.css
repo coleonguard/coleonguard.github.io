@@ -1438,8 +1438,8 @@ html.intro-pending .hero:is([data-intro="forming"], [data-intro="done"]) .cluste
 }
 
 .pub__authors strong {
-  color: var(--white);
-  font-weight: 600;
+  color: var(--silver);
+  font-weight: 500;
   white-space: nowrap;
 }
 
