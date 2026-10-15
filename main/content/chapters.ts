@@ -21,6 +21,8 @@ export type Chapter = {
   substrate: Substrate;
   organization: string;
   role: string;
+  /** Short role for the hero timeline. */
+  title: string;
   dates: string;
   /** Short span for the hero timeline. */
   years: string;
@@ -45,6 +47,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     },
     organization: "Georgia Tech EPIC Lab · Caltech AMBER Lab",
     role: "Graduate Research Assistant · Research Fellow",
+    title: "Researcher",
     dates: "2021 – 2024",
     years: "2021 – 2024",
     blurb:
@@ -71,6 +74,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     },
     organization: "Terranova",
     role: "Co-Founder & CTO",
+    title: "Co-founder · CTO",
     dates: "Jan 2021 – Jul 2025",
     years: "2021 – 2025",
     blurb:
@@ -97,6 +101,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     },
     organization: "Echo",
     role: "Founder & CPO",
+    title: "Founder · CPO",
     dates: "Aug 2025 – Aug 2026",
     years: "2025 – 2026",
     blurb:
@@ -136,6 +141,7 @@ export const CHAPTERS: Record<ChapterId, Chapter> = {
     },
     organization: "SpaceX",
     role: "Software Engineer, Starshield",
+    title: "Engineer",
     dates: "Oct 2026 – Present",
     years: "2026 – Now",
     blurb: "Writing software for Starshield, SpaceX’s satellite network for national security missions. That’s about all I’m allowed to say.",

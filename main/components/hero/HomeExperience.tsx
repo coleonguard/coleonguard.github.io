@@ -170,6 +170,7 @@ export function HomeExperience() {
                   >
                     <ChapterLogos chapter={chapter.id} scale={1.25} className="cluster-label__logos" />
                   </span>
+                  <span className="cluster-label__title">{chapter.title}</span>
                   <span className="cluster-label__years">{chapter.years}</span>
                 </div>
               );

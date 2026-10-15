@@ -8,6 +8,8 @@ export type Publication = {
   year: number;
   group: PublicationGroup;
   note?: string;
+  /** Shown up front on the homepage; the rest sit behind a disclosure. */
+  featured?: boolean;
   links: { label: string; href: string }[];
 };
 
@@ -32,6 +34,7 @@ export const PUBLICATIONS: Publication[] = [
     venue: "Transactions on Medical Robotics & Bionics",
     year: 2025,
     group: "published",
+    featured: true,
     links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/11121360" }],
   },
   {
@@ -43,6 +46,7 @@ export const PUBLICATIONS: Publication[] = [
     year: 2025,
     group: "published",
     note: "Best Paper Finalist",
+    featured: true,
     links: [
       { label: "IEEE", href: "https://ieeexplore.ieee.org/document/11127279" },
       { label: "Code", href: "https://github.com/wdc3iii/legged_gym_dev" },
@@ -90,6 +94,7 @@ export const PUBLICATIONS: Publication[] = [
     year: 2023,
     group: "published",
     note: "Best Paper Award",
+    featured: true,
     links: [{ label: "IEEE", href: "https://ieeexplore.ieee.org/document/10130251" }],
   },
   {

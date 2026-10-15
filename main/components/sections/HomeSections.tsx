@@ -2,8 +2,6 @@ import type { CSSProperties } from "react";
 import { CHAPTERS, type ChapterId } from "@/content/chapters";
 import { ChapterLogos } from "@/components/brand/ChapterLogos";
 import { LyricReveal } from "@/components/brand/LyricReveal";
-import { PortfolioLink } from "@/components/brand/PortfolioLink";
-
 const ORDER: ChapterId[] = ["space", "echo", "terranova", "robotics"];
 
 const PUNCHLINE = "That’s";
@@ -86,9 +84,6 @@ export function SelectedWork() {
           );
         })}
       </ul>
-      <PortfolioLink className="button button--primary" wrapperClassName="section__cta" placement="above">
-        View full portfolio <span aria-hidden="true">↗</span>
-      </PortfolioLink>
     </section>
   );
 }

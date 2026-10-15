@@ -27,7 +27,10 @@ export function ChapterSelectors({ active, onSelect, onHighlight }: Props) {
         >
           <span className="selectors__index">{chapter.index}</span>
           <span className="selectors__label">{chapter.label}</span>
-          <ChapterLogos chapter={chapter.id} scale={0.72} decorative className="selectors__logos" />
+          <span className="selectors__mark">
+            <ChapterLogos chapter={chapter.id} scale={0.72} decorative className="selectors__logos" />
+            <span className="selectors__title">{chapter.title}</span>
+          </span>
         </button>
       ))}
     </nav>
